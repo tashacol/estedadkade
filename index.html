@@ -55,8 +55,8 @@
 }
 
 /* ============ Base ============ */
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 80px)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased;}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 80px);overflow-x:hidden;}
 body{
   font-family:var(--f-body);color:var(--ink);line-height:1.9;font-size:16px;overflow-x:clip;
   background:
@@ -76,6 +76,7 @@ body::before{
   background-image:var(--pat-page);background-size:80px 80px;
   -webkit-mask-image:radial-gradient(62% 56% at 100% 0%,#000 0%,transparent 100%),radial-gradient(52% 46% at 0% 80%,#000 0%,transparent 100%);
   mask-image:radial-gradient(62% 56% at 100% 0%,#000 0%,transparent 100%),radial-gradient(52% 46% at 0% 80%,#000 0%,transparent 100%);
+  will-change: transform;
 }
 main,header,footer{position:relative;z-index:1}
 
@@ -88,6 +89,7 @@ main,header,footer{position:relative;z-index:1}
   padding:14px 26px;border-radius:16px 16px 16px 6px;font-weight:700;font-size:.98rem;line-height:1.4;
   border:1.5px solid transparent;cursor:pointer;
   transition:transform .2s ease,box-shadow .2s ease,background .2s ease,color .2s ease;
+  will-change: transform;
 }
 .btn:hover{transform:translateY(-2px)}
 .btn:active{transform:translateY(0)}
@@ -108,6 +110,7 @@ main,header,footer{position:relative;z-index:1}
 .round{
   width:46px;height:46px;border-radius:50%;border:1.5px solid currentColor;background:transparent;color:inherit;
   display:grid;place-items:center;cursor:pointer;transition:background .2s,color .2s,transform .2s;
+  will-change: transform;
 }
 .round:hover{background:var(--saffron);border-color:var(--saffron);color:#1B1300;transform:scale(1.06)}
 .round svg{width:18px;height:18px}
@@ -156,14 +159,14 @@ main,header,footer{position:relative;z-index:1}
 .ai-note .spark svg{width:22px;height:22px}
 
 /* قاب قوسی ویدیو */
-.hero-art{position:relative;isolation:isolate;max-width:440px;width:100%;margin-inline:auto}
+.hero-art{position:relative;isolation:isolate;max-width:400px;width:100%;margin-inline:auto;will-change: transform;}
 .hero-art::before{
   content:"";position:absolute;inset:0;z-index:-1;border:2.5px solid var(--saffron);
-  border-radius:220px 220px 30px 30px;transform:translate(-22px,16px) rotate(-3.5deg);
+  border-radius:220px 220px 30px 30px;transform:translate(-10px,16px) rotate(-3.5deg);
 }
 .blob{position:absolute;z-index:-2;border-radius:63% 37% 54% 46%/55% 48% 52% 45%}
-.blob-1{width:250px;height:250px;top:-44px;right:-56px;background:radial-gradient(circle at 30% 30%,rgba(18,166,160,.55),rgba(18,166,160,.06))}
-.blob-2{width:210px;height:190px;bottom:-30px;left:-50px;border-radius:40% 60% 45% 55%/60% 40% 60% 40%;background:radial-gradient(circle at 60% 40%,rgba(245,168,0,.6),rgba(245,168,0,.06))}
+.blob-1{width:250px;height:250px;top:-20px;right:-20px;background:radial-gradient(circle at 30% 30%,rgba(18,166,160,.55),rgba(18,166,160,.06))}
+.blob-2{width:210px;height:190px;bottom:-20px;left:-20px;border-radius:40% 60% 45% 55%/60% 40% 60% 40%;background:radial-gradient(circle at 60% 40%,rgba(245,168,0,.6),rgba(245,168,0,.06))}
 .arch-frame{
   position:relative;border-radius:200px 200px 24px 24px;overflow:hidden;aspect-ratio:4/5;
   background:#0E2566;border:6px solid var(--surface);box-shadow:var(--shadow);
@@ -183,8 +186,9 @@ main,header,footer{position:relative;z-index:1}
   font-size:.8rem;font-weight:700;color:#12296B;box-shadow:var(--shadow-soft);
 }
 .float-card{
-  position:absolute;left:-34px;bottom:78px;width:196px;padding:14px 16px;background:var(--surface);
+  position:absolute;left:-14px;bottom:60px;width:196px;padding:14px 16px;background:var(--surface);
   border-radius:20px 6px 20px 6px;box-shadow:var(--shadow);border:1px solid var(--line);
+  will-change: transform;
 }
 .float-card b{display:block;font-size:.82rem;color:var(--head);margin-bottom:8px}
 .bar{display:grid;grid-template-columns:52px 1fr;align-items:center;gap:8px;font-size:.74rem;color:var(--ink-2);margin-top:6px}
@@ -204,7 +208,7 @@ main,header,footer{position:relative;z-index:1}
 @media(max-width:860px){
   .hero{padding-top:36px}
   .hero-grid{grid-template-columns:1fr;gap:44px}
-  .float-card{left:-6px;bottom:70px;width:170px}
+  .float-card{left:0;bottom:50px;width:170px}
   .trust{grid-template-columns:repeat(2,1fr);margin-top:56px}
 }
 
@@ -251,6 +255,7 @@ main,header,footer{position:relative;z-index:1}
 .ribbon{
   display:flex;gap:20px;overflow-x:auto;padding:10px 6px 30px;scroll-snap-type:x mandatory;
   scrollbar-width:thin;scrollbar-color:var(--saffron) transparent;
+  -webkit-overflow-scrolling: touch; will-change: scroll-position; transform: translateZ(0);
 }
 .ribbon::-webkit-scrollbar{height:6px}
 .ribbon::-webkit-scrollbar-thumb{background:var(--saffron);border-radius:999px}
@@ -258,6 +263,7 @@ main,header,footer{position:relative;z-index:1}
   flex:0 0 272px;scroll-snap-align:start;display:flex;flex-direction:column;
   background:var(--surface);border:1px solid var(--line);border-radius:28px 8px 28px 8px;padding:12px 12px 20px;
   box-shadow:var(--shadow-soft);transition:transform .25s,box-shadow .25s;color:var(--ink);
+  transform: translateZ(0); will-change: transform, box-shadow;
 }
 .card:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
 .card h3{font-family:var(--f-head);font-size:1.32rem;color:var(--head);margin:16px 8px 2px;line-height:1.6;font-weight:700}
@@ -299,10 +305,6 @@ main,header,footer{position:relative;z-index:1}
   background:var(--pat-ink) 0 0/60px 60px,linear-gradient(165deg,var(--bg1),var(--bg2));
 }
 .portrait svg{position:absolute;inset:auto 0 0 0;width:100%;height:92%;display:block}
-.portrait .badge{
-  position:absolute;top:14px;left:12px;background:var(--surface);color:var(--head);border-radius:999px 999px 999px 4px;
-  padding:3px 10px;font-size:.74rem;font-weight:700;z-index:1;box-shadow:var(--shadow-soft);
-}
 .teacher h3{text-align:center;margin-top:14px}
 .teacher p{text-align:center;min-height:0}
 .teacher .meta{justify-content:center;gap:10px}
@@ -323,7 +325,7 @@ main,header,footer{position:relative;z-index:1}
 }
 .consult>*{position:relative;z-index:1}
 .consult h2{font-family:var(--f-head);font-size:clamp(1.7rem,3vw,2.5rem);line-height:1.55;margin-bottom:8px}
-.consult p{color:#D6DCF5}
+.consult p{color:#D6DCF5;line-height:1.8}
 .consult-art{width:210px;margin-bottom:14px;display:block}
 .checks{list-style:none;margin-top:18px;display:grid;gap:10px}
 .checks li{display:flex;gap:10px;align-items:center;font-size:.95rem}
@@ -563,6 +565,7 @@ main,header,footer{position:relative;z-index:1}
       <a href="#teachers">اساتید و مشاوران</a>
       <a href="#consult">مشاوره</a>
       <a href="#why">چرا ما</a>
+      <a href="#courses">دوره‌ها</a>
       <a href="#articles">مقالات</a>
     </nav>
     <a class="btn btn-primary nav-cta" href="#tests">شروع آزمون رایگان</a>
@@ -580,6 +583,7 @@ main,header,footer{position:relative;z-index:1}
     <a href="#teachers">اساتید و مشاوران</a>
     <a href="#consult">مشاوره</a>
     <a href="#why">چرا ما</a>
+    <a href="#courses">دوره‌ها</a>
     <a href="#articles">مقالات</a>
     <a class="btn btn-primary" href="#tests">شروع آزمون رایگان</a>
   </div>
@@ -605,8 +609,7 @@ main,header,footer{position:relative;z-index:1}
               <svg viewBox="0 0 24 24" fill="#FFD25E"><path d="M12 2l2.2 6.3L20.5 10l-6.3 1.7L12 18l-2.2-6.3L3.5 10l6.3-1.7z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg>
             </span>
             <div>
-              <b>دستیار هوش مصنوعی استعدادکده</b> نتیجه آزمون‌ها را تحلیل می‌کند و
-              پیشنهاد مسیر رشد شخصی‌سازی‌شده می‌دهد.
+              <b>دستیار هوش مصنوعی استعدادکده،</b> نتایج آزمون‌های شما را تحلیل نموده و پیشنهاد مسیر رشد شخصی‌سازی‌شده‌ای را ارائه می‌دهد.
             </div>
           </div>
         </div>
@@ -619,7 +622,7 @@ main,header,footer{position:relative;z-index:1}
             <!-- اینجا ویدیو معرفی قرار می‌گیرد: آدرس فایل را در تگ source بگذارید -->
             <svg class="art" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="ستون‌های قوسی در حال رشد زیر ستاره‌ای هشت‌پر">
               <defs>
-                <linearGradient id="hSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0E2566"/><stop offset=".55" stop-color="#0B8F93"/><stop offset="1" stop-color="#F6D58A"/></linearGradient>
+                <linearGradient id="hSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0E2566"/><stop offset="1" stop-color="#0B8F93"/><stop offset="1" stop-color="#F6D58A"/></linearGradient>
                 <radialGradient id="hGlow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFD25E" stop-opacity=".95"/><stop offset="1" stop-color="#FFD25E" stop-opacity="0"/></radialGradient>
                 <linearGradient id="hP1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2ED6CE"/><stop offset="1" stop-color="#075E6E"/></linearGradient>
                 <linearGradient id="hP2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4C6FE0"/><stop offset="1" stop-color="#0F2262"/></linearGradient>
@@ -682,9 +685,9 @@ main,header,footer{position:relative;z-index:1}
       </div>
 
       <div class="trust">
-        <div class="item"><b>+۱۲٬۰۰۰</b><span>آزمون انجام‌شده</span></div>
-        <div class="item"><b>+۸۰</b><span>استاد و مشاور</span></div>
-        <div class="item"><b>+۴۰</b><span>دوره تخصصی</span></div>
+        <div class="item"><b>+۵ هزار</b><span>آزمون انجام‌شده</span></div>
+        <div class="item"><b>+۱۰</b><span>استاد و مشاور</span></div>
+        <div class="item"><b>+۱۵</b><span>دوره تخصصی</span></div>
         <div class="item"><b>۹۶٪</b><span>رضایت مراجعان</span></div>
       </div>
     </div>
@@ -697,7 +700,7 @@ main,header,footer{position:relative;z-index:1}
         <div>
           <svg class="orn" viewBox="0 0 90 12" aria-hidden="true"><path d="M0 6H34M56 6H90" stroke="currentColor" stroke-width="1.5"/><path d="M45 0L51 6L45 12L39 6Z" fill="currentColor"/></svg>
           <h2>آزمون‌های محبوب</h2>
-          <p>هر آزمون گزارشی تصویری دارد و نتیجه‌اش را دستیار هوشمند برایت ساده می‌کند.</p>
+          <p>هر آزمون دارای گزارشی تصویری است و دستیار هوشمند نتایج را برای شما ساده‌سازی و تحلیل می‌نماید.</p>
         </div>
         <div class="head-tools">
           <button class="round" data-ribbon="#testRibbon" data-dir="-1" aria-label="قبلی"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
@@ -708,37 +711,51 @@ main,header,footer{position:relative;z-index:1}
       <div class="ribbon" id="testRibbon">
         <article class="card c-tq">
           <div class="card-art"><span class="ico-wrap"><svg class="ico"><use href="#i-star"/></svg></span></div>
-          <h3>آزمون شخصیت‌شناسی</h3>
-          <p>پنج عامل بزرگ شخصیت را بسنج و نقاط قوت رفتاری‌ات را بشناس.</p>
-          <div class="meta"><span class="chip">۱۸۰ سؤال</span><span>۲۵ دقیقه</span></div>
+          <h3>تست شخصیت شناسی نئو</h3>
+          <p>پنج عامل اصلی شخصیت خود را بسنجید و نقاط قوت رفتاری‌تان را شناسایی کنید.</p>
+          <div class="meta"><span class="chip">دقیق و استاندارد</span></div>
           <a class="mini" href="#consult">شروع آزمون</a>
         </article>
         <article class="card c-lp">
           <div class="card-art"><span class="ico-wrap"><svg class="ico"><use href="#i-compass"/></svg></span></div>
-          <h3>علایق شغلی هالند</h3>
-          <p>ببین کدام گروه شغلی با علاقه و روحیه‌ات هم‌خوان‌تر است.</p>
-          <div class="meta"><span class="chip">۶۰ سؤال</span><span>۱۵ دقیقه</span></div>
+          <h3>تست رغبت سنج استرانگ</h3>
+          <p>بررسی کنید کدام گروه شغلی با علایق و روحیات شما هم‌خوانی بیشتری دارد.</p>
+          <div class="meta"><span class="chip">کشف علایق</span></div>
           <a class="mini" href="#consult">شروع آزمون</a>
         </article>
         <article class="card c-an">
-          <div class="card-art"><span class="ico-wrap"><svg class="ico"><use href="#i-heart"/></svg></span></div>
-          <h3>هوش هیجانی</h3>
-          <p>توان تشخیص و مدیریت احساسات خودت و دیگران را بسنج.</p>
-          <div class="meta"><span class="chip">۷۰ سؤال</span><span>۲۰ دقیقه</span></div>
+          <div class="card-art"><span class="ico-wrap"><svg class="ico"><use href="#i-bulb"/></svg></span></div>
+          <h3>تست هوش ریون</h3>
+          <p>توانایی استدلال منطقی و قدرت حل مسئله خود را بسنجید.</p>
+          <div class="meta"><span class="chip">هوش منطقی</span></div>
           <a class="mini" href="#consult">شروع آزمون</a>
         </article>
         <article class="card c-sf">
-          <div class="card-art"><span class="ico-wrap"><svg class="ico"><use href="#i-book"/></svg></span></div>
-          <h3>سبک یادگیری</h3>
-          <p>بدان دیداری، شنیداری یا تجربی یاد می‌گیری و مطالعه را هدفمند کن.</p>
-          <div class="meta"><span class="chip">۴۰ سؤال</span><span>۱۰ دقیقه</span></div>
+          <div class="card-art"><span class="ico-wrap"><svg class="ico"><use href="#i-heart"/></svg></span></div>
+          <h3>پرسشنامه اهمیت مینه‌سوتا</h3>
+          <p>اولویت‌ها و ارزش‌های کاری خود را جهت دستیابی به یک شغل ایده‌آل ارزیابی نمایید.</p>
+          <div class="meta"><span class="chip">ارزش‌سنجی</span></div>
           <a class="mini" href="#consult">شروع آزمون</a>
         </article>
         <article class="card c-gr">
           <div class="card-art"><span class="ico-wrap"><svg class="ico"><use href="#i-route"/></svg></span></div>
-          <h3>انتخاب رشته تحصیلی</h3>
-          <p>استعداد و علاقه را کنار هم بگذار و رشته‌های پیشنهادی را ببین.</p>
-          <div class="meta"><span class="chip">۹۰ سؤال</span><span>۳۰ دقیقه</span></div>
+          <h3>مقیاس پشتکار grit</h3>
+          <p>میزان اشتیاق و پشتکار خود را برای دستیابی به اهداف بلندمدت بررسی نمایید.</p>
+          <div class="meta"><span class="chip">ارزیابی اراده</span></div>
+          <a class="mini" href="#consult">شروع آزمون</a>
+        </article>
+        <article class="card c-lp">
+          <div class="card-art"><span class="ico-wrap"><svg class="ico"><use href="#i-star"/></svg></span></div>
+          <h3>تست شخصیت شناسی کتل</h3>
+          <p>شناخت ۱۶ عامل اصلی شخصیت برای درک عمیق‌تر رفتارهای فردی و اجتماعی.</p>
+          <div class="meta"><span class="chip">تحلیل رفتار</span></div>
+          <a class="mini" href="#consult">شروع آزمون</a>
+        </article>
+        <article class="card c-tq">
+          <div class="card-art"><span class="ico-wrap"><svg class="ico"><use href="#i-book"/></svg></span></div>
+          <h3>تست هوش وکسلر</h3>
+          <p>ابعاد مختلف هوش شناختی و ظرفیت‌های ذهنی خود را با دقت ارزیابی نمایید.</p>
+          <div class="meta"><span class="chip">حضوری</span></div>
           <a class="mini" href="#consult">شروع آزمون</a>
         </article>
       </div>
@@ -752,7 +769,7 @@ main,header,footer{position:relative;z-index:1}
         <div>
           <svg class="orn" viewBox="0 0 90 12" aria-hidden="true"><path d="M0 6H34M56 6H90" stroke="currentColor" stroke-width="1.5"/><path d="M45 0L51 6L45 12L39 6Z" fill="currentColor"/></svg>
           <h2>اساتید و مشاوران</h2>
-          <p>متخصصانی که نتیجه‌ی آزمون‌ها را با تو مرور می‌کنند و مسیر را روشن‌تر می‌کنند.</p>
+          <p>متخصصانی که نتایج آزمون‌های شما را بررسی نموده و مسیر پیش‌رو را برایتان روشن‌تر می‌سازند.</p>
         </div>
         <div class="head-tools">
           <button class="round" data-ribbon="#teacherRibbon" data-dir="-1" aria-label="قبلی"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
@@ -763,7 +780,6 @@ main,header,footer{position:relative;z-index:1}
       <div class="ribbon" id="teacherRibbon">
         <article class="card teacher c-tq">
           <div class="portrait" style="--skin:#F0C29A;--hair:#0B7F86;--shirt:#F5A800;--bg1:#BFE9E7;--bg2:#F6E3BD">
-            <span class="badge">★ ۴٫۹</span>
             <svg viewBox="0 0 100 100" role="img" aria-label="پرتره"><use href="#p-h"/></svg>
           </div>
           <h3>دکتر مریم صالحی</h3>
@@ -772,7 +788,6 @@ main,header,footer{position:relative;z-index:1}
         </article>
         <article class="card teacher c-lp">
           <div class="portrait" style="--skin:#E2AE86;--hair:#1F1B24;--shirt:#12296B;--bg1:#C9D6F7;--bg2:#F6E3BD">
-            <span class="badge">★ ۴٫۸</span>
             <svg viewBox="0 0 100 100" role="img" aria-label="پرتره"><use href="#p-m"/></svg>
           </div>
           <h3>دکتر آرمان کیانی</h3>
@@ -781,7 +796,6 @@ main,header,footer{position:relative;z-index:1}
         </article>
         <article class="card teacher c-an">
           <div class="portrait" style="--skin:#F3C8A6;--hair:#5A2A1E;--shirt:#8E2B48;--bg1:#F9D3DD;--bg2:#FFE9B8">
-            <span class="badge">★ ۵٫۰</span>
             <svg viewBox="0 0 100 100" role="img" aria-label="پرتره"><use href="#p-f"/></svg>
           </div>
           <h3>سارا نیک‌خواه</h3>
@@ -790,7 +804,6 @@ main,header,footer{position:relative;z-index:1}
         </article>
         <article class="card teacher c-gr">
           <div class="portrait" style="--skin:#D9A07A;--hair:#6B6B70;--shirt:#2F8A5F;--bg1:#CDEBDD;--bg2:#F6E3BD">
-            <span class="badge">★ ۴٫۸</span>
             <svg viewBox="0 0 100 100" role="img" aria-label="پرتره"><use href="#p-m"/></svg>
           </div>
           <h3>دکتر سعید فرهادی</h3>
@@ -812,8 +825,8 @@ main,header,footer{position:relative;z-index:1}
             <path d="M126 44H196Q204 44 204 52V84Q204 92 196 92H178V108L156 92H126Q118 92 118 84V52Q118 44 126 44Z" fill="#17BDB6"/>
             <g fill="#fff"><use href="#star4" x="146" y="58" width="22" height="22"/><use href="#star4" x="176" y="66" width="12" height="12" opacity=".8"/></g>
           </svg>
-          <h2>یک جلسه مشاوره، مسیرت را روشن می‌کند</h2>
-          <p>نتیجه‌ی آزمون‌هایت را همراه یک روان‌شناس بررسی کن و برنامه‌ای قدم‌به‌قدم بگیر.</p>
+          <h2>یک جلسه مشاوره، مسیر شما را روشن می‌سازد</h2>
+          <p>جلسات مشاوره تخصصی جهت تحلیل دقیق نتایج و ترسیم مسیر رشد شما برگزار می‌گردد.</p>
           <ul class="checks">
             <li><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>جلسه‌ی ۶۰ دقیقه‌ای، آنلاین یا حضوری</li>
             <li><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>بررسی گزارش آزمون‌ها با مشاور</li>
@@ -829,10 +842,9 @@ main,header,footer{position:relative;z-index:1}
           <label class="sr" for="fTopic">موضوع مشاوره</label>
           <select id="fTopic" name="topic">
             <option value="">موضوع مشاوره</option>
-            <option>انتخاب رشته</option>
+            <option>استعداد سنجی</option>
             <option>مسیر شغلی</option>
-            <option>کودک و نوجوان</option>
-            <option>سایر</option>
+            <option>انتخاب رشته</option>
           </select>
           <label class="sr" for="fType">نوع جلسه</label>
           <select id="fType" name="type">
@@ -861,7 +873,7 @@ main,header,footer{position:relative;z-index:1}
         <div class="cell cell-1 wide">
           <div>
             <h3>گزارش تصویری و شخصی‌سازی‌شده</h3>
-            <p>نمودار استعدادها، توضیح ساده‌ی هر نمره و پیشنهاد عملی؛ نه یک عدد خشک.</p>
+            <p>ارائه نمودار استعدادها، توضیحات روان برای هر نمره و پیشنهادات عملی؛ فراتر از یک عدد ساده.</p>
           </div>
           <svg viewBox="0 0 220 200" role="img" aria-label="نمودار راداری نمونه از پنج استعداد">
             <g fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1">
@@ -881,23 +893,85 @@ main,header,footer{position:relative;z-index:1}
         <div class="cell cell-2">
           <div class="ico-b"><svg class="ico"><use href="#i-star"/></svg></div>
           <h3>آزمون‌های استاندارد</h3>
-          <p>ابزارها بر پایه‌ی پرسش‌نامه‌های معتبر روان‌سنجی ساخته و با دقت تحلیل می‌شوند.</p>
+          <p>ابزارها بر پایه‌ی پرسش‌نامه‌های معتبر روان‌سنجی طراحی شده و با بالاترین دقت تحلیل می‌گردند.</p>
         </div>
         <div class="cell cell-3">
           <div class="ico-b"><svg class="ico"><use href="#i-chat"/></svg></div>
           <h3>مشاوره آنلاین و حضوری</h3>
-          <p>هر جا راحت‌تری با مشاور صحبت کن؛ خانه یا مطب.</p>
+          <p>در هر مکانی که راحت‌تر هستید، چه در منزل و چه در مرکز، با مشاور خود گفتگو نمایید.</p>
         </div>
         <div class="cell cell-4">
           <div class="ico-b"><svg class="ico"><use href="#i-shield"/></svg></div>
           <h3>حفظ حریم خصوصی</h3>
-          <p>نتیجه‌ی آزمون‌ها فقط برای خودت و مشاوری است که انتخاب می‌کنی.</p>
+          <p>نتایج آزمون‌های شما کاملاً محرمانه بوده و تنها در اختیار شما و مشاور انتخابی‌تان قرار می‌گیرد.</p>
         </div>
         <div class="cell cell-5">
           <div class="ico-b"><svg class="ico"><use href="#i-bulb"/></svg></div>
           <h3>دستیار هوشمند</h3>
-          <p>پیشنهاد مسیر رشد را مرحله‌به‌مرحله و به زبان ساده می‌گیری.</p>
+          <p>پیشنهادات مربوط به مسیر رشد را به صورت مرحله‌به‌مرحله و کاملاً کاربردی دریافت نمایید.</p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= دوره‌های آموزشی ================= -->
+  <section class="band band-sand" id="courses">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <svg class="orn" viewBox="0 0 90 12" aria-hidden="true"><path d="M0 6H34M56 6H90" stroke="currentColor" stroke-width="1.5"/><path d="M45 0L51 6L45 12L39 6Z" fill="currentColor"/></svg>
+          <h2>دوره‌های آموزشی</h2>
+          <p>دوره‌های تخصصی و عمومی برای ارتقای مهارت‌های فردی و حرفه‌ای شما.</p>
+        </div>
+        <div class="head-tools">
+          <button class="round" data-ribbon="#courseRibbon" data-dir="-1" aria-label="قبلی"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+          <button class="round" data-ribbon="#courseRibbon" data-dir="1" aria-label="بعدی"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+        </div>
+      </div>
+
+      <div class="ribbon" id="courseRibbon">
+        <article class="card c-tq">
+          <div class="card-art"><span class="ico-wrap"><svg class="ico"><use href="#i-star"/></svg></span></div>
+          <h3>شخصیت شناسی</h3>
+          <p>شناخت ابعاد شخصیتی برای توسعه فردی و ارتباطی موثرتر.</p>
+          <div class="meta"><span class="chip">رایگان</span></div>
+          <a class="mini" href="#consult">ثبت نام در دوره</a>
+        </article>
+        <article class="card c-lp">
+          <div class="card-art"><span class="ico-wrap"><svg class="ico"><use href="#i-compass"/></svg></span></div>
+          <h3>مهارت‌های زندگی</h3>
+          <p>یادگیری مهارت‌های کاربردی برای مدیریت بهتر چالش‌های روزمره.</p>
+          <div class="meta"><span class="chip">رایگان</span></div>
+          <a class="mini" href="#consult">ثبت نام در دوره</a>
+        </article>
+        <article class="card c-an">
+          <div class="card-art"><span class="ico-wrap"><svg class="ico"><use href="#i-heart"/></svg></span></div>
+          <h3>تربیت فرزند</h3>
+          <p>اصول فرزندپروری آگاهانه و روش‌های ارتباط صحیح با کودک.</p>
+          <div class="meta"><span class="chip">رایگان</span></div>
+          <a class="mini" href="#consult">ثبت نام در دوره</a>
+        </article>
+        <article class="card c-sf">
+          <div class="card-art"><span class="ico-wrap"><svg class="ico"><use href="#i-route"/></svg></span></div>
+          <h3>تربیت مربی نوجوان</h3>
+          <p>آموزش تکنیک‌های نوین برای هدایت و همراهی نوجوانان در مسیر رشد.</p>
+          <div class="meta"><span class="chip">تخصصی</span></div>
+          <a class="mini" href="#consult">ثبت نام در دوره</a>
+        </article>
+        <article class="card c-gr">
+          <div class="card-art"><span class="ico-wrap"><svg class="ico"><use href="#i-book"/></svg></span></div>
+          <h3>تربیت مربی مهارت‌های زندگی</h3>
+          <p>تربیت مربی (ویژه دانشجویان روانشناسی و مشاوره)</p>
+          <div class="meta"><span class="chip">دوره حضوری</span></div>
+          <a class="mini" href="#consult">ثبت نام در دوره</a>
+        </article>
+        <article class="card c-tq">
+          <div class="card-art"><span class="ico-wrap"><svg class="ico"><use href="#i-chat"/></svg></span></div>
+          <h3>تربیت مربی و مشاور استعدادسنجی</h3>
+          <p>آموزش تخصصی ویژه علاقه‌مندان به حوزه استعدادیابی و هدایت تحصیلی شغلی.</p>
+          <div class="meta"><span class="chip">دوره حضوری</span></div>
+          <a class="mini" href="#consult">ثبت نام در دوره</a>
+        </article>
       </div>
     </div>
   </section>
@@ -908,7 +982,7 @@ main,header,footer{position:relative;z-index:1}
       <div class="section-head on-dark">
         <div>
           <svg class="orn" viewBox="0 0 90 12" aria-hidden="true"><path d="M0 6H34M56 6H90" stroke="currentColor" stroke-width="1.5"/><path d="M45 0L51 6L45 12L39 6Z" fill="currentColor"/></svg>
-          <h2>تازه‌ترین مقالات</h2>
+          <h2>مقالات</h2>
           <p>نوشته‌هایی کوتاه و کاربردی از مشاوران استعدادکده.</p>
         </div>
       </div>
@@ -966,10 +1040,14 @@ main,header,footer{position:relative;z-index:1}
             </svg>
             <span class="chip">کودک و نوجوان</span>
           </div>
-          <h3>پنج نشانه که فرزندت به یادگیری تصویری علاقه دارد</h3>
-          <p>با چند مشاهده‌ی ساده، شیوه‌ی یادگیری کودکت را بهتر بشناس.</p>
+          <h3>پنج نشانه که فرزند شما به یادگیری تصویری علاقه دارد</h3>
+          <p>با چند مشاهده‌ی ساده، شیوه‌ی یادگیری کودک خود را بهتر بشناسید.</p>
           <div class="meta"><span>۴ دقیقه مطالعه</span><a class="more" href="#articles">ادامه مطلب</a></div>
         </article>
+      </div>
+      
+      <div style="text-align: center; margin-top: 36px;">
+        <a class="btn btn-ghost" href="#articles">سایر مقالات</a>
       </div>
     </div>
   </section>
@@ -988,15 +1066,16 @@ main,header,footer{position:relative;z-index:1}
       </div>
       <div>
         <h4>آزمون‌ها</h4>
-        <a href="#tests">شخصیت‌شناسی</a>
-        <a href="#tests">علایق شغلی</a>
-        <a href="#tests">هوش هیجانی</a>
-        <a href="#tests">سبک یادگیری</a>
+        <a href="#tests">شخصیت‌شناسی نئو</a>
+        <a href="#tests">رغبت سنج استرانگ</a>
+        <a href="#tests">هوش ریون</a>
+        <a href="#tests">هوش وکسلر</a>
       </div>
       <div>
         <h4>استعدادکده</h4>
         <a href="#teachers">اساتید و مشاوران</a>
         <a href="#why">چرا ما</a>
+        <a href="#courses">دوره‌های آموزشی</a>
         <a href="#articles">مقالات</a>
       </div>
       <div>
