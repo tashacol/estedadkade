@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="اجرای خودارزیابی لنگرهای شغلی Career Anchors، نسخه چهارم ۲۰۱۳، با ۴۰ گویه، مقیاس ۱ تا ۴، انتخاب مستقل Top 5، نمره‌گذاری هشت‌لنگری و نمودارهای ستونی و راداری." />
+<title>آزمون لنگرهای شغلی — Career Anchors — نسخه چهارم ۲۰۱۳</title>
+<style>
+  :root {
+    --bg: #f5f7fb;
+    --panel: #ffffff;
+    --text: #172033;
+    --muted: #64708a;
+    --border: #d9deea;
+    --primary: #2e6bd9;
+    --primary-dark: #1f55b5;
+    --primary-soft: #eef4ff;
+    --success: #19764a;
+    --success-soft: #eaf8f1;
+    --warning: #a76500;
+    --warning-soft: #fff5df;
+    --danger: #a92b2b;
+    --danger-soft: #fff0f0;
+    --shadow: 0 12px 34px rgba(22, 35, 58, 0.08);
+    --radius: 18px;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Tahoma, Arial, sans-serif;
+    line-height: 1.85;
+  }
+
+  button, input { font: inherit; }
+  button { cursor: pointer; }
+  button:disabled { cursor: not-allowed; opacity: 0.55; }
+
+  .app-shell {
+    width: min(1100px, calc(100% - 24px));
+    margin: 20px auto 44px;
+  }
+
+  .header {
+    background: linear-gradient(180deg, #ffffff, #fbfcff);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 24px 24px 18px;
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
+  }
+
+  .brand {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .brand-mark {
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+    display: grid;
+    place-items: center;
+    background: var(--primary-soft);
+    border: 1px solid #cddcff;
+    color: var(--primary-dark);
+    font-size: 25px;
+    font-weight: 900;
+    flex: 0 0 auto;
+  }
+
+  h1, h2, h3 { margin-top: 0; line-height: 1.45; }
+  h1 { margin-bottom: 6px; font-size: clamp(1.25rem, 2.8vw, 1.8rem); }
+  h2 { font-size: 1.25rem; }
+  h3 { font-size: 1.05rem; }
+
+  .subtitle {
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .badge {
+    border: 1px solid var(--border);
+    background: #fff;
+    color: #3c4660;
+    border-radius: 999px;
+    padding: 4px 11px;
+    font-size: 0.84rem;
+  }
+
+  .stepper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 18px;
+  }
+
+  .step {
+    border: 1px solid var(--border);
+    background: #fff;
+    padding: 9px 10px;
+    border-radius: 12px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+
+  .step.active {
+    background: var(--primary-soft);
+    border-color: #b9cdf8;
+    color: var(--primary-dark);
+    font-weight: 800;
+  }
+
+  .step.done {
+    background: var(--success-soft);
+    border-color: #bfe5cf;
+    color: var(--success);
+  }
+
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 22px;
+  }
+
+  .hidden { display: none !important; }
+  .muted { color: var(--muted); }
+  .small { font-size: 0.86rem; }
+
+  .instruction-grid {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 16px;
+  }
+
+  .callout {
+    padding: 15px 16px;
+    border: 1px solid #cddcff;
+    background: var(--primary-soft);
+    border-radius: 14px;
+  }
+
+  .neutral-callout {
+    padding: 15px 16px;
+    border: 1px solid var(--border);
+    background: #fafbfe;
+    border-radius: 14px;
+  }
+
+  .scale-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 9px;
+    margin-top: 12px;
+  }
+
+  .scale-item {
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 12px;
+    text-align: center;
+    background: #fff;
+  }
+
+  .scale-num {
+    font-weight: 900;
+    font-size: 1.15rem;
+    color: var(--primary-dark);
+  }
+
+  .notice {
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: var(--warning-soft);
+    border: 1px solid #efd5a6;
+    color: #6f4a06;
+    margin-top: 14px;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  .btn {
+    border: 1px solid var(--border);
+    background: #fff;
+    color: var(--text);
+    padding: 10px 16px;
+    border-radius: 12px;
+    transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+  }
+
+  .btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(19, 32, 54, .08);
+  }
+
+  .btn-primary {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+  }
+
+  .btn-primary:hover:not(:disabled) { background: var(--primary-dark); }
+  .btn-danger { color: var(--danger); border-color: #e3bebe; background: #fffafa; }
+
+  .test-toolbar {
+    position: sticky;
+    top: 8px;
+    z-index: 20;
+    padding: 10px;
+    margin: -6px -6px 12px;
+    background: rgba(245,247,251,.92);
+    backdrop-filter: blur(8px);
+  }
+
+  .progress-wrap {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .progress-track {
+    height: 9px;
+    background: #e7ebf3;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--primary);
+    border-radius: inherit;
+    transition: width .2s ease;
+  }
+
+  .question-card {
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background: #fff;
+    padding: 22px;
+  }
+
+  .question-number {
+    color: var(--primary-dark);
+    font-weight: 900;
+    margin-bottom: 8px;
+  }
+
+  .question-text {
+    font-size: clamp(1.05rem, 2vw, 1.22rem);
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .answer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 22px;
+  }
+
+  .answer-option {
+    position: relative;
+  }
+
+  .answer-option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .answer-label {
+    display: block;
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 14px 10px;
+    background: #fff;
+    text-align: center;
+    min-height: 100px;
+    transition: .12s ease;
+  }
+
+  .answer-label:hover { border-color: #9eb8ec; background: #fbfdff; }
+  .answer-option input:checked + .answer-label {
+    border-color: var(--primary);
+    background: var(--primary-soft);
+    box-shadow: 0 0 0 4px rgba(46,107,217,.08);
+  }
+  .answer-option input:focus-visible + .answer-label { outline: 3px solid #8eb4ff; outline-offset: 2px; }
+  .answer-value { display: block; font-weight: 900; font-size: 1.25rem; color: var(--primary-dark); }
+  .answer-caption { display: block; margin-top: 3px; }
+
+  .question-jump {
+    display: grid;
+    grid-template-columns: repeat(10, minmax(0,1fr));
+    gap: 6px;
+    margin-top: 18px;
+  }
+
+  .jump-btn {
+    min-width: 0;
+    padding: 7px 4px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: #fff;
+    color: #4a5570;
+  }
+  .jump-btn.answered { background: var(--success-soft); border-color: #bfe5cf; color: var(--success); }
+  .jump-btn.current { outline: 2px solid var(--primary); outline-offset: 1px; }
+
+  .review-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .counter {
+    white-space: nowrap;
+    border-radius: 999px;
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    background: #fff;
+    font-size: .86rem;
+  }
+
+  .top5-grid {
+    display: grid;
+    gap: 9px;
+    margin-top: 16px;
+  }
+
+  .top5-item {
+    display: grid;
+    grid-template-columns: auto 56px 1fr;
+    gap: 12px;
+    align-items: center;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 11px 12px;
+    background: #fff;
+  }
+
+  .top5-item.selected {
+    border-color: var(--primary);
+    background: var(--primary-soft);
+  }
+
+  .top5-item input {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--primary);
+  }
+
+  .q-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 42px;
+    height: 34px;
+    border-radius: 9px;
+    background: #f0f2f7;
+    border: 1px solid #e0e4ec;
+    font-weight: 900;
+  }
+
+  .answer-chip {
+    color: var(--muted);
+    font-size: .84rem;
+    margin-top: 2px;
+  }
+
+  .selection-bar {
+    position: sticky;
+    bottom: 10px;
+    z-index: 20;
+    margin-top: 16px;
+    padding: 12px;
+    border-radius: 15px;
+    background: rgba(255,255,255,.95);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 24px rgba(20, 34, 58, .10);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .result-summary {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 16px;
+  }
+
+  .summary-card, .chart-card, .table-card, .interpret-card {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: #fff;
+    padding: 18px;
+  }
+
+  .summary-highlight {
+    border: 1px solid #cddcff;
+    background: var(--primary-soft);
+    padding: 15px;
+    border-radius: 14px;
+  }
+
+  .highlight-names {
+    font-size: 1.1rem;
+    font-weight: 900;
+    margin-top: 8px;
+    color: var(--primary-dark);
+  }
+
+  .chart-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .chart-wrap {
+    position: relative;
+    width: 100%;
+    min-height: 330px;
+  }
+
+  canvas { width: 100%; height: 330px; display: block; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th, td {
+    padding: 10px 9px;
+    border-bottom: 1px solid var(--border);
+    text-align: right;
+    vertical-align: middle;
+  }
+  th { background: #fafbfe; font-size: .9rem; }
+
+  .score-number { font-weight: 900; }
+  .anchor-code { font-family: Arial, sans-serif; font-weight: 900; direction: ltr; display: inline-block; }
+  .bar-mini {
+    height: 8px;
+    border-radius: 999px;
+    background: #e9edf4;
+    overflow: hidden;
+    min-width: 110px;
+  }
+  .bar-mini > span {
+    display: block;
+    height: 100%;
+    background: var(--primary);
+    border-radius: inherit;
+  }
+
+  .interpret-list {
+    display: grid;
+    gap: 10px;
+  }
+  .interpret-item {
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 12px 13px;
+    background: #fff;
+  }
+  .interpret-item.top {
+    border-color: #b9cdf8;
+    background: #f7faff;
+  }
+  .interpret-title { font-weight: 900; }
+  .interpret-text { margin-top: 5px; color: #4e5a72; }
+
+  .top5-result {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+  }
+  .top5-result-item {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 9px;
+    text-align: center;
+    background: #fafbfe;
+  }
+
+  .footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: .8rem;
+    margin-top: 16px;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @media (max-width: 820px) {
+    .instruction-grid, .result-summary, .chart-grid { grid-template-columns: 1fr; }
+    .answer-grid { grid-template-columns: 1fr 1fr; }
+    .top5-result { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 560px) {
+    .app-shell { width: min(100% - 12px, 1100px); margin-top: 8px; }
+    .header, .panel { padding: 15px; }
+    .brand-mark { width: 46px; height: 46px; }
+    .scale-grid { grid-template-columns: 1fr 1fr; }
+    .answer-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .answer-label { min-height: 88px; padding: 11px 7px; font-size: .87rem; }
+    .question-jump { grid-template-columns: repeat(8, minmax(0,1fr)); }
+    .top5-item { grid-template-columns: auto 46px 1fr; gap: 8px; }
+    .selection-bar { align-items: stretch; flex-direction: column; }
+    .selection-bar .actions { width: 100%; }
+    .selection-bar .btn { flex: 1; }
+    th:nth-child(3), td:nth-child(3) { display: none; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .app-shell { width: 100%; margin: 0; }
+    .header, .stepper, .actions, .test-toolbar, .selection-bar, .footer, .no-print { display: none !important; }
+    .panel { box-shadow: none; border: none; padding: 0; }
+    .chart-grid { grid-template-columns: 1fr 1fr; }
+    .result-summary { grid-template-columns: 1fr 1fr; }
+    .chart-card, .table-card, .interpret-card, .summary-card { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <header class="header">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">CA</div>
+      <div>
+        <h1>آزمون لنگرهای شغلی (Career Anchors)</h1>
+        <p class="subtitle">نسخه چهارم، ۲۰۱۳ — خودارزیابی ۴۰ گویه‌ای با ۸ حوزه لنگر شغلی</p>
+      </div>
+    </div>
+    <div class="badge-row" aria-label="مشخصات آزمون">
+      <span class="badge">۴۰ گویه</span>
+      <span class="badge">مقیاس ۱ تا ۴</span>
+      <span class="badge">۸ لنگر</span>
+      <span class="badge">Top 5 با +۵ امتیاز</span>
+      <span class="badge">بدون Reverse Scoring</span>
+    </div>
+    <nav class="stepper" aria-label="مراحل آزمون">
+      <div class="step active" data-step-indicator="1">۱. پاسخ‌گویی به ۴۰ گویه</div>
+      <div class="step" data-step-indicator="2">۲. انتخاب ۵ مورد برتر</div>
+      <div class="step" data-step-indicator="3">۳. نمره‌گذاری و نتیجه</div>
+    </nav>
+  </header>
+
+  <main>
+    <section id="introPanel" class="panel">
+      <div class="instruction-grid">
+        <div>
+          <h2>دستورالعمل اجرا</h2>
+          <div class="callout">
+            در هر یک از ۴۰ عبارت زیر مشخص کنید این عبارت تا چه اندازه درباره شما درست است. بر اساس آنچه واقعاً احساس می‌کنید پاسخ دهید، نه آنچه فکر می‌کنید باید پاسخ دهید.
+          </div>
+          <div class="notice">
+            این ابزار خودارزیابی استانداردشده نیست؛ نمرات آن برای مقایسه با افراد دیگر یا با هنجار جمعیتی طراحی نشده است. پاسخ‌ها درست یا غلط ندارند.
+          </div>
+        </div>
+        <div>
+          <h2>مقیاس پاسخ</h2>
+          <div class="scale-grid">
+            <div class="scale-item"><div class="scale-num">۱</div><div>هرگز درباره من درست نیست</div></div>
+            <div class="scale-item"><div class="scale-num">۲</div><div>به‌ندرت درباره من درست است</div></div>
+            <div class="scale-item"><div class="scale-num">۳</div><div>اغلب درباره من درست است</div></div>
+            <div class="scale-item"><div class="scale-num">۴</div><div>همیشه درباره من درست است</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="neutral-callout" style="margin-top:16px">
+        <strong>مراحل:</strong> ابتدا هر ۴۰ گویه را پاسخ می‌دهید. سپس بدون اینکه سامانه از روی نمره‌ها انتخاب کند، ۵ عبارتی را که بیش از همه و به‌وضوح شما را توصیف می‌کنند انتخاب می‌کنید. سامانه به هر یک از این پنج گویه ۵ امتیاز اضافی می‌دهد و سپس هشت لنگر را محاسبه می‌کند.
+      </div>
+
+      <div class="actions">
+        <button id="startBtn" class="btn btn-primary">شروع آزمون</button>
+        <button id="resumeBtn" class="btn hidden">ادامه پاسخ‌های ذخیره‌شده</button>
+        <button id="clearSavedBtn" class="btn btn-danger hidden">حذف پاسخ ذخیره‌شده</button>
+      </div>
+      <p id="savedInfo" class="small muted"></p>
+    </section>
+
+    <section id="testPanel" class="panel hidden" aria-labelledby="testHeading">
+      <div class="test-toolbar">
+        <div class="progress-wrap">
+          <strong id="testHeading">مرحله ۱: پاسخ‌گویی</strong>
+          <span id="progressText" class="counter">۰ از ۴۰ پاسخ داده شده</span>
+        </div>
+        <div class="progress-track" aria-hidden="true"><div id="progressFill" class="progress-fill"></div></div>
+      </div>
+
+      <div class="question-card">
+        <div id="questionNumber" class="question-number">سؤال ۱</div>
+        <p id="questionText" class="question-text"></p>
+        <div id="answerGrid" class="answer-grid" role="radiogroup" aria-label="مقیاس پاسخ"></div>
+        <div class="actions">
+          <button id="prevQuestionBtn" class="btn">سؤال قبلی</button>
+          <button id="nextQuestionBtn" class="btn btn-primary">سؤال بعدی</button>
+        </div>
+      </div>
+
+      <div style="margin-top:16px">
+        <h3>پرش سریع به سؤال</h3>
+        <div id="questionJump" class="question-jump" aria-label="انتخاب سریع شماره سؤال"></div>
+      </div>
+
+      <div class="actions">
+        <button id="goTop5Btn" class="btn btn-primary" disabled>رفتن به مرحله انتخاب ۵ مورد</button>
+        <button id="backToIntroBtn" class="btn">بازگشت به ابتدا</button>
+      </div>
+      <p id="testMessage" class="small muted" aria-live="polite"></p>
+    </section>
+
+    <section id="top5Panel" class="panel hidden" aria-labelledby="top5Heading">
+      <div class="review-header">
+        <div>
+          <h2 id="top5Heading">مرحله ۲: انتخاب پنج عبارت برتر</h2>
+          <p class="muted" style="margin:0">دوباره کل ۴۰ عبارت را مرور کنید و دقیقاً پنج موردی را که بیش از همه و به‌وضوح شما را توصیف می‌کنند انتخاب کنید.</p>
+        </div>
+        <div id="top5Count" class="counter">۰ از ۵</div>
+      </div>
+
+      <div class="callout">
+        انتخاب Top 5 نباید به‌صورت خودکار از روی بالاترین پاسخ‌ها انجام شود. این مرحله یک انتخاب مستقل از خود آزمودنی است. هر انتخاب فقط یک‌بار می‌تواند ثبت شود و به آن گویه <strong>۵ امتیاز اضافی</strong> تعلق می‌گیرد.
+      </div>
+
+      <div id="top5Grid" class="top5-grid"></div>
+
+      <div class="selection-bar">
+        <div><strong id="selectionStatus">برای ادامه، دقیقاً ۵ مورد را انتخاب کنید.</strong></div>
+        <div class="actions" style="margin-top:0">
+          <button id="backToTestBtn" class="btn">بازبینی پاسخ‌ها</button>
+          <button id="scoreBtn" class="btn btn-primary" disabled>محاسبه و نمایش نتیجه</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="resultPanel" class="panel hidden" aria-labelledby="resultHeading">
+      <div class="review-header">
+        <div>
+          <h2 id="resultHeading">مرحله ۳: نتیجه و نمره‌گذاری</h2>
+          <p class="muted" style="margin:0">نمرات زیر از پاسخ‌های خام، Top 5 و کلید هشت‌لنگری محاسبه شده‌اند.</p>
+        </div>
+        <div class="actions no-print" style="margin-top:0">
+          <button id="printBtn" class="btn">چاپ نتیجه</button>
+          <button id="editAnswersBtn" class="btn">ویرایش پاسخ‌ها</button>
+          <button id="newTestBtn" class="btn btn-danger">شروع آزمون جدید</button>
+        </div>
+      </div>
+
+      <div class="result-summary">
+        <div class="summary-card">
+          <h3>جمع‌بندی توصیفی</h3>
+          <div class="summary-highlight">
+            <div class="muted">حوزه/حوزه‌های برجسته‌تر در این خودارزیابی</div>
+            <div id="highlightNames" class="highlight-names"></div>
+            <div id="highlightScores" class="small muted" style="margin-top:5px"></div>
+          </div>
+          <p id="summaryText" style="margin-bottom:0"></p>
+        </div>
+        <div class="summary-card">
+          <h3>پنج عبارت انتخاب‌شده</h3>
+          <div id="top5Result" class="top5-result"></div>
+          <p class="small muted" style="margin-bottom:0;margin-top:12px">به هر پنج مورد انتخاب‌شده، مطابق روش این فرم، ۵ امتیاز اضافی داده شده است.</p>
+        </div>
+      </div>
+
+      <div class="chart-grid">
+        <div class="chart-card">
+          <h3>نمودار ستونی — میانگین لنگرها</h3>
+          <div class="chart-wrap"><canvas id="barChart" aria-label="نمودار ستونی میانگین هشت لنگر"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h3>نمودار راداری — میانگین لنگرها</h3>
+          <div class="chart-wrap"><canvas id="radarChart" aria-label="نمودار راداری میانگین هشت لنگر"></canvas></div>
+        </div>
+      </div>
+
+      <div class="table-card" style="margin-top:16px">
+        <h3>جدول نمرات</h3>
+        <div style="overflow:auto">
+          <table>
+            <thead>
+              <tr>
+                <th>کد</th>
+                <th>نام لنگر</th>
+                <th>گویه‌ها</th>
+                <th>مجموع</th>
+                <th>میانگین</th>
+                <th style="min-width:130px">نمایش نسبی</th>
+              </tr>
+            </thead>
+            <tbody id="scoreTableBody"></tbody>
+          </table>
+        </div>
+        <p class="small muted" style="margin-bottom:0">Total نمره پایه ذخیره‌شده است؛ Average صرفاً Total ÷ 5 و برای نمایش نمودار/مقایسه درون‌فردی استفاده می‌شود. هیچ Cut-off، صدک یا هنجار جمعیتی در این پیاده‌سازی استفاده نشده است.</p>
+      </div>
+
+      <div class="interpret-card" style="margin-top:16px">
+        <h3>تفسیر توصیفی هشت لنگر</h3>
+        <div id="interpretList" class="interpret-list"></div>
+      </div>
+
+      <div class="neutral-callout" style="margin-top:16px">
+        <strong>نکته تفسیر:</strong> این نتیجه یک خودارزیابی غیراستانداردشده است و فقط الگوی نسبی هشت لنگر را در همین پاسخ‌ها نشان می‌دهد. نتیجه به‌تنهایی تعیین نمی‌کند چه شغلی «قطعاً مناسب» فرد است و برای مقایسه با هنجار جمعیتی یا صدک طراحی نشده است.
+      </div>
+    </section>
+  </main>
+
+  <div class="footer">
+    ساختار اجرا و مقیاس پاسخ بر اساس Career Anchors Self-Assessment, Fourth Edition (© 2013 John Wiley & Sons, Inc.).
+  </div>
+</div>
+
+<script>
+(() => {
+  'use strict';
+
+  const VERSION = 'Career Anchors Self-Assessment — Fourth Edition — 2013';
+  const STORAGE_KEY = 'career_anchors_2013_fa_single_v1';
+
+  const QUESTIONS = [
+    'می‌خواهم آن‌قدر در کاری که انجام می‌دهم خوب باشم که دیگران برای دریافت نظر تخصصی من به سراغم بیایند.',
+    'در کارم بیشترین احساس رضایت را زمانی دارم که بتوانم تلاش‌های دیگران را برای انجام یک کار مشترک با یکدیگر هماهنگ کنم.',
+    'رویای داشتن شغلی را دارم که به من آزادی بدهد کارم را به شیوه خودم و طبق برنامه زمانی خودم انجام دهم.',
+    'همیشه به دنبال ایده‌هایی هستم که به من امکان دهند کسب‌وکار یا بنگاه خودم را راه‌اندازی کنم.',
+    'امنیت و ثبات برای من از آزادی و استقلال مهم‌تر هستند.',
+    'ترجیح می‌دهم سازمانم را ترک کنم تا اینکه در شغلی قرار بگیرم که توانایی من برای پرداختن به مسائل شخصی و خانوادگی را به خطر بیندازد.',
+    'فقط زمانی در حرفه‌ام احساس موفقیت می‌کنم که احساس کنم سهم واقعی در رفاه جامعه داشته‌ام.',
+    'رویای شغلی دارم که در آن همیشه با مسائل دشوارتر و دشوارتر مواجه شوم.',
+    'فقط زمانی در حرفه‌ام احساس موفقیت می‌کنم که بتوانم مهارت‌هایم را به سطحی روزافزون از شایستگی توسعه دهم.',
+    'رویای این را دارم که در رأس یک سازمان کامل باشم.',
+    'در کارم زمانی بیشترین رضایت را دارم که کاملاً آزاد باشم وظایف، برنامه‌های زمانی و روش‌های انجام کارم را خودم تعیین کنم.',
+    'در سازمانی که به من مأموریت‌هایی بدهد که امنیت شغلی‌ام را به خطر بیندازد، باقی نخواهم ماند.',
+    'ساختن کسب‌وکار خودم برای من از مدیر سطح‌بالا بودن در سازمان شخص دیگری مهم‌تر است.',
+    'در حرفه‌ام زمانی بیشترین رضایت را داشته‌ام که توانسته‌ام استعدادهایم را در خدمت دیگران به کار ببرم.',
+    'فقط زمانی در حرفه‌ام احساس موفقیت می‌کنم که با چالش‌های روزبه‌روز دشوارتر روبه‌رو شده و بر آنها غلبه کنم.',
+    'رویای شغلی دارم که به من اجازه دهد نیازهای شخصی، خانوادگی و کاری‌ام را با یکدیگر تلفیق کنم.',
+    'مدیر ارشد فنی یا تخصصی شدن در حوزه تخصصی خودم برای من جذاب‌تر از مدیر عمومی شدن است.',
+    'فقط زمانی در حرفه‌ام احساس موفقیت می‌کنم که استقلال و آزادی لازم برای تعیین نحوه انجام کارم را به دست آورم.',
+    'معمولاً به دنبال شغل در سازمان‌هایی هستم که به من احساس ثبات و امنیت بدهند.',
+    'وقتی بتوانم چیزی بسازم که عمدتاً نتیجه مهارت و تلاش خودم باشد، بیشترین رضایت را احساس می‌کنم.',
+    'فقط در صورتی در حرفه‌ام احساس موفقیت می‌کنم که در یک سازمان به مدیر عمومی سطح‌بالا تبدیل شوم.',
+    'به‌کارگیری استعدادهایم برای بهتر کردن جهان به‌عنوان مکانی برای زندگی، چیزی است که تصمیم‌های شغلی مرا هدایت می‌کند.',
+    'در حرفه‌ام زمانی بیشترین رضایت را داشته‌ام که توانسته‌ام مسائل ظاهراً حل‌نشدنی را حل کنم یا بر موقعیت‌هایی که ظاهراً شانس موفقیت در آنها غیرممکن است پیروز شوم.',
+    'فقط زمانی در زندگی احساس موفقیت می‌کنم که بتوانم الزامات شخصی، خانوادگی و شغلی خود را متعادل کنم.',
+    'رویای شغلی دارم که به من احساس ثبات و امنیت بدهد.',
+    'ترجیح می‌دهم سازمانم را ترک کنم تا اینکه مأموریت چرخشی‌ای را بپذیرم که مرا از حوزه تخصصی خودم خارج کند.',
+    'متعادل‌کردن خواسته‌های زندگی شخصی و حرفه‌ای برای من از داشتن یک موقعیت مدیریتی سطح‌بالا مهم‌تر است.',
+    'رویای داشتن شغلی را دارم که کمک واقعی به بشریت و جامعه داشته باشد.',
+    'فقط زمانی در حرفه‌ام احساس موفقیت می‌کنم که بر اساس ایده‌ها و مهارت‌های خودم یک کسب‌وکار یا بنگاه ایجاد کرده باشم.',
+    'مدیر عمومی شدن برای من از مدیر ارشد تخصصی شدن در حوزه تخصصی خودم جذاب‌تر است.',
+    'اینکه بتوانم کارم را به شیوه خودم و بدون قوانین و محدودیت‌ها انجام دهم، برای من بسیار مهم است.',
+    'فرصت‌های شغلی‌ای را ترجیح می‌دهم که مهارت‌های حل مسئله و رقابت‌جویی من را به‌شدت به چالش بکشند.',
+    'رویای راه‌اندازی و ساختن کسب‌وکار خودم را دارم.',
+    'ترجیح می‌دهم سازمانم را ترک کنم تا اینکه سمتی را بپذیرم که توانایی من برای خدمت به دیگران را تضعیف کند.',
+    'در کارم زمانی بیشترین رضایت را دارم که بتوانم از مهارت‌ها و استعدادهای ویژه خود استفاده کنم.',
+    'ترجیح می‌دهم سازمانم را ترک کنم تا اینکه شغلی را بپذیرم که مرا از مسیر مدیریت عمومی دور کند.',
+    'در زندگی کاری‌ام زمانی بیشترین رضایت را دارم که احساس کنم از نظر مالی و شغلی امنیت کامل دارم.',
+    'ترجیح می‌دهم سازمانم را ترک کنم تا اینکه شغلی را بپذیرم که استقلال و آزادی مرا کاهش دهد.',
+    'همیشه به دنبال فرصت‌های کاری بوده‌ام که تداخل با مسائل شخصی و خانوادگی‌ام را به حداقل برساند.',
+    'کار کردن روی مسائلی که حل کردنشان دشوار است برای من مهم‌تر از رسیدن به یک موقعیت مدیریتی سطح‌بالاست.'
+  ];
+
+  const ANCHORS = {
+    TF: {
+      name: 'شایستگی فنی/کارکردی',
+      items: [1, 9, 17, 26, 35],
+      description: 'تأکید بر تعمیق و به‌کارگیری تخصص فنی یا کارکردی و احساس رضایت از رشد شایستگی در حوزه تخصصی.'
+    },
+    GM: {
+      name: 'شایستگی مدیریت عمومی',
+      items: [2, 10, 21, 30, 36],
+      description: 'تأکید بر یکپارچه‌سازی تلاش‌ها، مسئولیت گسترده سازمانی و مسیر مدیریت عمومی.'
+    },
+    AU: {
+      name: 'استقلال/خودمختاری',
+      items: [3, 11, 18, 31, 38],
+      description: 'تأکید بر آزادی در شیوه انجام کار، تعیین وظایف و زمان‌بندی و کاهش وابستگی به قواعد و محدودیت‌های بیرونی.'
+    },
+    SE: {
+      name: 'امنیت/ثبات',
+      items: [5, 12, 19, 25, 37],
+      description: 'تأکید بر ثبات شغلی و مالی، احساس امنیت و انتخاب محیط‌هایی که این ثبات را فراهم کنند.'
+    },
+    EC: {
+      name: 'خلاقیت کارآفرینانه',
+      items: [4, 13, 20, 29, 33],
+      description: 'تأکید بر ایجاد و ساختن کسب‌وکار یا فعالیتی بر پایه ایده‌ها، مهارت‌ها و تلاش شخصی.'
+    },
+    SV: {
+      name: 'خدمت/تعهد به یک هدف',
+      items: [7, 14, 22, 28, 34],
+      description: 'تأکید بر استفاده از توانایی‌ها برای خدمت به دیگران و ایجاد سهم یا اثر معنادار برای جامعه و بشریت.'
+    },
+    CH: {
+      name: 'چالش محض',
+      items: [8, 15, 23, 32, 40],
+      description: 'تأکید بر مسائل دشوار، غلبه بر موانع و موقعیت‌هایی که حل آنها نیازمند چالش‌پذیری و حل مسئله است.'
+    },
+    LS: {
+      name: 'سبک زندگی',
+      items: [6, 16, 24, 27, 39],
+      description: 'تأکید بر هماهنگ‌کردن الزامات کار با نیازهای شخصی و خانوادگی و کاهش تداخل کار با زندگی شخصی.'
+    }
+  };
+
+  const SCALE = [
+    { value: 1, label: 'هرگز درباره من درست نیست' },
+    { value: 2, label: 'به‌ندرت درباره من درست است' },
+    { value: 3, label: 'اغلب درباره من درست است' },
+    { value: 4, label: 'همیشه درباره من درست است' }
+  ];
+
+  const state = {
+    answers: Array(41).fill(null),
+    topFive: [],
+    currentQuestion: 1,
+    stage: 1,
+    results: null
+  };
+
+  const $ = (id) => document.getElementById(id);
+
+  function faNum(value) {
+    return String(value).replace(/[0-9]/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+  }
+
+  function numberArrayToFa(arr) {
+    return arr.map(faNum).join('، ');
+  }
+
+  function answeredCount() {
+    let n = 0;
+    for (let i = 1; i <= 40; i++) if (state.answers[i] !== null) n++;
+    return n;
+  }
+
+  function validateAnswers(answers) {
+    if (!Array.isArray(answers) || answers.length !== 41) {
+      throw new Error('ساختار پاسخ‌ها نامعتبر است.');
+    }
+    for (let i = 1; i <= 40; i++) {
+      if (!Number.isInteger(answers[i]) || ![1,2,3,4].includes(answers[i])) {
+        throw new Error('همه ۴۰ گویه باید با یکی از مقادیر ۱ تا ۴ پاسخ داده شوند.');
+      }
+    }
+  }
+
+  function validateTopFive(topFive) {
+    if (!Array.isArray(topFive) || topFive.length !== 5) {
+      throw new Error('دقیقاً پنج گویه باید در Top 5 انتخاب شوند.');
+    }
+    if (new Set(topFive).size !== 5) {
+      throw new Error('گویه‌های Top 5 باید متمایز باشند.');
+    }
+    for (const q of topFive) {
+      if (!Number.isInteger(q) || q < 1 || q > 40) {
+        throw new Error('شماره‌های Top 5 باید اعداد صحیح بین ۱ تا ۴۰ باشند.');
+      }
+    }
+  }
+
+  function scoreCareerAnchors(answers, topFive) {
+    validateAnswers(answers);
+    validateTopFive(topFive);
+
+    const topSet = new Set(topFive);
+    const adjusted = Array(41).fill(null);
+    for (let i = 1; i <= 40; i++) {
+      adjusted[i] = answers[i] + (topSet.has(i) ? 5 : 0);
+    }
+
+    const results = {};
+    for (const [code, anchor] of Object.entries(ANCHORS)) {
+      const total = anchor.items.reduce((sum, item) => sum + adjusted[item], 0);
+      results[code] = {
+        total,
+        average: total / 5,
+        items: [...anchor.items]
+      };
+    }
+
+    return {
+      rawAnswers: answers.slice(),
+      topFive: [...topFive],
+      adjustedAnswers: adjusted,
+      results
+    };
+  }
+
+  function assertIntegrity() {
+    if (QUESTIONS.length !== 40) throw new Error('خطای یکپارچگی: تعداد گویه‌ها باید دقیقاً ۴۰ باشد.');
+    const all = [];
+    for (const [code, anchor] of Object.entries(ANCHORS)) {
+      if (anchor.items.length !== 5) throw new Error(`خطای یکپارچگی در ${code}: باید ۵ گویه داشته باشد.`);
+      all.push(...anchor.items);
+    }
+    if (all.length !== 40) throw new Error('خطای یکپارچگی: مجموع نگاشت گویه‌ها ۴۰ نیست.');
+    const unique = new Set(all);
+    if (unique.size !== 40 || [...unique].sort((a,b)=>a-b).some((v,i)=>v !== i+1)) {
+      throw new Error('خطای یکپارچگی: کلید لنگرها باید تمام شماره‌های ۱ تا ۴۰ را دقیقاً یک‌بار پوشش دهد.');
+    }
+    if (Object.keys(ANCHORS).length !== 8) throw new Error('خطای یکپارچگی: تعداد لنگرها باید ۸ باشد.');
+  }
+
+  function saveState() {
+    const payload = {
+      version: VERSION,
+      answers: state.answers,
+      topFive: state.topFive,
+      currentQuestion: state.currentQuestion,
+      savedAt: Date.now()
+    };
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    } catch (_) {
+      // ذخیره محلی اختیاری است؛ عدم دسترسی به localStorage اجرای آزمون را متوقف نمی‌کند.
+    }
+    updateSavedControls();
+  }
+
+  function loadSavedState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return null;
+      const data = JSON.parse(raw);
+      if (!data || data.version !== VERSION) return null;
+      if (!Array.isArray(data.answers) || data.answers.length !== 41) return null;
+      return data;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  function updateSavedControls() {
+    const data = loadSavedState();
+    const hasAnswered = data && data.answers && data.answers.some((v,i)=>i>0 && v !== null);
+    $('resumeBtn').classList.toggle('hidden', !hasAnswered);
+    $('clearSavedBtn').classList.toggle('hidden', !hasAnswered);
+    $('savedInfo').textContent = hasAnswered ? 'پاسخ‌های قبلی فقط در همین مرورگر و به‌صورت محلی ذخیره شده‌اند.' : '';
+  }
+
+  function clearSaved() {
+    try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
+    updateSavedControls();
+  }
+
+  function setStage(stage) {
+    state.stage = stage;
+    $('introPanel').classList.toggle('hidden', stage !== 0);
+    $('testPanel').classList.toggle('hidden', stage !== 1);
+    $('top5Panel').classList.toggle('hidden', stage !== 2);
+    $('resultPanel').classList.toggle('hidden', stage !== 3);
+
+    document.querySelectorAll('[data-step-indicator]').forEach(el => {
+      const s = Number(el.dataset.stepIndicator);
+      el.classList.toggle('active', s === stage);
+      el.classList.toggle('done', s < stage);
+    });
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+
+  function renderQuestion() {
+    const q = state.currentQuestion;
+    $('questionNumber').textContent = `سؤال ${faNum(q)}`;
+    $('questionText').textContent = QUESTIONS[q-1];
+    $('prevQuestionBtn').disabled = q === 1;
+    $('nextQuestionBtn').textContent = q === 40 ? 'پایان پاسخ‌گویی' : 'سؤال بعدی';
+
+    const answerGrid = $('answerGrid');
+    answerGrid.innerHTML = '';
+    for (const item of SCALE) {
+      const id = `ans_${q}_${item.value}`;
+      const wrapper = document.createElement('div');
+      wrapper.className = 'answer-option';
+      const input = document.createElement('input');
+      input.type = 'radio';
+      input.name = `answer_${q}`;
+      input.id = id;
+      input.value = String(item.value);
+      input.checked = state.answers[q] === item.value;
+      input.addEventListener('change', () => {
+        state.answers[q] = Number(input.value);
+        state.topFive = [];
+        state.results = null;
+        saveState();
+        updateTestProgress();
+        if (q < 40) {
+          // بعد از پاسخ می‌توان با دکمه «سؤال بعدی» ادامه داد.
+        }
+      });
+      const label = document.createElement('label');
+      label.className = 'answer-label';
+      label.htmlFor = id;
+      label.innerHTML = `<span class="answer-value">${faNum(item.value)}</span><span class="answer-caption">${item.label}</span>`;
+      wrapper.append(input, label);
+      answerGrid.appendChild(wrapper);
+    }
+
+    renderJumpButtons();
+    updateTestProgress();
+  }
+
+  function renderJumpButtons() {
+    const wrap = $('questionJump');
+    wrap.innerHTML = '';
+    for (let i = 1; i <= 40; i++) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'jump-btn' + (state.answers[i] !== null ? ' answered' : '') + (state.currentQuestion === i ? ' current' : '');
+      b.textContent = faNum(i);
+      b.setAttribute('aria-label', `رفتن به سؤال ${i}`);
+      b.addEventListener('click', () => {
+        state.currentQuestion = i;
+        renderQuestion();
+      });
+      wrap.appendChild(b);
+    }
+  }
+
+  function updateTestProgress() {
+    const count = answeredCount();
+    $('progressText').textContent = `${faNum(count)} از ۴۰ پاسخ داده شده`;
+    $('progressFill').style.width = `${(count / 40) * 100}%`;
+    $('goTop5Btn').disabled = count !== 40;
+    if (count === 40) {
+      $('testMessage').textContent = 'هر ۴۰ گویه پاسخ داده شده است. اکنون مرحله مستقل انتخاب پنج مورد را انجام دهید.';
+    } else {
+      $('testMessage').textContent = 'برای رفتن به مرحله بعد، باید هر ۴۰ گویه را پاسخ دهید.';
+    }
+  }
+
+  function startFresh() {
+    state.answers = Array(41).fill(null);
+    state.topFive = [];
+    state.currentQuestion = 1;
+    state.results = null;
+    clearSaved();
+    setStage(1);
+    renderQuestion();
+  }
+
+  function resume() {
+    const data = loadSavedState();
+    if (!data) return;
+    state.answers = data.answers.map((v,i) => i === 0 ? null : (v === null ? null : Number(v)));
+    state.currentQuestion = Number.isInteger(data.currentQuestion) && data.currentQuestion >= 1 && data.currentQuestion <= 40 ? data.currentQuestion : 1;
+    state.topFive = [];
+    state.results = null;
+    setStage(1);
+    renderQuestion();
+    updateTestProgress();
+  }
+
+  function goTop5() {
+    if (answeredCount() !== 40) {
+      alert('ابتدا باید هر ۴۰ گویه را پاسخ دهید.');
+      return;
+    }
+    state.topFive = [];
+    renderTop5();
+    setStage(2);
+  }
+
+  function renderTop5() {
+    const wrap = $('top5Grid');
+    wrap.innerHTML = '';
+    for (let i = 1; i <= 40; i++) {
+      const row = document.createElement('label');
+      row.className = 'top5-item' + (state.topFive.includes(i) ? ' selected' : '');
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.checked = state.topFive.includes(i);
+      checkbox.value = String(i);
+      checkbox.setAttribute('aria-label', `انتخاب سؤال ${i} برای Top 5`);
+      checkbox.addEventListener('change', (event) => {
+        if (event.target.checked) {
+          if (state.topFive.length >= 5) {
+            event.target.checked = false;
+            alert('دقیقاً پنج مورد مجاز است. برای انتخاب مورد دیگری، ابتدا یکی از انتخاب‌های فعلی را بردارید.');
+            return;
+          }
+          state.topFive.push(i);
+        } else {
+          state.topFive = state.topFive.filter(x => x !== i);
+        }
+        renderTop5();
+      });
+
+      const pill = document.createElement('span');
+      pill.className = 'q-pill';
+      pill.textContent = `س${faNum(i)}`;
+
+      const textBox = document.createElement('span');
+      const text = document.createElement('span');
+      text.textContent = QUESTIONS[i-1];
+      const chip = document.createElement('span');
+      chip.className = 'answer-chip';
+      chip.textContent = `پاسخ شما: ${faNum(state.answers[i])}`;
+      textBox.append(text, document.createElement('br'), chip);
+
+      row.append(checkbox, pill, textBox);
+      wrap.appendChild(row);
+    }
+    const count = state.topFive.length;
+    $('top5Count').textContent = `${faNum(count)} از ۵`;
+    $('scoreBtn').disabled = count !== 5;
+    $('selectionStatus').textContent = count === 5 ? 'پنج مورد انتخاب شده‌اند؛ می‌توانید نمره‌گذاری را انجام دهید.' : `دقیقاً پنج مورد را انتخاب کنید؛ اکنون ${faNum(count)} مورد انتخاب شده است.`;
+  }
+
+  function calculateAndShowResults() {
+    try {
+      const scored = scoreCareerAnchors(state.answers, state.topFive);
+      state.results = scored;
+      saveState();
+      renderResults(scored);
+      setStage(3);
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+
+  function getSortedCodes(results) {
+    return Object.keys(ANCHORS).sort((a,b) => {
+      const diff = results[b].average - results[a].average;
+      if (diff !== 0) return diff;
+      // برای جلوگیری از شکستن مصنوعی تساوی، ترتیب اصلی ثابت حفظ می‌شود.
+      return Object.keys(ANCHORS).indexOf(a) - Object.keys(ANCHORS).indexOf(b);
+    });
+  }
+
+  function renderResults(scored) {
+    const results = scored.results;
+    const averages = Object.values(results).map(x => x.average);
+    const max = Math.max(...averages);
+    const topCodes = Object.keys(ANCHORS).filter(code => results[code].average === max);
+
+    $('highlightNames').textContent = topCodes.map(code => `${code} — ${ANCHORS[code].name}`).join('، ');
+    $('highlightScores').textContent = `میانگین: ${max.toFixed(1)} از ۹٫۰ | مجموع: ${faNum(results[topCodes[0]].total)} از ۴۵ (برای هر لنگر به‌صورت مستقل)`;
+    $('summaryText').textContent = `در این خودارزیابی، ${topCodes.length === 1 ? 'لنگر مشخص‌شده' : 'لنگرهای مشخص‌شده'} در میان هشت لنگر بالاترین میانگین را دارند. این برجستگی صرفاً نسبی و درون همین پاسخ‌هاست و به معنی توصیه قطعی درباره یک شغل یا مقایسه با هنجار جمعیتی نیست.`;
+
+    renderTop5Result(scored.topFive, scored.rawAnswers);
+    renderScoreTable(results);
+    renderInterpretation(results, topCodes);
+    drawBarChart(results);
+    drawRadarChart(results);
+  }
+
+  function renderTop5Result(topFive, answers) {
+    const wrap = $('top5Result');
+    wrap.innerHTML = '';
+    topFive.forEach((q, idx) => {
+      const item = document.createElement('div');
+      item.className = 'top5-result-item';
+      item.innerHTML = `<strong>${faNum(idx+1)}</strong><div style="margin-top:4px">سؤال ${faNum(q)}</div><div class="small muted">پاسخ ${faNum(answers[q])} → ${faNum(answers[q]+5)}</div>`;
+      wrap.appendChild(item);
+    });
+  }
+
+  function renderScoreTable(results) {
+    const tbody = $('scoreTableBody');
+    tbody.innerHTML = '';
+    const sorted = getSortedCodes(results);
+    sorted.forEach(code => {
+      const anchor = ANCHORS[code];
+      const score = results[code];
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><span class="anchor-code">${code}</span></td>
+        <td>${anchor.name}</td>
+        <td>${numberArrayToFa(anchor.items)}</td>
+        <td class="score-number">${faNum(score.total)}</td>
+        <td class="score-number">${score.average.toFixed(1)}</td>
+        <td><div class="bar-mini" aria-label="${(score.average).toFixed(1)} از ۹"><span style="width:${Math.min(100, Math.max(0, (score.average/9)*100))}%"></span></div></td>`;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function renderInterpretation(results, topCodes) {
+    const list = $('interpretList');
+    list.innerHTML = '';
+    getSortedCodes(results).forEach(code => {
+      const anchor = ANCHORS[code];
+      const score = results[code];
+      const item = document.createElement('article');
+      item.className = 'interpret-item' + (topCodes.includes(code) ? ' top' : '');
+      const title = document.createElement('div');
+      title.className = 'interpret-title';
+      title.textContent = `${code} — ${anchor.name} | مجموع ${faNum(score.total)} | میانگین ${score.average.toFixed(1)}`;
+      const body = document.createElement('div');
+      body.className = 'interpret-text';
+      body.textContent = anchor.description + (topCodes.includes(code) ? ' در این خودارزیابی، این حوزه در میان نمرات ثبت‌شده برجسته‌تر است.' : ' نمره این حوزه نیز باید در کنار سایر هفت لنگر و بدون استفاده از cut-off یا هنجار جمعیتی خوانده شود.');
+      item.append(title, body);
+      list.appendChild(item);
+    });
+  }
+
+  function setupCanvas(canvas) {
+    const rect = canvas.getBoundingClientRect();
+    const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+    const width = Math.max(320, Math.floor(rect.width || 600));
+    const height = 330;
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    const ctx = canvas.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0,0,width,height);
+    return {ctx, width, height};
+  }
+
+  function drawBarChart(results) {
+    const canvas = $('barChart');
+    const {ctx, width, height} = setupCanvas(canvas);
+    const codes = Object.keys(ANCHORS);
+    const margin = {top: 22, right: 20, bottom: 82, left: 48};
+    const plotW = width - margin.left - margin.right;
+    const plotH = height - margin.top - margin.bottom;
+
+    ctx.font = '12px Tahoma, Arial, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    ctx.strokeStyle = '#dfe4ee';
+    ctx.fillStyle = '#6b758a';
+    ctx.lineWidth = 1;
+    for (let tick = 0; tick <= 9; tick++) {
+      const y = margin.top + plotH - (tick/9)*plotH;
+      ctx.beginPath(); ctx.moveTo(margin.left, y); ctx.lineTo(width-margin.right, y); ctx.stroke();
+      ctx.textAlign = 'right';
+      ctx.fillText(String(tick), margin.left-8, y);
+    }
+
+    const step = plotW / codes.length;
+    const barW = Math.min(52, step * .6);
+    codes.forEach((code, idx) => {
+      const v = results[code].average;
+      const x = margin.left + step*idx + (step-barW)/2;
+      const h = (v/9)*plotH;
+      const y = margin.top + plotH - h;
+      ctx.fillStyle = '#2e6bd9';
+      ctx.fillRect(x, y, barW, h);
+      ctx.fillStyle = '#22304a';
+      ctx.textAlign = 'center';
+      ctx.font = '700 11px Tahoma, Arial, sans-serif';
+      ctx.fillText(v.toFixed(1), x+barW/2, Math.max(10,y-11));
+      ctx.fillStyle = '#566176';
+      ctx.font = '700 12px Arial, sans-serif';
+      ctx.fillText(code, x+barW/2, height-56);
+      ctx.font = '10px Tahoma, Arial, sans-serif';
+      const name = ANCHORS[code].name;
+      const short = name.length > 13 ? name.slice(0,12) + '…' : name;
+      ctx.fillText(short, x+barW/2, height-34);
+    });
+  }
+
+  function drawRadarChart(results) {
+    const canvas = $('radarChart');
+    const {ctx, width, height} = setupCanvas(canvas);
+    const codes = Object.keys(ANCHORS);
+    const cx = width/2;
+    const cy = height/2 + 4;
+    const radius = Math.min(width, height) * .34;
+    const levels = 9;
+
+    ctx.font = '11px Tahoma, Arial, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    // حلقه‌های مقیاس ۱ تا ۹
+    for (let level = 1; level <= levels; level++) {
+      const r = radius * (level/9);
+      ctx.strokeStyle = '#e3e7ef';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (let i=0;i<codes.length;i++) {
+        const a = -Math.PI/2 + i*(2*Math.PI/codes.length);
+        const x = cx + r*Math.cos(a);
+        const y = cy + r*Math.sin(a);
+        if (i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+      }
+      ctx.closePath(); ctx.stroke();
+    }
+
+    // محورهای شعاعی
+    codes.forEach((code,i) => {
+      const a = -Math.PI/2 + i*(2*Math.PI/codes.length);
+      const x = cx + radius*Math.cos(a);
+      const y = cy + radius*Math.sin(a);
+      ctx.strokeStyle = '#e0e5ee';
+      ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(x,y); ctx.stroke();
+
+      const labelR = radius + 28;
+      const lx = cx + labelR*Math.cos(a);
+      const ly = cy + labelR*Math.sin(a);
+      ctx.fillStyle = '#31405a';
+      ctx.font = '700 12px Arial, sans-serif';
+      ctx.fillText(code, lx, ly);
+    });
+
+    // برچسب‌های مقیاس حداقل/حداکثر
+    ctx.fillStyle = '#7b8496';
+    ctx.font = '10px Tahoma, Arial, sans-serif';
+    ctx.fillText('۹', cx, cy-radius-10);
+    ctx.fillText('۱', cx, cy-3);
+
+    // چندضلعی نمره
+    ctx.beginPath();
+    codes.forEach((code,i) => {
+      const a = -Math.PI/2 + i*(2*Math.PI/codes.length);
+      const r = radius * (results[code].average/9);
+      const x = cx + r*Math.cos(a);
+      const y = cy + r*Math.sin(a);
+      if (i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    });
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(46,107,217,0.16)';
+    ctx.fill();
+    ctx.strokeStyle = '#2e6bd9';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    codes.forEach((code,i) => {
+      const a = -Math.PI/2 + i*(2*Math.PI/codes.length);
+      const r = radius * (results[code].average/9);
+      const x = cx + r*Math.cos(a);
+      const y = cy + r*Math.sin(a);
+      ctx.fillStyle = '#2e6bd9';
+      ctx.beginPath(); ctx.arc(x,y,3.5,0,Math.PI*2); ctx.fill();
+    });
+  }
+
+  function editAnswers() {
+    state.topFive = [];
+    state.results = null;
+    state.currentQuestion = 1;
+    saveState();
+    setStage(1);
+    renderQuestion();
+  }
+
+  function newTest() {
+    if (!confirm('پاسخ‌های فعلی حذف می‌شوند و آزمون از ابتدا شروع خواهد شد. ادامه می‌دهید؟')) return;
+    startFresh();
+  }
+
+  function init() {
+    try {
+      assertIntegrity();
+    } catch (error) {
+      document.body.innerHTML = `<div style="padding:30px;font-family:Tahoma,Arial,sans-serif;direction:rtl"><h2>خطای یکپارچگی سامانه</h2><p>${error.message}</p></div>`;
+      return;
+    }
+
+    $('startBtn').addEventListener('click', startFresh);
+    $('resumeBtn').addEventListener('click', resume);
+    $('clearSavedBtn').addEventListener('click', () => {
+      clearSaved();
+      alert('پاسخ ذخیره‌شده حذف شد.');
+    });
+    $('prevQuestionBtn').addEventListener('click', () => {
+      if (state.currentQuestion > 1) {
+        state.currentQuestion--;
+        renderQuestion();
+      }
+    });
+    $('nextQuestionBtn').addEventListener('click', () => {
+      if (state.answers[state.currentQuestion] === null) {
+        alert('لطفاً ابتدا پاسخ این سؤال را انتخاب کنید.');
+        return;
+      }
+      if (state.currentQuestion < 40) {
+        state.currentQuestion++;
+        saveState();
+        renderQuestion();
+      } else {
+        updateTestProgress();
+        $('goTop5Btn').click();
+      }
+    });
+    $('goTop5Btn').addEventListener('click', goTop5);
+    $('backToIntroBtn').addEventListener('click', () => setStage(0));
+    $('backToTestBtn').addEventListener('click', () => {
+      state.currentQuestion = 1;
+      setStage(1);
+      renderQuestion();
+    });
+    $('scoreBtn').addEventListener('click', calculateAndShowResults);
+    $('printBtn').addEventListener('click', () => window.print());
+    $('editAnswersBtn').addEventListener('click', editAnswers);
+    $('newTestBtn').addEventListener('click', newTest);
+
+    window.addEventListener('resize', () => {
+      if (state.stage === 3 && state.results) {
+        drawBarChart(state.results.results);
+        drawRadarChart(state.results.results);
+      }
+    });
+
+    window.CareerAnchors = {
+      VERSION,
+      QUESTIONS,
+      ANCHORS,
+      scoreCareerAnchors
+    };
+
+    updateSavedControls();
+    setStage(0);
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
