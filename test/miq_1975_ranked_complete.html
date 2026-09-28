@@ -1,0 +1,737 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>MIQ 1975 Ranked Form | پرسشنامه اهمیت مینه‌سوتا</title>
+<style>
+:root{
+  --bg:#f4f7fb;--card:#fff;--text:#172033;--muted:#667085;--line:#d9e1ec;
+  --primary:#2463eb;--primary-dark:#1747b3;--success:#15803d;--danger:#c62828;--warning:#b45309;
+  --soft-blue:#eef5ff;--soft-green:#edf9f1;--soft-red:#fff0f0;--soft-yellow:#fff7e8;
+  --shadow:0 10px 32px rgba(31,41,55,.08);--radius:16px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Vazirmatn,IRANSans,Segoe UI,Tahoma,sans-serif;line-height:1.8}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.container{max-width:1080px;margin:0 auto;padding:20px 16px 56px}
+header{padding:28px 0 20px;text-align:center}
+header h1{margin:0 0 8px;font-size:clamp(1.35rem,3vw,2rem)}
+header p{margin:0;color:var(--muted);font-size:.93rem}
+.badge{display:inline-flex;align-items:center;gap:6px;background:var(--soft-blue);color:var(--primary-dark);padding:5px 10px;border-radius:999px;font-size:.78rem;margin-top:12px;border:1px solid #cfe0ff}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-bottom:18px}
+.card h2,.card h3{margin:0 0 10px}
+.muted{color:var(--muted)}
+.small{font-size:.83rem}
+.lead{font-size:1.02rem}
+.notice{padding:13px 16px;border-radius:12px;margin:14px 0;border-right:4px solid}
+.notice.info{background:var(--soft-blue);border-color:var(--primary)}
+.notice.success{background:var(--soft-green);border-color:var(--success)}
+.notice.warning{background:var(--soft-yellow);border-color:var(--warning)}
+.notice.danger{background:var(--soft-red);border-color:var(--danger)}
+.section{display:none}.section.active{display:block}
+.progress-wrap{position:sticky;top:0;z-index:20;background:rgba(244,247,251,.96);backdrop-filter:blur(7px);padding:10px 0 12px}
+.progress-meta{display:flex;justify-content:space-between;gap:12px;font-size:.85rem;color:var(--muted);margin-bottom:7px}
+.progress{height:10px;background:#e6ebf2;border-radius:999px;overflow:hidden}
+.progress > span{display:block;height:100%;width:0;background:linear-gradient(90deg,#2463eb,#1d9f66);transition:width .25s}
+.question-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:18px}
+.question-number{font-weight:800;font-size:1.12rem;color:var(--primary-dark)}
+.stem{font-size:.95rem;color:var(--muted);margin-top:3px}
+.rank-grid{display:grid;gap:12px}
+.rank-row{border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:center;transition:border-color .15s,background .15s}
+.rank-row:hover{border-color:#a9c4f8}
+.rank-row.complete{background:#f8fcf9;border-color:#bfe4c8}
+.letter{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:#edf2ff;color:var(--primary-dark);font-weight:900}
+.fa-text{font-weight:700}.en-text{display:block;color:var(--muted);font-size:.82rem;margin-top:2px;direction:ltr;text-align:left}
+.rank-buttons{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+.rank-btn{min-width:40px;height:40px;border:1px solid #c8d0dc;background:#fff;border-radius:10px;font-weight:800;color:#475467;transition:.12s}
+.rank-btn:hover:not(:disabled){border-color:var(--primary);color:var(--primary)}
+.rank-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.rank-btn:disabled{opacity:.38;cursor:not-allowed}
+.actions{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:18px}
+.btn{border:0;border-radius:12px;padding:12px 18px;font-weight:800;transition:.15s}
+.btn.primary{background:var(--primary);color:#fff}.btn.primary:hover{background:var(--primary-dark)}
+.btn.secondary{background:#eef1f5;color:#273244}.btn.secondary:hover{background:#e2e7ee}
+.btn.success{background:var(--success);color:#fff}.btn.danger{background:var(--danger);color:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.error-box{min-height:1.6em;color:var(--danger);font-size:.86rem;margin-top:9px}
+.question-nav{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:16px}
+.q-dot{width:29px;height:29px;border-radius:50%;border:1px solid var(--line);background:#fff;color:#667085;font-size:.74rem;font-weight:700}
+.q-dot.done{background:#e9f8ee;border-color:#acd7b9;color:#176b39}.q-dot.current{background:var(--primary);color:#fff;border-color:var(--primary)}
+.imp-list{display:grid;gap:11px}
+.imp-row{display:grid;grid-template-columns:46px 1fr auto;align-items:center;gap:12px;border:1px solid var(--line);border-radius:14px;padding:13px}
+.imp-num{width:36px;height:36px;border-radius:10px;background:#f0f3f8;display:grid;place-items:center;font-weight:800;color:#4b5565}
+.imp-actions{display:flex;gap:7px;flex-wrap:wrap}
+.imp-btn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 15px;font-weight:800}
+.imp-btn.yes.active{background:var(--success);border-color:var(--success);color:#fff}
+.imp-btn.no.active{background:var(--danger);border-color:var(--danger);color:#fff}
+.result-top{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.stat{background:#f8fafc;border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center}.stat .value{font-size:1.35rem;font-weight:900;direction:ltr}.stat .label{font-size:.78rem;color:var(--muted)}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse;min-width:780px}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:right;vertical-align:top}th{background:#f4f7fb;font-size:.82rem}td{font-size:.86rem}tr:last-child td{border-bottom:0}
+.num{font-variant-numeric:tabular-nums;direction:ltr;text-align:left;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.level.high{color:#166534;font-weight:800}.level.moderate{color:#9a5b06;font-weight:800}.level.low{color:#64748b;font-weight:700}.level.unimportant{color:#b42318;font-weight:800}
+.values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.value-card{border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center;background:#fcfdff}.value-card h3{margin-bottom:3px;font-size:.95rem}.value-score{font-size:1.6rem;font-weight:900;direction:ltr}.value-desc{font-size:.78rem;color:var(--muted)}
+.chart-card canvas{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:12px;background:#fff}
+.chart-note{font-size:.78rem;color:var(--muted);margin-top:8px}
+.disclaimer{font-size:.82rem;color:var(--muted);border-top:1px solid var(--line);padding-top:16px;margin-top:16px}
+.footer{margin-top:28px;text-align:center;color:var(--muted);font-size:.78rem}
+.hidden{display:none!important}
+@media(max-width:850px){.result-top{grid-template-columns:repeat(2,1fr)}.values{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.container{padding-inline:10px}.card{padding:16px}.rank-row{grid-template-columns:30px 1fr}.rank-buttons{grid-column:1/-1;justify-content:flex-start}.imp-row{grid-template-columns:38px 1fr}.imp-actions{grid-column:2}.result-top,.values{grid-template-columns:1fr}.question-head{flex-direction:column}.actions{justify-content:center}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>پرسشنامه اهمیت مینه‌سوتا (MIQ)</h1>
+  <p>فرم رتبه‌ای ۱۹۷۵، MRO-5 | نیازها و ارزش‌های شغلی</p>
+  <span class="badge">پیاده‌سازی تک‌فایلی HTML + CSS + JavaScript</span>
+</header>
+
+<!-- Intro -->
+<section id="intro" class="section active">
+  <div class="card">
+    <h2>راهنمای اجرا</h2>
+    <p class="lead">هدف این پرسشنامه مشخص کردن چیزهایی است که در <strong>شغل ایده‌آل شما</strong> اهمیت دارند.</p>
+    <p>بر اساس اهمیت شخصی خود پاسخ دهید، نه شغل فعلی. در بخش اول، در هر گروه پنج‌تایی باید دقیقاً از رتبه ۱ تا ۵ استفاده کنید. رتبه ۱ یعنی مهم‌ترین و رتبه ۵ یعنی کم‌اهمیت‌ترین.</p>
+    <div class="notice info"><strong>ساختار:</strong> ۲۱ بلوک رتبه‌بندی پنج‌تایی + ۲۱ قضاوت مطلق «مهم / غیرمهم».</div>
+    <div class="notice warning"><strong>نکته فنی:</strong> عبارت شماره ۲۱، یعنی «بتوانم کارم را با نظارت کم برنامه‌ریزی کنم»، آیتم افزوده فرم رتبه‌ای است و در ۲۰ مقیاس اصلی نمره‌دهی نمی‌شود.</div>
+    <div class="notice danger"><strong>کاربرد:</strong> این ابزار سنجش نیازها و ارزش‌های شغلی است، نه آزمون IQ، استعداد، علاقه شغلی یا تشخیص بالینی.</div>
+    <button class="btn primary" id="startBtn">شروع آزمون</button>
+  </div>
+</section>
+
+<!-- Ranking -->
+<section id="ranking" class="section">
+  <div class="progress-wrap">
+    <div class="progress-meta"><span id="rankProgressText">۰ از ۲۱ بلوک تکمیل شده</span><span id="rankCurrentText">بلوک ۱ از ۲۱</span></div>
+    <div class="progress"><span id="rankProgressBar"></span></div>
+  </div>
+  <div class="card">
+    <div class="question-head">
+      <div><div class="question-number" id="qNumber">سؤال ۱ از ۲۱</div><div class="stem">On my ideal job ... | در شغل ایده‌آل من ...</div></div>
+      <div class="muted small">رتبه ۱ = مهم‌ترین | رتبه ۵ = کم‌اهمیت‌ترین</div>
+    </div>
+    <div id="rankContainer"></div>
+    <div id="rankError" class="error-box" aria-live="polite"></div>
+    <div class="actions">
+      <button class="btn secondary" id="prevBtn">قبلی</button>
+      <button class="btn primary" id="nextBtn">بعدی</button>
+    </div>
+  </div>
+  <div class="question-nav" id="qDots"></div>
+</section>
+
+<!-- Importance -->
+<section id="importance" class="section">
+  <div class="progress-wrap">
+    <div class="progress-meta"><span id="impProgressText">۰ از ۲۱ عبارت پاسخ داده شده</span><span>بخش اهمیت مطلق</span></div>
+    <div class="progress"><span id="impProgressBar"></span></div>
+  </div>
+  <div class="card">
+    <h2>بخش دوم: اهمیت مطلق</h2>
+    <p class="muted">برای هر ۲۱ عبارت مشخص کنید که داشتن آن در شغل ایده‌آل شما <strong>مهم</strong> است یا <strong>غیرمهم</strong>.</p>
+    <div class="notice info small">این بخش برای تعیین «نقطه صفر» شخصی استفاده می‌شود. پاسخ ناقص اجازه نمره‌گذاری نمی‌گیرد.</div>
+  </div>
+  <div id="importanceContainer" class="imp-list"></div>
+  <div class="actions">
+    <button class="btn secondary" id="impBackBtn">بازگشت به رتبه‌بندی</button>
+    <button class="btn success" id="resultBtn" disabled>محاسبه و نمایش نتایج</button>
+  </div>
+</section>
+
+<!-- Results -->
+<section id="results" class="section">
+  <div id="resultsContainer"></div>
+  <div class="card">
+    <h3>شروع دوباره</h3>
+    <p class="muted small">نتایج این نسخه فقط در همین صفحه نگهداری می‌شوند و برای حفظ حریم خصوصی در Local Storage ذخیره نمی‌شوند.</p>
+    <button class="btn secondary" id="resetBtn">شروع مجدد آزمون</button>
+  </div>
+</section>
+
+<div class="footer">
+  MIQ 1975 Ranked Form | منبع ابزار: Vocational Psychology Research, University of Minnesota | CC BY-NC 4.0
+</div>
+</div>
+
+<script>
+'use strict';
+
+/* ================================================================
+   MIQ 1975 Ranked Form (MRO-5)
+   ---------------------------------------------------------------
+   نکته کلیدی: فرم رتبه‌ای ۲۱ آیتم دارد، اما ۲۰ «نیاز اصلی» دارد.
+   آیتم ۲۱ («plan my work with little supervision») آیتم افزوده فرم
+   رتبه‌ای است و در شش ارزش/۲۰ نیاز اصلی مستقیماً وارد نمی‌شود.
+
+   منابع scoring مورد استفاده:
+   - UMN MIQ Ranked Form 1975
+   - Scoring Formulae for the Computerized Work Values Profiler
+     (شرح MRO-5/MIQ: votes=25-sum ranks، zero-point، half-vote،
+      +1 برای Important، جدول z، و TCT با ۲۲ آیتم شامل zero point)
+   ================================================================ */
+
+const ITEMS = [
+  {id:1,  need:'Ability Utilization',                    fa:'بتوانم از توانایی‌هایم استفاده کنم.',                                   en:'I could do something that makes use of my abilities.', core:true},
+  {id:2,  need:'Achievement',                           fa:'شغل به من احساس موفقیت بدهد.',                                         en:'The job could give me a feeling of accomplishment.', core:true},
+  {id:3,  need:'Activity',                              fa:'بتوانم تمام وقت مشغول باشم.',                                          en:'I could be busy all the time.', core:true},
+  {id:4,  need:'Advancement',                           fa:'شغل فرصت پیشرفت فراهم کند.',                                           en:'The job would provide an opportunity for advancement.', core:true},
+  {id:5,  need:'Authority',                             fa:'بتوانم به دیگران بگویم چه کاری انجام دهند.',                             en:'I could tell people what to do.', core:true},
+  {id:6,  need:'Company Policies and Practices',        fa:'شرکت سیاست‌های خود را منصفانه اجرا کند.',                              en:'The company would administer its policies fairly.', core:true},
+  {id:7,  need:'Compensation',                          fa:'حقوق من با حقوق سایر کارکنان قابل مقایسه باشد.',                       en:'My pay would compare well with that of other workers.', core:true},
+  {id:8,  need:'Co-workers',                            fa:'همکارانم دوست‌یابی آسانی باشند.',                                      en:'My co-workers would be easy to make friends with.', core:true},
+  {id:9,  need:'Creativity',                            fa:'بتوانم ایده‌های خودم را امتحان کنم.',                                 en:'I could try out some of my own ideas.', core:true},
+  {id:10, need:'Independence',                          fa:'بتوانم در کار تنها کار کنم.',                                          en:'I could work alone on the job.', core:true},
+  {id:11, need:'Moral Values',                          fa:'بتوانم کار را بدون احساس غیراخلاقی بودن انجام دهم.',                   en:'I could do the work without feeling that it is morally wrong.', core:true},
+  {id:12, need:'Recognition',                           fa:'بتوانم برای کارم تقدیر دریافت کنم.',                                  en:'I could get recognition for the work I do.', core:true},
+  {id:13, need:'Responsibility',                        fa:'بتوانم خودم تصمیم‌گیری کنم.',                                         en:'I could make decisions on my own.', core:true},
+  {id:14, need:'Security',                              fa:'شغل اشتغال پایدار فراهم کند.',                                        en:'The job would provide for steady employment.', core:true},
+  {id:15, need:'Social Service',                        fa:'بتوانم کارهایی برای دیگران انجام دهم.',                               en:'I could do things for other people.', core:true},
+  {id:16, need:'Social Status',                         fa:'بتوانم "آدم مهمی" در جامعه باشم.',                                    en:'I could be "somebody" in the community.', core:true},
+  {id:17, need:'Supervision—Human Relations',           fa:'رئیس از کارکنان در برابر مدیریت عالی حمایت کند.',                    en:'My boss would back up the workers (with top management).', core:true},
+  {id:18, need:'Supervision—Technical',                 fa:'رئیس من کارکنان را خوب آموزش دهد.',                                  en:'My boss would train the workers well.', core:true},
+  {id:19, need:'Variety',                               fa:'بتوانم هر روز کار متفاوتی انجام دهم.',                                en:'I could do something different every day.', core:true},
+  {id:20, need:'Working Conditions',                    fa:'شغل شرایط کاری خوبی داشته باشد.',                                    en:'The job would have good working conditions.', core:true},
+  {id:21, need:'Ranked-form extra',          fa:'بتوانم کارم را با نظارت کم برنامه‌ریزی کنم.',                         en:'I could plan my work with little supervision.', core:false}
+];
+
+/* 21 رسمی‌ترین بلوک MRO-5 فرم رتبه‌ای ۱۹۷۵، با شناسه آیتم‌های بالا */
+const BLOCKS = [
+  [3,15,9,7,4],
+  [15,19,2,18,6],
+  [11,17,19,1,3],
+  [6,9,1,8,16],
+  [18,21,17,9,20],
+  [12,11,21,15,8],
+  [17,6,7,12,5],
+  [19,8,13,20,7],
+  [1,5,20,14,15],
+  [13,3,14,6,21],
+  [2,13,5,11,9],
+  [8,14,4,17,2],
+  [21,4,16,5,19],
+  [7,2,10,21,1],
+  [5,18,8,3,10],
+  [14,7,18,16,11],
+  [10,16,15,17,13],
+  [9,12,19,10,14],
+  [4,1,12,13,18],
+  [20,10,6,4,11],
+  [16,20,3,2,12]
+];
+
+/* شش ارزش اصلی و ۲۰ نیاز اصلی */
+const VALUE_MAP = {
+  Achievement: ['Ability Utilization','Achievement'],
+  Comfort: ['Activity','Independence','Variety','Compensation','Security','Working Conditions'],
+  Status: ['Advancement','Recognition','Authority','Social Status'],
+  Altruism: ['Co-workers','Social Service','Moral Values'],
+  Safety: ['Company Policies and Practices','Supervision—Human Relations','Supervision—Technical'],
+  Autonomy: ['Creativity','Responsibility']
+};
+
+const VALUE_FA = {
+  Achievement:'پیشرفت و دستاورد', Comfort:'آسایش و شرایط کار', Status:'جایگاه و منزلت',
+  Altruism:'نوع‌دوستی و روابط اجتماعی', Safety:'ایمنی و حمایت', Autonomy:'خودمختاری'
+};
+
+const VALUE_DESC = {
+  Achievement:'استفاده از توانایی‌ها و احساس موفقیت در کار.',
+  Comfort:'فعالیت، استقلال، تنوع، جبران مالی، امنیت و شرایط کاری مناسب.',
+  Status:'پیشرفت، تقدیر، اقتدار و جایگاه اجتماعی.',
+  Altruism:'روابط مثبت، خدمت به دیگران و سازگاری اخلاقی کار.',
+  Safety:'سیاست‌های منصفانه، روابط مناسب با سرپرست و نظارت فنی.',
+  Autonomy:'خلاقیت و مسئولیت/تصمیم‌گیری مستقل.'
+};
+
+const CORE_NEEDS = ITEMS.filter(x=>x.core);
+
+/* جدول رسمی Votes -> z برای ۲۲ مقایسه، با half-vote correction */
+const Z_TABLE = {
+  0.5:-2.000, 1.5:-1.489, 2.5:-1.207, 3.5:-0.998, 4.5:-0.825,
+  5.5:-0.674, 6.5:-0.538, 7.5:-0.410, 8.5:-0.289, 9.5:-0.172,
+  10.5:-0.057, 11.5:0.057, 12.5:0.172, 13.5:0.289, 14.5:0.410,
+  15.5:0.538, 16.5:0.674, 17.5:0.825, 18.5:0.998, 19.5:1.207,
+  20.5:1.489, 21.5:2.000
+};
+
+const state = {
+  currentBlock:0,
+  rankings:{},     // key block-item => rank
+  importance:{}    // itemId => true/false
+};
+
+const $ = id => document.getElementById(id);
+const faNum = n => String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
+const signed = x => `${x >= 0 ? '+' : ''}${x.toFixed(2)}`;
+const fmt3 = x => x.toFixed(3);
+
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  $(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'auto'});
+}
+
+function itemById(id){return ITEMS.find(x=>x.id===id);}
+function rankKey(blockIdx,itemId){return `${blockIdx}:${itemId}`;}
+
+function validateStructure(){
+  const errors=[];
+  if(ITEMS.length!==21) errors.push('تعداد آیتم‌ها ۲۱ نیست.');
+  if(BLOCKS.length!==21) errors.push('تعداد بلوک‌ها ۲۱ نیست.');
+  const ids=ITEMS.map(x=>x.id);
+  if(new Set(ids).size!==21) errors.push('شناسه آیتم‌ها تکراری است.');
+  for(const [i,b] of BLOCKS.entries()){
+    if(b.length!==5) errors.push(`بلوک ${i+1} پنج گزینه‌ای نیست.`);
+    if(new Set(b).size!==5) errors.push(`در بلوک ${i+1} آیتم تکراری وجود دارد.`);
+    for(const id of b) if(!ids.includes(id)) errors.push(`آیتم ${id} در بلوک ${i+1} نامعتبر است.`);
+  }
+  const counts=new Map(ids.map(id=>[id,0]));
+  const pairCounts=new Map();
+  BLOCKS.forEach(b=>{
+    b.forEach(id=>counts.set(id,counts.get(id)+1));
+    for(let i=0;i<5;i++) for(let j=i+1;j<5;j++){
+      const a=Math.min(b[i],b[j]), c=Math.max(b[i],b[j]);
+      const key=`${a}-${c}`; pairCounts.set(key,(pairCounts.get(key)||0)+1);
+    }
+  });
+  for(const id of ids) if(counts.get(id)!==5) errors.push(`آیتم ${id} دقیقاً ۵ بار ظاهر نشده است.`);
+  if(pairCounts.size!==210) errors.push(`تعداد زوج‌های هم‌وقوعی ${pairCounts.size} است، باید ۲۱۰ باشد.`);
+  for(const [k,c] of pairCounts) if(c!==1) errors.push(`زوج ${k} به جای یک بار، ${c} بار هم‌وقوعی دارد.`);
+  return errors;
+}
+
+function renderQuestion(){
+  const q=state.currentBlock, block=BLOCKS[q];
+  $('qNumber').textContent=`سؤال ${faNum(q+1)} از ${faNum(21)}`;
+  $('rankCurrentText').textContent=`بلوک ${faNum(q+1)} از ${faNum(21)}`;
+  $('prevBtn').disabled=q===0;
+  $('nextBtn').textContent=q===20?'رفتن به بخش اهمیت':'بعدی';
+  $('nextBtn').disabled=!isBlockComplete(q);
+  $('rankError').textContent='';
+
+  let html='';
+  block.forEach((itemId,pos)=>{
+    const item=itemById(itemId), key=rankKey(q,itemId), current=state.rankings[key];
+    html += `<div class="rank-row ${current?'complete':''}">
+      <div class="letter">${String.fromCharCode(65+pos)}</div>
+      <div><span class="fa-text">${escapeHtml(item.fa)}</span><span class="en-text">${escapeHtml(item.en)}</span></div>
+      <div class="rank-buttons">${[1,2,3,4,5].map(r=>{
+        const taken=isRankTaken(q,r,itemId);
+        const active=current===r;
+        return `<button class="rank-btn ${active?'active':''}" ${taken&&!active?'disabled':''} data-block="${q}" data-item="${itemId}" data-rank="${r}">${r}</button>`;
+      }).join('')}</div>
+    </div>`;
+  });
+  $('rankContainer').innerHTML=html;
+  $('rankContainer').querySelectorAll('.rank-btn').forEach(btn=>btn.addEventListener('click',()=>setRank(+btn.dataset.block,+btn.dataset.item,+btn.dataset.rank)));
+  renderDots();
+  updateRankProgress();
+}
+
+function renderDots(){
+  $('qDots').innerHTML=BLOCKS.map((_,i)=>`<button class="q-dot ${isBlockComplete(i)?'done':''} ${i===state.currentBlock?'current':''}" data-q="${i}" title="بلوک ${i+1}">${i+1}</button>`).join('');
+  $('qDots').querySelectorAll('.q-dot').forEach(b=>b.addEventListener('click',()=>{
+    state.currentBlock=+b.dataset.q;renderQuestion();
+  }));
+}
+
+function isRankTaken(blockIdx,rank,exceptItemId){
+  return BLOCKS[blockIdx].some(id=>id!==exceptItemId && state.rankings[rankKey(blockIdx,id)]===rank);
+}
+
+function setRank(blockIdx,itemId,rank){
+  if(blockIdx!==state.currentBlock) return;
+  if(isRankTaken(blockIdx,rank,itemId)){
+    $('rankError').textContent='این رتبه قبلاً برای گزینه دیگری ثبت شده است. باید رتبه متفاوتی انتخاب کنید.';
+    return;
+  }
+  state.rankings[rankKey(blockIdx,itemId)]=rank;
+  $('rankError').textContent='';
+  renderQuestion();
+}
+
+function isBlockComplete(blockIdx){
+  const vals=BLOCKS[blockIdx].map(id=>state.rankings[rankKey(blockIdx,id)]);
+  return vals.every(v=>Number.isInteger(v)&&v>=1&&v<=5)&&new Set(vals).size===5;
+}
+
+function allRankingsComplete(){return BLOCKS.every((_,i)=>isBlockComplete(i));}
+function updateRankProgress(){
+  const done=BLOCKS.filter((_,i)=>isBlockComplete(i)).length;
+  $('rankProgressText').textContent=`${faNum(done)} از ${faNum(21)} بلوک تکمیل شده`;
+  $('rankProgressBar').style.width=`${done/21*100}%`;
+}
+
+function renderImportance(){
+  $('importanceContainer').innerHTML=ITEMS.map(item=>{
+    const v=state.importance[item.id];
+    return `<div class="imp-row">
+      <div class="imp-num">${item.id}</div>
+      <div><div class="fa-text">${escapeHtml(item.fa)}</div><div class="en-text">${escapeHtml(item.en)}</div></div>
+      <div class="imp-actions">
+        <button class="imp-btn yes ${v===true?'active':''}" data-id="${item.id}" data-val="1">مهم</button>
+        <button class="imp-btn no ${v===false?'active':''}" data-id="${item.id}" data-val="0">غیرمهم</button>
+      </div>
+    </div>`;
+  }).join('');
+  $('importanceContainer').querySelectorAll('.imp-btn').forEach(btn=>btn.addEventListener('click',()=>{
+    state.importance[+btn.dataset.id]=btn.dataset.val==='1';
+    renderImportance();
+  }));
+  updateImportanceProgress();
+}
+
+function updateImportanceProgress(){
+  const answered=ITEMS.filter(x=>Object.prototype.hasOwnProperty.call(state.importance,x.id)).length;
+  $('impProgressText').textContent=`${faNum(answered)} از ${faNum(21)} عبارت پاسخ داده شده`;
+  $('impProgressBar').style.width=`${answered/21*100}%`;
+  $('resultBtn').disabled=answered!==21;
+}
+
+function validateResponses(){
+  const errors=[];
+  if(!allRankingsComplete()) errors.push('بخش رتبه‌بندی کامل نیست.');
+  const missing=ITEMS.filter(x=>!Object.prototype.hasOwnProperty.call(state.importance,x.id));
+  if(missing.length) errors.push(`بخش اهمیت ${missing.length} پاسخ بدون جواب دارد.`);
+  return errors;
+}
+
+function scoreFromRaw(rawVote,important){
+  const adj=rawVote+0.5+(important?1:0);
+  const z=Z_TABLE[adj];
+  if(typeof z!=='number') throw new Error(`Adjusted vote خارج از جدول: ${adj}`);
+  return {rawVote,adjustedVotes:adj,z};
+}
+
+function computeRawVotes(){
+  const sums=Object.fromEntries(ITEMS.map(x=>[x.id,0]));
+  BLOCKS.forEach((block,bIdx)=>block.forEach(itemId=>{
+    sums[itemId]+=state.rankings[rankKey(bIdx,itemId)];
+  }));
+  const rawVotes=Object.fromEntries(ITEMS.map(x=>[x.id,25-sums[x.id]]));
+  return {rankSums:sums,rawVotes};
+}
+
+/*
+  ساخت شبکه ۲۲ آیتم برای TCT:
+  - ۲۱ آیتم واقعی از rankingها
+  - آیتم ۰ = zero point
+  - Important => آیتم مهم بر zero-point «انتخاب شده»
+  - Not Important => zero-point بر آیتم انتخاب شده
+  در نتیجه a_i برای ۲۲ آیتم مجموعاً ۲۳۱ رأی دارد.
+*/
+function buildPairwise22(rawVotes,importantMap,zeroPoint){
+  const n=22;
+  const votes=Array(n).fill(0); // index 0 zero point, 1..21 actual items
+  for(let id=1;id<=21;id++) votes[id]=rawVotes[id]+(importantMap[id]?1:0);
+  votes[0]=zeroPoint;
+
+  const pair = Array.from({length:n},()=>Array(n).fill(0));
+  // actual item-vs-item outcomes from ranks
+  BLOCKS.forEach((block,bIdx)=>{
+    for(let i=0;i<5;i++){
+      for(let j=i+1;j<5;j++){
+        const a=block[i], b=block[j];
+        const ra=state.rankings[rankKey(bIdx,a)], rb=state.rankings[rankKey(bIdx,b)];
+        if(ra<rb) pair[a][b]=1;
+        else if(rb<ra) pair[b][a]=1;
+      }
+    }
+  });
+  // zero point comparisons
+  for(let id=1;id<=21;id++){
+    if(importantMap[id]) pair[id][0]=1;
+    else pair[0][id]=1;
+  }
+  return {votes,pair};
+}
+
+function directTCT(pair){
+  const n=pair.length; let tct=0;
+  for(let a=0;a<n;a++) for(let b=a+1;b<n;b++) for(let c=b+1;c<n;c++){
+    const a_b=pair[a][b]===1, b_c=pair[b][c]===1, c_a=pair[c][a]===1;
+    const a_c=pair[a][c]===1, c_b=pair[c][b]===1, b_a=pair[b][a]===1;
+    if((a_b&&b_c&&c_a)||(a_c&&c_b&&b_a)) tct++;
+  }
+  return tct;
+}
+
+function formulaTCT(votes){
+  const n=votes.length;
+  const sumSq=votes.reduce((s,a)=>s+a*a,0);
+  const d=(n*(n-1)*(2*n-1)/6-sumSq)/2;
+  return Math.round(d);
+}
+
+function coefficientOfConsistency(tct){
+  // برای n=22: dmax = n/24 * (n^2-4) = 440
+  const dmax=22/24*(22*22-4);
+  return 1-(tct/dmax);
+}
+
+function classify(score){
+  if(score>=1.5) return {key:'high',fa:'اهمیت بالا',en:'High importance'};
+  if(score>=1.0) return {key:'moderate',fa:'اهمیت متوسط',en:'Moderate importance'};
+  if(score>=0) return {key:'low',fa:'اهمیت پایین',en:'Low importance'};
+  return {key:'unimportant',fa:'غیرمهم',en:'Unimportant'};
+}
+
+function computeSensitivity(rawVote,important,z0){
+  const current=scoreFromRaw(rawVote,important).z-z0;
+  let lo=current, hi=current;
+  if(rawVote>0) lo=scoreFromRaw(rawVote-1,important).z-z0;
+  if(rawVote<20) hi=scoreFromRaw(rawVote+1,important).z-z0;
+  return {lo:Math.min(lo,hi),hi:Math.max(lo,hi),current};
+}
+
+function computeAllScores(){
+  const {rankSums,rawVotes}=computeRawVotes();
+  const importanceById=Object.fromEntries(ITEMS.map(x=>[x.id,state.importance[x.id]]));
+  const notImportant=ITEMS.filter(x=>state.importance[x.id]===false).length;
+  const important=21-notImportant;
+  const zeroPoint=notImportant;
+  const zeroPointAdjusted=zeroPoint+0.5;
+  const z0=Z_TABLE[zeroPointAdjusted];
+
+  const itemScores={};
+  ITEMS.forEach(item=>{
+    const s=scoreFromRaw(rawVotes[item.id],importanceById[item.id]);
+    itemScores[item.id]={...item,...s,score:s.z-z0,sensitivity:computeSensitivity(rawVotes[item.id],importanceById[item.id],z0)};
+  });
+
+  const needScores={};
+  CORE_NEEDS.forEach(item=>{needScores[item.need]=itemScores[item.id].score;});
+
+  const valueScores={};
+  Object.entries(VALUE_MAP).forEach(([value,needs])=>{
+    valueScores[value]=needs.reduce((sum,n)=>sum+needScores[n],0)/needs.length;
+  });
+
+  const {votes,pair}=buildPairwise22(rawVotes,importanceById,zeroPoint);
+  const tctFormula=formulaTCT(votes);
+  const tctDirect=directTCT(pair);
+  if(tctFormula!==tctDirect) throw new Error(`TCT formula mismatch: ${tctFormula} !== ${tctDirect}`);
+  const consistency=coefficientOfConsistency(tctFormula);
+  const sct=Array(22).fill(0);
+  for(let a=0;a<22;a++) for(let b=a+1;b<22;b++) for(let c=b+1;c<22;c++){
+    const cyc1=pair[a][b]&&pair[b][c]&&pair[c][a];
+    const cyc2=pair[a][c]&&pair[c][b]&&pair[b][a];
+    if(cyc1||cyc2){sct[a]++;sct[b]++;sct[c]++;}
+  }
+
+  return {rankSums,rawVotes,importanceById,important,notImportant,zeroPoint,zeroPointAdjusted,z0,itemScores,needScores,valueScores,tct:tctFormula,consistency,sct:sct.slice(1),pairVotes:votes.slice(1),zeroPointVotes:votes[0]};
+}
+
+function renderResults(res){
+  const sortedNeeds=CORE_NEEDS.map(item=>({...item,score:res.needScores[item.need],important:res.importanceById[item.id]})).sort((a,b)=>b.score-a.score);
+  const strongWarning=res.consistency<0.30;
+  const qualityWarning=res.consistency<0.50;
+
+  const resultTop=`<div class="result-top">
+    <div class="stat"><div class="value">${fmt3(res.consistency)}</div><div class="label">ضریب سازگاری ζ</div></div>
+    <div class="stat"><div class="value">${faNum(res.tct)}</div><div class="label">Circular Triads از ۴۴۰</div></div>
+    <div class="stat"><div class="value">${faNum(res.zeroPoint)}</div><div class="label">Zero Point (Not Important)</div></div>
+    <div class="stat"><div class="value">${signed(res.z0)}</div><div class="label">z₀</div></div>
+  </div>`;
+
+  let quality='';
+  if(strongWarning) quality=`<div class="notice danger"><strong>هشدار کیفیت پاسخ:</strong> ζ کمتر از ۰٫۳۰ است. این سطح طبق مستندات مرتبط با WIP-C شواهد قوی‌تری از پاسخ‌دهی تصادفی تلقی می‌شود. این پیام به معنی تشخیص قطعی نیست.</div>`;
+  else if(qualityWarning) quality=`<div class="notice warning"><strong>هشدار کیفیت پاسخ:</strong> ζ کمتر از ۰٫۵۰ است. الگوی پاسخ ممکن است بی‌دقت، نامطمئن یا دارای تفکیک ضعیف بین برخی نیازها باشد.</div>`;
+  else quality=`<div class="notice success"><strong>سازگاری پاسخ:</strong> ζ در محدوده ۰٫۵۰ یا بالاتر قرار دارد.</div>`;
+
+  const needRows=sortedNeeds.map((x,i)=>{
+    const c=classify(x.score);
+    return `<tr>
+      <td class="num">${i+1}</td>
+      <td><strong>${escapeHtml(x.need)}</strong>${x.important===true?'<div class="small muted">علامت Importance: مهم</div>':'<div class="small muted">علامت Importance: غیرمهم</div>'}</td>
+      <td class="num">${signed(x.score)}</td>
+      <td class="level ${c.key}">${c.fa}<br><span class="small">${c.en}</span></td>
+      <td class="num">${x.score.toFixed(3)}</td>
+    </tr>`;
+  }).join('');
+
+  const valuesHtml=Object.entries(res.valueScores).map(([name,score])=>{
+    const c=classify(score);
+    return `<div class="value-card"><h3>${VALUE_FA[name]}</h3><div class="value-score">${signed(score)}</div><div>${c.fa}</div><div class="value-desc">${VALUE_DESC[name]}</div></div>`;
+  }).join('');
+
+  const extra=res.itemScores[21];
+  $('resultsContainer').innerHTML=`
+    ${resultTop}
+    ${quality}
+    <div class="card">
+      <h2>نمرات ۲۰ نیاز اصلی</h2>
+      <p class="muted small">Adjusted Scale Value؛ مثبت = بالاتر از نقطه صفر شخصی، منفی = پایین‌تر از آن.</p>
+      <div class="table-wrap"><table><thead><tr><th>ترتیب</th><th>نیاز</th><th>نمره</th><th>تفسیر</th><th>مقدار دقیق</th></tr></thead><tbody>${needRows}</tbody></table></div>
+    </div>
+    <div class="card"><h2>نمرات ۶ ارزش اصلی</h2><div class="values">${valuesHtml}</div></div>
+    <div class="card chart-card"><h2>نمودار Profile</h2><p class="muted small">محور افقی از −۴ تا +۴ است؛ خط صفر مرز شخصی اهمیت را نشان می‌دهد. علامت × نمره هر نیاز است.</p><canvas id="profileChart" width="1000" height="860" aria-label="نمودار پروفایل MIQ"></canvas><div class="chart-note">خط‌چین باریک کنار × «خطای استاندارد رسمی» نیست. چون فرمول دقیق Error Band فردی در منابع عمومیِ مورد دسترسی ارائه نشده، این کد فقط «حساسیت یک رأی» را به‌صورت دامنه خط‌چین نمایش می‌دهد تا عدد ساختگی به ابزار اصلی نسبت داده نشود.</div></div>
+    <div class="card chart-card"><h2>نمودار ۶ ارزش</h2><canvas id="valueChart" width="1000" height="520" aria-label="نمودار ارزش‌های شغلی"></canvas></div>
+    <div class="card"><h2>جزئیات فنی نمره‌گذاری</h2>
+      <div class="notice info small"><strong>Votes:</strong> 25 − مجموع رتبه‌های هر آیتم در ۵ بلوک.</div>
+      <div class="notice info small"><strong>Adjusted Votes:</strong> Votes + 0.5 + 1 برای آیتمی که Important شده است.</div>
+      <div class="notice info small"><strong>Zero Point:</strong> تعداد ۲۱ آیتمی که Not Important علامت خورده‌اند؛ z₀ از جدول رسمی به‌دست می‌آید.</div>
+      <div class="notice info small"><strong>TCT:</strong> فرمول رسمی ۲۲ آیتم شامل zero point اجرا و سپس با شمارش مستقیم سه‌گانه‌ها کنترل متقابل شده است.</div>
+      <div class="notice warning small"><strong>آیتم افزوده فرم رتبه‌ای:</strong> «بتوانم کارم را با نظارت کم برنامه‌ریزی کنم» با نمره ${signed(extra.score)} محاسبه شده تا شفافیت حسابرسی حفظ شود، اما در نمرات ۲۰ نیاز و ۶ ارزش وارد نشده است.</div>
+      <div class="disclaimer">MIQ به‌تنهایی آزمون استعداد، IQ، علاقه شغلی یا پیش‌بینی قطعی موفقیت شغلی نیست. مقایسه با ORPهای شغلی برای تحلیل need–reinforcer correspondence به داده‌های ORP نیاز دارد؛ چون در این فایل مجموعه ORP ارائه نشده، شاخص C به‌صورت ساختگی محاسبه نشده است.</div>
+    </div>`;
+  drawProfileChart(res,sortedNeeds);
+  drawValueChart(res);
+}
+
+function drawProfileChart(res,sortedNeeds){
+  const canvas=$('profileChart'); if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  const dpr=Math.max(1,Math.min(window.devicePixelRatio||1,2));
+  const cssW=Math.max(760,canvas.clientWidth||1000), cssH=860;
+  canvas.width=cssW*dpr;canvas.height=cssH*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,cssW,cssH);
+
+  const pad={left:300,right:80,top:48,bottom:44};
+  const plotW=cssW-pad.left-pad.right, rowH=(cssH-pad.top-pad.bottom)/20;
+  const xMin=-4,xMax=4, x=v=>pad.left+(v-xMin)/(xMax-xMin)*plotW;
+  const y=i=>pad.top+rowH*(i+.5);
+
+  ctx.fillStyle='#ffffff';ctx.fillRect(pad.left,pad.top,plotW,cssH-pad.top-pad.bottom);
+  ctx.strokeStyle='#e5e9ef';ctx.lineWidth=1;
+  ctx.font='11px Segoe UI, Tahoma, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  for(let t=-4;t<=4;t+=0.5){
+    const px=x(t);ctx.beginPath();ctx.moveTo(px,pad.top);ctx.lineTo(px,cssH-pad.bottom);ctx.stroke();
+    if(Math.abs(t-Math.round(t))<1e-9){ctx.fillStyle='#596579';ctx.fillText(t.toFixed(0),px,cssH-pad.bottom+22)}
+  }
+  ctx.strokeStyle='#25334b';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x(0),pad.top);ctx.lineTo(x(0),cssH-pad.bottom);ctx.stroke();
+  ctx.fillStyle='#25334b';ctx.font='bold 12px Segoe UI, Tahoma, sans-serif';ctx.fillText('نقطه صفر',x(0),pad.top-22);
+  ctx.textAlign='right';ctx.font='12px Segoe UI, Tahoma, sans-serif';
+
+  let lastValue='';
+  sortedNeeds.forEach((it,i)=>{
+    const py=y(i), score=it.score, sx=x(score);
+    if(it.value!==lastValue){ /* no visible group header, reserved for clean profile */ lastValue=it.value; }
+    ctx.fillStyle='#172033';ctx.fillText(it.need,pad.left-12,py);
+    ctx.strokeStyle='#c8d0da';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x(0),py);ctx.lineTo(sx,py);ctx.stroke();
+    const lo=it.sensitivity.lo,hi=it.sensitivity.hi;
+    ctx.setLineDash([4,4]);ctx.strokeStyle='#7c8797';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(x(Math.max(xMin,lo)),py);ctx.lineTo(x(Math.min(xMax,hi)),py);ctx.stroke();ctx.setLineDash([]);
+    ctx.strokeStyle=score>=0?'#15803d':'#c62828';ctx.lineWidth=2.5;
+    const s=6;ctx.beginPath();ctx.moveTo(sx-s,py-s);ctx.lineTo(sx+s,py+s);ctx.moveTo(sx+s,py-s);ctx.lineTo(sx-s,py+s);ctx.stroke();
+    ctx.fillStyle='#172033';ctx.font='bold 11px ui-monospace,Consolas,monospace';ctx.textAlign='left';ctx.fillText(signed(score),Math.min(sx+10,cssW-54),py);ctx.textAlign='right';ctx.font='12px Segoe UI, Tahoma, sans-serif';
+  });
+  ctx.strokeStyle='#cfd6df';ctx.lineWidth=1;ctx.strokeRect(pad.left,pad.top,plotW,cssH-pad.top-pad.bottom);
+  ctx.fillStyle='#5f6b7b';ctx.textAlign='center';ctx.font='11px Segoe UI, Tahoma, sans-serif';ctx.fillText('Adjusted Scale Value',pad.left+plotW/2,cssH-12);
+}
+
+function drawValueChart(res){
+  const canvas=$('valueChart'); if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  const dpr=Math.max(1,Math.min(window.devicePixelRatio||1,2));
+  const cssW=Math.max(760,canvas.clientWidth||1000), cssH=520;
+  canvas.width=cssW*dpr;canvas.height=cssH*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,cssW,cssH);ctx.fillStyle='#fff';ctx.fillRect(0,0,cssW,cssH);
+  const entries=Object.entries(res.valueScores); const left=100,right=50,top=55,bottom=70;const pw=cssW-left-right, ph=cssH-top-bottom;
+  const y0=top+ph/2, scale=ph/8;
+  ctx.strokeStyle='#dfe5ec';ctx.lineWidth=1;
+  for(let v=-4;v<=4;v++){
+    const py=y0-v*scale;ctx.beginPath();ctx.moveTo(left,py);ctx.lineTo(left+pw,py);ctx.stroke();
+    ctx.fillStyle='#667085';ctx.font='11px ui-monospace,Consolas,monospace';ctx.textAlign='right';ctx.fillText(v.toFixed(0),left-10,py+4);
+  }
+  ctx.strokeStyle='#25334b';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(left,y0);ctx.lineTo(left+pw,y0);ctx.stroke();
+  const bw=pw/entries.length*.52;
+  entries.forEach(([name,score],i)=>{
+    const cx=left+pw*(i+.5)/entries.length; const y=score>=0?y0-score*scale:y0; const h=Math.abs(score*scale);
+    ctx.fillStyle=score>=0?'#2463eb':'#c62828';ctx.fillRect(cx-bw/2,y,bw,Math.max(1,h));
+    ctx.fillStyle='#172033';ctx.font='bold 12px Segoe UI, Tahoma, sans-serif';ctx.textAlign='center';ctx.fillText(VALUE_FA[name],cx,cssH-28);
+    ctx.font='bold 11px ui-monospace,Consolas,monospace';ctx.fillText(signed(score),cx,score>=0?y-8:y+h+16);
+  });
+  ctx.fillStyle='#667085';ctx.font='11px Segoe UI, Tahoma, sans-serif';ctx.textAlign='center';ctx.fillText('نمره ارزش',left+pw/2,18);
+}
+
+function resetTest(){
+  state.currentBlock=0;state.rankings={};state.importance={};
+  showSection('intro');
+}
+
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
+
+/* ================================================================
+   Self-test داخلی: اجرای خودکار در حالت ?selftest=1
+   ================================================================ */
+function runSelfTests(){
+  const errors=validateStructure();
+  if(errors.length) throw new Error(errors.join(' | '));
+  // تست فرمول دامنه vote
+  if(25-(1+2+3+4+5)!==10) throw new Error('فرمول Votes نادرست است.');
+  if(Z_TABLE[0.5]!==-2 || Z_TABLE[21.5]!==2) throw new Error('جدول z ناقص است.');
+  // ساخت یک پروفایل کاملاً سازگار بر اساس ترتیب جهانی 1<2<...<21
+  const localRaw={};const localImp={};
+  for(const item of ITEMS)localImp[item.id]=true;
+  const localRanks={};
+  BLOCKS.forEach((b,bi)=>{
+    const sorted=[...b].sort((a,c)=>a-c);
+    b.forEach(id=>localRanks[`${bi}:${id}`]=sorted.indexOf(id)+1);
+  });
+  const sums=Object.fromEntries(ITEMS.map(x=>[x.id,0]));
+  BLOCKS.forEach((b,bi)=>b.forEach(id=>sums[id]+=localRanks[`${bi}:${id}`]));
+  ITEMS.forEach(x=>localRaw[x.id]=25-sums[x.id]);
+  // با all-important، zero point صفر است
+  const votes=[0,...ITEMS.map(x=>localRaw[x.id]+1)];
+  const pair=Array.from({length:22},()=>Array(22).fill(0));
+  BLOCKS.forEach((b,bi)=>{for(let i=0;i<5;i++)for(let j=i+1;j<5;j++){
+    const a=b[i],c=b[j]; const ra=localRanks[`${bi}:${a}`],rc=localRanks[`${bi}:${c}`];
+    if(ra<rc) pair[a][c]=1; else pair[c][a]=1;
+  }});
+  for(let id=1;id<=21;id++) pair[id][0]=1;
+  const d1=formulaTCT(votes),d2=directTCT(pair);
+  if(d1!==0||d2!==0) throw new Error(`پروفایل سازگار TCT باید صفر باشد: ${d1}/${d2}`);
+  // تست دامنه حداکثر 440
+  if(22/24*(22*22-4)!==440) throw new Error('dmax باید 440 باشد.');
+  $('resultsContainer').innerHTML='<div class="card"><h2>Self-test موفق</h2><div class="notice success">ساختار ۲۱ بلوک، ۲۱۰ زوج هم‌وقوع، فرمول Votes، جدول z، و TCT با شمارش مستقیم کنترل شدند.</div></div>';
+}
+
+/* ================================================================
+   Event handlers
+   ================================================================ */
+$('startBtn').addEventListener('click',()=>{showSection('ranking');renderQuestion();});
+$('prevBtn').addEventListener('click',()=>{if(state.currentBlock>0){state.currentBlock--;renderQuestion();}});
+$('nextBtn').addEventListener('click',()=>{
+  if(!isBlockComplete(state.currentBlock)){
+    $('rankError').textContent='ابتدا هر پنج گزینه را دقیقاً با رتبه‌های ۱، ۲، ۳، ۴ و ۵ تکمیل کنید.';
+    return;
+  }
+  if(state.currentBlock<20){state.currentBlock++;renderQuestion();}
+  else{showSection('importance');renderImportance();}
+});
+$('impBackBtn').addEventListener('click',()=>{state.currentBlock=20;showSection('ranking');renderQuestion();});
+$('resultBtn').addEventListener('click',()=>{
+  const errors=validateResponses();
+  if(errors.length){alert(errors.join('\n'));return;}
+  try{
+    const res=computeAllScores();
+    showSection('results');renderResults(res);
+  }catch(err){
+    console.error(err);alert('خطا در محاسبه نمرات: '+err.message);
+  }
+});
+$('resetBtn').addEventListener('click',resetTest);
+window.addEventListener('resize',()=>{
+  if($('results').classList.contains('active')){
+    // بازسازی از داده‌های فعلی نتیجه‌ای ذخیره نشده؛ برای جلوگیری از داده‌سازی صرفاً redraw زمانی انجام می‌شود که نتایج در DOM موجود باشند.
+    const res=computeAllScores();
+    const sorted=CORE_NEEDS.map(item=>({...item,score:res.needScores[item.need],important:res.importanceById[item.id]})).sort((a,b)=>b.score-a.score);
+    drawProfileChart(res,sorted);drawValueChart(res);
+  }
+});
+
+/* اجرای خودکار self-test در حالت توسعه */
+if(new URLSearchParams(location.search).get('selftest')==='1'){
+  showSection('results');
+  try{runSelfTests();}catch(e){$('resultsContainer').innerHTML=`<div class="card"><div class="notice danger"><strong>Self-test شکست خورد:</strong> ${escapeHtml(e.message)}</div></div>`;console.error(e);}
+}
+</script>
+</body>
+</html>
