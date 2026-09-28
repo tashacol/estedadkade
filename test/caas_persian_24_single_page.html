@@ -1,0 +1,614 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="پیاده‌سازی تک‌فایلی آزمون Career Adapt-Abilities Scale (CAAS)، فرم 24 آیتمی فارسی، با نمره‌گذاری، نمودار و گزارش نتیجه.">
+<title>آزمون سازگاری شغلی CAAS — ۲۴ آیتم</title>
+<style>
+  :root{
+    --bg:#f5f7fb;
+    --card:#ffffff;
+    --text:#182230;
+    --muted:#637083;
+    --line:#dbe2ec;
+    --primary:#3157d6;
+    --primary-2:#223fa8;
+    --soft:#eef2ff;
+    --ok:#16794f;
+    --warn:#a86100;
+    --danger:#b42318;
+    --shadow:0 12px 30px rgba(28,39,59,.08);
+    --radius:20px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:"Vazirmatn",Tahoma,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.8;
+  }
+  a{color:var(--primary)}
+  button,input{font:inherit}
+  .wrap{max-width:1100px;margin:auto;padding:24px}
+  .hero{padding:18px 0 8px}
+  .hero h1{margin:.2rem 0 .5rem;font-size:clamp(1.6rem,3vw,2.3rem);line-height:1.35}
+  .hero p{margin:.2rem 0;color:var(--muted)}
+  .pill{display:inline-flex;align-items:center;gap:7px;padding:5px 11px;border-radius:999px;background:var(--soft);color:var(--primary-2);font-size:.88rem;font-weight:700}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px}
+  .intro{margin:18px 0 20px}
+  .intro-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}
+  .mini{padding:14px;border:1px solid var(--line);border-radius:16px;background:#fbfcff}
+  .mini strong{display:block;font-size:1.15rem}
+  .mini span{color:var(--muted);font-size:.9rem}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+  .btn{border:0;border-radius:13px;padding:11px 16px;cursor:pointer;font-weight:700;transition:.18s ease;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+  .btn.primary{background:var(--primary);color:#fff}
+  .btn.primary:hover{background:var(--primary-2);transform:translateY(-1px)}
+  .btn.ghost{background:#fff;color:var(--text);border:1px solid var(--line)}
+  .btn.danger{background:#fff4f3;color:var(--danger);border:1px solid #f4c7c3}
+  .progress-shell{position:sticky;top:0;z-index:20;background:rgba(245,247,251,.92);backdrop-filter:blur(12px);padding:10px 0 12px}
+  .progress-bar{height:10px;background:#e8edf5;border-radius:999px;overflow:hidden}
+  .progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--primary),#6b85ef);transition:width .25s ease}
+  .progress-row{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:8px;font-size:.92rem}
+  .progress-row .count{font-weight:800}
+  #testSection{scroll-margin-top:85px}
+  .section-title{display:flex;justify-content:space-between;align-items:end;gap:16px;margin:24px 0 10px}
+  .section-title h2{margin:0;font-size:1.35rem}
+  .section-title p{margin:0;color:var(--muted);font-size:.92rem}
+  .question-card{margin:12px 0;padding:20px;border:1px solid var(--line);border-radius:18px;background:#fff}
+  .question-card.unanswered{border-color:#ef9c95;box-shadow:0 0 0 3px rgba(180,35,24,.08)}
+  .question-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
+  .qnum{width:38px;height:38px;border-radius:12px;background:var(--soft);color:var(--primary-2);display:grid;place-items:center;flex:0 0 auto;font-weight:900}
+  .qtext{font-size:1.03rem;font-weight:750}
+  .scale-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}
+  .option{position:relative}
+  .option input{position:absolute;opacity:0;pointer-events:none}
+  .option label{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:76px;padding:10px 6px;border:1px solid var(--line);border-radius:15px;background:#fbfcff;cursor:pointer;transition:.18s ease;text-align:center;
+  }
+  .option label:hover{border-color:#9db0eb;transform:translateY(-1px)}
+  .option input:focus-visible + label{outline:3px solid rgba(49,87,214,.24);outline-offset:2px}
+  .option input:checked + label{border-color:var(--primary);background:var(--soft);box-shadow:0 0 0 2px rgba(49,87,214,.1)}
+  .option .num{font-size:1.18rem;font-weight:900;line-height:1.2}
+  .option .lbl{font-size:.82rem;color:var(--muted);margin-top:4px}
+  .helper{display:flex;justify-content:space-between;color:var(--muted);font-size:.78rem;margin-top:9px;gap:10px}
+  .error{display:none;margin-top:9px;color:var(--danger);font-size:.85rem;font-weight:650}
+  .question-card.unanswered .error{display:block}
+  #resultSection{display:none;margin-top:26px}
+  .result-top{display:grid;grid-template-columns:1.05fr 1.5fr;gap:20px;align-items:stretch}
+  .total-card{background:linear-gradient(135deg,#f0f3ff,#ffffff);border:1px solid #d7def6;border-radius:20px;padding:22px;text-align:center;display:flex;flex-direction:column;justify-content:center}
+  .total-card .big{font-size:3.2rem;font-weight:950;line-height:1.1;color:var(--primary-2)}
+  .total-card .sub{color:var(--muted);margin-top:5px}
+  .chart-card{padding:18px}
+  .chart-wrap{min-height:350px;display:grid;place-items:center}
+  #radar{width:100%;max-width:520px;height:auto;overflow:visible}
+  .scores-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}
+  .score-card{border:1px solid var(--line);border-radius:18px;padding:15px;background:#fff}
+  .score-card .name{font-weight:800}
+  .score-card .val{font-size:1.35rem;font-weight:900;margin:5px 0}
+  .score-card .mini-label{font-size:.8rem;color:var(--muted)}
+  .bar-row{display:grid;grid-template-columns:150px 1fr 68px;gap:10px;align-items:center;margin:14px 0}
+  .bar-label{font-weight:700;font-size:.92rem}
+  .bar-bg{height:12px;border-radius:999px;background:#e8edf5;overflow:hidden}
+  .bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--primary),#7892f0);width:0;transition:width .5s ease}
+  .bar-val{text-align:left;direction:ltr;font-variant-numeric:tabular-nums;font-weight:800}
+  .interpretation{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:18px}
+  .interpret-card{border:1px solid var(--line);border-radius:18px;padding:18px;background:#fff}
+  .interpret-card h3{margin:0 0 6px;font-size:1.03rem}
+  .interpret-card p{margin:0;color:#405067;font-size:.94rem}
+  .note{margin-top:18px;border-right:4px solid var(--primary);background:#f8f9ff;border-radius:12px;padding:13px 15px;color:#41516a}
+  .warn{margin-top:16px;border-right:4px solid #d48717;background:#fff8eb;border-radius:12px;padding:13px 15px;color:#6a4a13}
+  .sources{margin-top:22px}
+  .sources ul{margin:8px 0 0;padding-right:20px}
+  .sources li{margin:6px 0}
+  .hidden{display:none!important}
+  footer{padding:30px 0 12px;color:var(--muted);font-size:.82rem;text-align:center}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  @media (max-width:850px){
+    .intro-grid{grid-template-columns:repeat(2,1fr)}
+    .result-top{grid-template-columns:1fr}
+    .scores-grid{grid-template-columns:repeat(2,1fr)}
+    .interpretation{grid-template-columns:1fr}
+  }
+  @media (max-width:650px){
+    .wrap{padding:14px}
+    .card{padding:17px}
+    .scale-grid{grid-template-columns:1fr;gap:8px}
+    .option label{min-height:58px;flex-direction:row;justify-content:flex-start;gap:12px;padding:11px 14px}
+    .option .lbl{margin:0}
+    .helper{font-size:.72rem}
+    .scores-grid{grid-template-columns:1fr}
+    .bar-row{grid-template-columns:1fr 1fr 58px;gap:8px}
+    .bar-row .bar-label{grid-column:1 / -1}
+    .bar-bg{grid-column:1 / 3}
+    .bar-val{grid-column:3;grid-row:2}
+    .chart-wrap{min-height:290px}
+  }
+  @media print{
+    body{background:#fff}
+    .hero,.progress-shell,#introSection,#testSection,.actions,footer,.no-print{display:none!important}
+    #resultSection{display:block!important;margin:0}
+    .card,.question-card,.score-card,.interpret-card{box-shadow:none;border:1px solid #aaa}
+    .result-top{grid-template-columns:1fr 1.5fr}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <span class="pill">CAAS • فرم ۲۴ آیتمی</span>
+    <h1>مقیاس توانایی‌های سازگاری شغلی (CAAS)</h1>
+    <p>نسخه فارسی بر مبنای فرم بین‌المللی ۲۴ آیتمی و ترجمه/اعتبارسنجی CAAS-Iran. این صفحه برای سنجش چهار منبع سازگاری شغلی طراحی شده است: دغدغه، کنترل، کنجکاوی و اعتمادبه‌نفس.</p>
+  </header>
+
+  <section id="introSection" class="card intro">
+    <h2 style="margin-top:0">راهنمای شرکت در آزمون</h2>
+    <p>افراد مختلف از نقاط قوت مختلفی برای پیشبرد حرفه‌شان استفاده می‌کنند. هیچ‌کس در همه موارد خوب نیست و هر کدام از ما بر برخی نقاط قوت بیش از دیگران تأکید می‌کنیم. لطفاً مشخص کنید هر یک از قابلیت‌های زیر را تا چه میزان در خود ارتقا داده‌اید.</p>
+    <div class="intro-grid">
+      <div class="mini"><strong>۲۴</strong><span>آیتم</span></div>
+      <div class="mini"><strong>۴</strong><span>خرده‌مقیاس</span></div>
+      <div class="mini"><strong>۱ تا ۵</strong><span>مقیاس پاسخ</span></div>
+      <div class="mini"><strong>۲۴ تا ۱۲۰</strong><span>دامنه نمره کل</span></div>
+    </div>
+    <div class="note"><strong>نحوه پاسخ:</strong> برای هر عبارت فقط یک گزینه انتخاب کنید؛ پاسخ‌دهی بر اساس «میزان رشد/شکل‌گیری این توانایی در شما» انجام می‌شود، نه میزان موافقت با یک جمله.</div>
+    <div class="actions no-print">
+      <button class="btn primary" id="startBtn" type="button">شروع آزمون</button>
+      <button class="btn ghost" id="resetIntroBtn" type="button">پاک‌کردن پاسخ‌های قبلی</button>
+    </div>
+  </section>
+
+  <section id="testSection" class="hidden">
+    <div class="progress-shell">
+      <div class="progress-row"><span id="answeredText">۰ از ۲۴ پاسخ داده شده</span><span class="count" id="progressText">۰٪</span></div>
+      <div class="progress-bar" aria-label="پیشرفت آزمون"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+
+    <div class="section-title">
+      <div><h2>سؤالات آزمون</h2><p>برای هر سؤال دقیقاً یک گزینه از ۱ تا ۵ را انتخاب کنید.</p></div>
+    </div>
+
+    <form id="quizForm" novalidate></form>
+
+    <div class="actions no-print" style="justify-content:flex-start;margin:22px 0 4px">
+      <button class="btn primary" id="submitBtn" type="button">مشاهده نتیجه</button>
+      <button class="btn danger" id="resetBtn" type="button">شروع دوباره</button>
+    </div>
+  </section>
+
+  <section id="resultSection">
+    <div class="card">
+      <div class="section-title" style="margin-top:0">
+        <div><h2>گزارش نتیجه</h2><p>پروفایل چهارگانه و نمره کل شما در فرم ۲۴ آیتمی CAAS</p></div>
+      </div>
+
+      <div class="result-top">
+        <div class="total-card">
+          <div style="font-weight:800">نمره کل سازگاری شغلی</div>
+          <div class="big" id="totalScore">—</div>
+          <div class="sub">از ۱۲۰ • میانگین کل: <span id="totalMean">—</span> از ۵</div>
+        </div>
+        <div class="chart-card">
+          <div style="font-weight:800;margin-bottom:5px">نمودار پروفایل چهارگانه</div>
+          <div class="chart-wrap"><svg id="radar" viewBox="0 0 520 390" role="img" aria-label="نمودار راداری چهار مؤلفه سازگاری شغلی"></svg></div>
+        </div>
+      </div>
+
+      <div class="scores-grid" id="scoresGrid"></div>
+
+      <div class="interpret-card" style="margin-top:4px">
+        <h3 style="margin-top:0">مقایسه درون‌فردی</h3>
+        <p id="profileSummary">—</p>
+      </div>
+
+      <div style="margin-top:20px">
+        <h3 style="margin-bottom:8px">نمودار میله‌ای</h3>
+        <div id="barChart"></div>
+      </div>
+
+      <div class="interpretation" id="interpretationGrid"></div>
+
+      <div class="note" id="overallInterpretation">—</div>
+
+      <div class="warn">
+        <strong>توجه علمی:</strong> این گزارش یک تفسیر خودکار و توصیفی از الگوی پاسخ‌هاست. از روی یک نمره به‌تنهایی نمی‌توان «شغل مناسب»، موفقیت قطعی، تشخیص بالینی یا استعداد قطعی را تعیین کرد. همچنین در این پیاده‌سازی از cut-off ساختگی «ضعیف/متوسط/قوی» استفاده نشده است؛ برای مقایسه با صدک یا هنجار باید مرجع هنجاری مناسبِ همان جامعه و گروه سنی/جمعیتی در دسترس باشد.
+      </div>
+
+      <div class="actions no-print" style="margin-top:20px">
+        <button class="btn primary" type="button" id="printBtn">چاپ / ذخیره PDF از مرورگر</button>
+        <button class="btn ghost" type="button" id="backBtn">بازگشت به آزمون</button>
+        <button class="btn ghost" type="button" id="downloadBtn">ذخیره نتیجه به صورت JSON</button>
+      </div>
+
+      <div class="sources">
+        <h3>منابع علمی</h3>
+        <ul>
+          <li>Savickas, M. L., &amp; Porfeli, E. J. (2012). <em>Career Adapt-Abilities Scale: Construction, reliability, and measurement equivalence across 13 countries.</em> Journal of Vocational Behavior, 80, 661–673. <a href="https://doi.org/10.1016/j.jvb.2012.01.011" target="_blank" rel="noopener">DOI</a></li>
+          <li>McKenna, B., Zacher, H., Sattari Ardabili, F., &amp; Mohebbi, H. (2016). <em>Career Adapt-Abilities Scale—Iran Form: Psychometric properties and relationships with career satisfaction and entrepreneurial intentions.</em> Journal of Vocational Behavior, 93, 81–91. <a href="https://doi.org/10.1016/j.jvb.2016.01.004" target="_blank" rel="noopener">DOI</a></li>
+          <li>Glavin, K., &amp; Berger, C. (2013). <em>Assessing career adaptability using the career adapt-abilities scale.</em> In Psychology of Career Counseling, pp. 207–220.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>این فایل به‌صورت frontend-only اجرا می‌شود و پاسخ‌ها را به سرور ارسال نمی‌کند.</footer>
+</div>
+
+<script>
+'use strict';
+
+/*
+  CAAS 24-item structure:
+  Concern   = 1–6
+  Control   = 7–12
+  Curiosity = 13–18
+  Confidence = 19–24
+
+  Response scoring: 1..5, direct scoring, no reverse-coded items.
+  The Persian item wording below follows the Persian CAAS-Iran item table
+  reported by McKenna et al. (2016). Verify licensing/permission before public redistribution.
+*/
+
+const SCALE_INFO = [
+  { key:'concern', label:'دغدغه نسبت به آینده', short:'دغدغه', start:1, end:6,
+    description:'این مؤلفه به توجه به آینده شغلی، آمادگی برای آینده و برنامه‌ریزی برای تصمیم‌ها و وظایف شغلی مربوط است.' },
+  { key:'control', label:'کنترل', short:'کنترل', start:7, end:12,
+    description:'این مؤلفه به نقش فعال فرد در تصمیم‌گیری، مسئولیت‌پذیری و اتکا به خود در مسیر شغلی مربوط است.' },
+  { key:'curiosity', label:'کنجکاوی', short:'کنجکاوی', start:13, end:18,
+    description:'این مؤلفه به کاوش، بررسی گزینه‌ها، جست‌وجوی فرصت‌ها و توجه به راه‌های گوناگون انجام کارها مربوط است.' },
+  { key:'confidence', label:'اعتماد به توانایی', short:'اعتماد به توانایی', start:19, end:24,
+    description:'این مؤلفه به باور به توانایی انجام کارها، یادگیری مهارت‌های تازه، حل مسئله و غلبه بر موانع مربوط است.' }
+];
+
+const OPTIONS = [
+  {value:1, label:'قوی نیست'},
+  {value:2, label:'تاحدی قوی'},
+  {value:3, label:'قوی'},
+  {value:4, label:'بسیار قوی'},
+  {value:5, label:'قوی‌ترین'}
+];
+
+const QUESTIONS = [
+  {id:1, scale:'concern', text:'تفکر در مورد اینکه آینده من چگونه خواهد بود.'},
+  {id:2, scale:'concern', text:'دانستن اینکه انتخاب‌های امروزی مرا شکل می‌دهد.'},
+  {id:3, scale:'concern', text:'آماده شدن برای آینده.'},
+  {id:4, scale:'concern', text:'آگاهی از گزینه‌های تحصیلی و شغلی که باید انتخاب کنم.'},
+  {id:5, scale:'concern', text:'برنامه‌ریزی برای دستیابی به اهداف.'},
+  {id:6, scale:'concern', text:'نگرانی و دل‌مشغولی در مورد زندگی حرفه‌ای‌ام.'},
+  {id:7, scale:'control', text:'همیشه خوش‌بین بودن.'},
+  {id:8, scale:'control', text:'تصمیم‌گیری توسط خودم.'},
+  {id:9, scale:'control', text:'به عهده گرفتن مسئولیت اعمال و رفتار خودم.'},
+  {id:10, scale:'control', text:'پایبند بودن به باورها و عقایدم.'},
+  {id:11, scale:'control', text:'حساب کردن روی خودم.'},
+  {id:12, scale:'control', text:'انجام آنچه برایم درست است.'},
+  {id:13, scale:'curiosity', text:'بررسی محیط اطرافم.'},
+  {id:14, scale:'curiosity', text:'توجه به فرصت‌ها برای رشد به عنوان یک فرد.'},
+  {id:15, scale:'curiosity', text:'بررسی گزینه‌ها قبل از اتخاذ تصمیم.'},
+  {id:16, scale:'curiosity', text:'مشاهده و توجه به روش‌های مختلف انجام کارها.'},
+  {id:17, scale:'curiosity', text:'بررسی و کاوش عمیق سؤالاتی که دارم.'},
+  {id:18, scale:'curiosity', text:'کنجکاوی در مورد فرصت‌های جدید.'},
+  {id:19, scale:'confidence', text:'انجام مؤثر و کارآمد امور.'},
+  {id:20, scale:'confidence', text:'مراقبت به انجام خوب و درست کارها.'},
+  {id:21, scale:'confidence', text:'یادگیری مهارت‌های جدید.'},
+  {id:22, scale:'confidence', text:'کار با حداکثر توان.'},
+  {id:23, scale:'confidence', text:'غلبه بر موانع.'},
+  {id:24, scale:'confidence', text:'حل مشکلات.'}
+];
+
+const answers = Array(24).fill(null);
+const testSection = document.getElementById('testSection');
+const resultSection = document.getElementById('resultSection');
+const quizForm = document.getElementById('quizForm');
+const progressFill = document.getElementById('progressFill');
+const progressText = document.getElementById('progressText');
+const answeredText = document.getElementById('answeredText');
+
+const faNum = n => String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+const fmt1 = n => Number(n).toLocaleString('fa-IR',{minimumFractionDigits:1,maximumFractionDigits:2});
+const fmt2 = n => Number(n).toLocaleString('fa-IR',{minimumFractionDigits:2,maximumFractionDigits:2});
+
+function renderQuiz(){
+  quizForm.innerHTML = '';
+  QUESTIONS.forEach(q => {
+    const article = document.createElement('article');
+    article.className = 'question-card';
+    article.id = `q-${q.id}`;
+    article.dataset.questionId = q.id;
+    const head = document.createElement('div');
+    head.className = 'question-head';
+    head.innerHTML = `<div class="qnum">${faNum(q.id)}</div><div class="qtext">${escapeHtml(q.text)}</div>`;
+    article.appendChild(head);
+
+    const field = document.createElement('fieldset');
+    field.style.border = '0';
+    field.style.padding = '0';
+    field.style.margin = '0';
+    const legend = document.createElement('legend');
+    legend.className = 'sr-only';
+    legend.textContent = `سؤال ${q.id}: ${q.text}`;
+    field.appendChild(legend);
+
+    const grid = document.createElement('div');
+    grid.className = 'scale-grid';
+    OPTIONS.forEach(opt => {
+      const wrap = document.createElement('div');
+      wrap.className = 'option';
+      const inputId = `q${q.id}-o${opt.value}`;
+      wrap.innerHTML = `
+        <input id="${inputId}" type="radio" name="q${q.id}" value="${opt.value}" aria-label="${opt.value}: ${opt.label}">
+        <label for="${inputId}"><span class="num">${faNum(opt.value)}</span><span class="lbl">${opt.label}</span></label>
+      `;
+      const input = wrap.querySelector('input');
+      input.addEventListener('change', () => {
+        answers[q.id - 1] = Number(input.value);
+        article.classList.remove('unanswered');
+        updateProgress();
+      });
+      grid.appendChild(wrap);
+    });
+    field.appendChild(grid);
+    article.appendChild(field);
+
+    const helper = document.createElement('div');
+    helper.className = 'helper';
+    helper.innerHTML = `<span>۱ = ${OPTIONS[0].label}</span><span>۵ = ${OPTIONS[4].label}</span>`;
+    article.appendChild(helper);
+    const error = document.createElement('div');
+    error.className = 'error';
+    error.textContent = 'لطفاً برای این سؤال یکی از گزینه‌ها را انتخاب کنید.';
+    article.appendChild(error);
+    quizForm.appendChild(article);
+  });
+}
+
+function escapeHtml(str){
+  return String(str).replace(/[&<>'"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));
+}
+
+function updateProgress(){
+  const count = answers.filter(v => v !== null).length;
+  const pct = Math.round((count / 24) * 100);
+  answeredText.textContent = `${faNum(count)} از ۲۴ پاسخ داده شده`;
+  progressText.textContent = `${faNum(pct)}٪`;
+  progressFill.style.width = `${pct}%`;
+}
+
+function validateAll(){
+  let firstMissing = null;
+  QUESTIONS.forEach(q => {
+    const card = document.getElementById(`q-${q.id}`);
+    if (answers[q.id - 1] === null){
+      card.classList.add('unanswered');
+      if (!firstMissing) firstMissing = card;
+    } else {
+      card.classList.remove('unanswered');
+    }
+  });
+  if (firstMissing){
+    firstMissing.scrollIntoView({behavior:'smooth',block:'center'});
+    const input = firstMissing.querySelector('input');
+    if (input) setTimeout(() => input.focus(), 400);
+    return false;
+  }
+  return true;
+}
+
+function calculateScores(){
+  const safe = answers.map(Number);
+  const concern = safe.slice(0,6).reduce((a,b)=>a+b,0);
+  const control = safe.slice(6,12).reduce((a,b)=>a+b,0);
+  const curiosity = safe.slice(12,18).reduce((a,b)=>a+b,0);
+  const confidence = safe.slice(18,24).reduce((a,b)=>a+b,0);
+  const total = concern + control + curiosity + confidence;
+  return {
+    concern, control, curiosity, confidence, total,
+    means:{concern:concern/6, control:control/6, curiosity:curiosity/6, confidence:confidence/6, total:total/24}
+  };
+}
+
+function renderResults(scores){
+  document.getElementById('totalScore').textContent = faNum(scores.total);
+  document.getElementById('totalMean').textContent = fmt2(scores.means.total);
+
+  const scoreData = SCALE_INFO.map(s => ({...s, score:scores[s.key], mean:scores.means[s.key]}));
+  const grid = document.getElementById('scoresGrid');
+  grid.innerHTML = scoreData.map(d => `
+    <div class="score-card">
+      <div class="name">${d.label}</div>
+      <div class="val">${faNum(d.score)} / ۳۰</div>
+      <div class="mini-label">میانگین: ${fmt2(d.mean)} از ۵</div>
+    </div>`).join('');
+
+  document.getElementById('barChart').innerHTML = scoreData.map(d => `
+    <div class="bar-row">
+      <div class="bar-label">${d.label}</div>
+      <div class="bar-bg"><div class="bar-fill" style="width:${(d.mean/5)*100}%"></div></div>
+      <div class="bar-val">${d.mean.toFixed(2)}</div>
+    </div>`).join('');
+
+  renderInterpretations(scoreData, scores);
+  renderRadar(scoreData);
+}
+
+function renderInterpretations(data, scores){
+  const grid = document.getElementById('interpretationGrid');
+  grid.innerHTML = data.map(d => `
+    <div class="interpret-card">
+      <h3>${d.label} — ${fmt2(d.mean)} از ۵</h3>
+      <p>${d.description}</p>
+    </div>`).join('');
+
+  const minMean = Math.min(...data.map(d=>d.mean));
+  const maxMean = Math.max(...data.map(d=>d.mean));
+  const lows = data.filter(d=>Math.abs(d.mean-minMean) < 1e-9).map(d=>d.label);
+  const highs = data.filter(d=>Math.abs(d.mean-maxMean) < 1e-9).map(d=>d.label);
+  let profile = '';
+  if (lows.length===4){
+    profile = 'چهار خرده‌مقیاس میانگین یکسانی دارند؛ بنابراین در پروفایل درون‌فردی، حوزه‌ای که پایین‌تر باشد وجود ندارد.';
+  } else {
+    profile = `در مقایسه درون‌فردی، ${lows.join(' و ')} پایین‌ترین میانگین را دارد و ${highs.join(' و ')} بالاترین میانگین را دارد. این مقایسه صرفاً شکل پروفایل شما را توصیف می‌کند و به معنی «ضعیف/قوی بودن» در مقایسه با یک جامعه هنجاری نیست.`;
+  }
+  document.getElementById('profileSummary').textContent = profile;
+
+  document.getElementById('overallInterpretation').innerHTML = `
+    <strong>برداشت کلی:</strong> نمره کل ${faNum(scores.total)} از ۱۲۰ است. در CAAS، نمره بالاتر به منابع گزارش‌شده بیشتر برای سازگاری با وظایف، گذارها و چالش‌های شغلی اشاره می‌کند. برای تفسیر کاربردی‌تر، پروفایل چهارگانه را در کنار شرایط واقعی، تجربه تحصیلی/شغلی و اهداف فرد بررسی کنید.
+  `;
+}
+
+function polarToCartesian(cx,cy,r,angle){
+  return {x:cx + r*Math.cos(angle), y:cy + r*Math.sin(angle)};
+}
+function pathFromPoints(points){ return points.map((p,i)=>`${i?'L':'M'} ${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' ') + ' Z'; }
+
+function renderRadar(data){
+  const svg = document.getElementById('radar');
+  while(svg.firstChild) svg.removeChild(svg.firstChild);
+  const ns='http://www.w3.org/2000/svg';
+  const cx=260, cy=190, r=125;
+  const max=5;
+  const angles = data.map((_,i)=>-Math.PI/2 + i*(2*Math.PI/data.length));
+
+  // Title and scale labels
+  const title=document.createElementNS(ns,'title');
+  title.textContent='پروفایل چهار مؤلفه CAAS';
+  svg.appendChild(title);
+
+  for(let level=1; level<=5; level++){
+    const rr=(r*level)/max;
+    const pts=angles.map(a=>polarToCartesian(cx,cy,rr,a));
+    const poly=document.createElementNS(ns,'polygon');
+    poly.setAttribute('points',pts.map(p=>`${p.x},${p.y}`).join(' '));
+    poly.setAttribute('fill','none');
+    poly.setAttribute('stroke','#d6dce8');
+    poly.setAttribute('stroke-width','1');
+    svg.appendChild(poly);
+  }
+
+  angles.forEach(a=>{
+    const end=polarToCartesian(cx,cy,r,a);
+    const line=document.createElementNS(ns,'line');
+    line.setAttribute('x1',cx);line.setAttribute('y1',cy);line.setAttribute('x2',end.x);line.setAttribute('y2',end.y);
+    line.setAttribute('stroke','#dde3ec');line.setAttribute('stroke-width','1');
+    svg.appendChild(line);
+  });
+
+  const pts=angles.map((a,i)=>polarToCartesian(cx,cy,r*(data[i].mean/max),a));
+  const area=document.createElementNS(ns,'polygon');
+  area.setAttribute('points',pts.map(p=>`${p.x},${p.y}`).join(' '));
+  area.setAttribute('fill','rgba(49,87,214,0.16)');
+  area.setAttribute('stroke','#3157d6');
+  area.setAttribute('stroke-width','3');
+  svg.appendChild(area);
+
+  pts.forEach(p=>{
+    const c=document.createElementNS(ns,'circle');
+    c.setAttribute('cx',p.x);c.setAttribute('cy',p.y);c.setAttribute('r','5');c.setAttribute('fill','#3157d6');
+    svg.appendChild(c);
+  });
+
+  data.forEach((d,i)=>{
+    const p=polarToCartesian(cx,cy,r+34,angles[i]);
+    const t=document.createElementNS(ns,'text');
+    t.setAttribute('x',p.x);t.setAttribute('y',p.y);
+    t.setAttribute('fill','#26364d');t.setAttribute('font-size','14');t.setAttribute('font-weight','700');
+    t.setAttribute('text-anchor','middle');t.setAttribute('dominant-baseline','middle');
+    t.textContent=d.short;
+    svg.appendChild(t);
+  });
+
+  const center=document.createElementNS(ns,'text');
+  center.setAttribute('x',cx);center.setAttribute('y',cy-3);center.setAttribute('fill','#59677a');center.setAttribute('font-size','12');center.setAttribute('font-weight','700');center.setAttribute('text-anchor','middle');
+  center.textContent='CAAS'; svg.appendChild(center);
+  const center2=document.createElementNS(ns,'text');
+  center2.setAttribute('x',cx);center2.setAttribute('y',cy+16);center2.setAttribute('fill','#7c8795');center2.setAttribute('font-size','11');center2.setAttribute('text-anchor','middle');
+  center2.textContent='میانگین ۱ تا ۵'; svg.appendChild(center2);
+}
+
+function startTest(){
+  document.getElementById('introSection').classList.add('hidden');
+  testSection.classList.remove('hidden');
+  resultSection.style.display='none';
+  testSection.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function resetTest(){
+  answers.fill(null);
+  renderQuiz();
+  updateProgress();
+  resultSection.style.display='none';
+  testSection.classList.remove('hidden');
+  document.getElementById('introSection').classList.remove('hidden');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+document.getElementById('startBtn').addEventListener('click',startTest);
+document.getElementById('resetIntroBtn').addEventListener('click',resetTest);
+document.getElementById('resetBtn').addEventListener('click',resetTest);
+document.getElementById('backBtn').addEventListener('click',()=>{
+  resultSection.style.display='none';
+  testSection.classList.remove('hidden');
+  testSection.scrollIntoView({behavior:'smooth',block:'start'});
+});
+
+document.getElementById('submitBtn').addEventListener('click',()=>{
+  if(!validateAll()) return;
+  const scores=calculateScores();
+  renderResults(scores);
+  testSection.classList.add('hidden');
+  resultSection.style.display='block';
+  resultSection.scrollIntoView({behavior:'smooth',block:'start'});
+});
+
+document.getElementById('printBtn').addEventListener('click',()=>window.print());
+
+document.getElementById('downloadBtn').addEventListener('click',()=>{
+  if(!answers.every(v=>v!==null)) return;
+  const scores=calculateScores();
+  const payload={
+    test:'CAAS',
+    version:'International-24 / Persian Iran adaptation',
+    timestamp:new Date().toISOString(),
+    answers:[...answers],
+    scores:{
+      concern:scores.concern,
+      control:scores.control,
+      curiosity:scores.curiosity,
+      confidence:scores.confidence,
+      total:scores.total,
+      means:scores.means
+    }
+  };
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download='caas-result.json'; a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
+
+// Internal quality checks for scoring logic.
+function runSelfTests(){
+  const backup=[...answers];
+  const cases=[
+    {arr:Array(24).fill(1), expect:{concern:6,control:6,curiosity:6,confidence:6,total:24}},
+    {arr:Array(24).fill(5), expect:{concern:30,control:30,curiosity:30,confidence:30,total:120}},
+    {arr:Array(24).fill(3), expect:{concern:18,control:18,curiosity:18,confidence:18,total:72}},
+    {arr:[5,5,5,5,5,5,4,4,4,4,4,4,3,3,3,3,3,3,2,2,2,2,2,2], expect:{concern:30,control:24,curiosity:18,confidence:12,total:84}}
+  ];
+  cases.forEach(c=>{
+    answers.splice(0,24,...c.arr);
+    const got=calculateScores();
+    ['concern','control','curiosity','confidence','total'].forEach(k=>{
+      if(got[k]!==c.expect[k]) throw new Error(`CAAS self-test failed: ${k}`);
+    });
+  });
+  answers.splice(0,24,...backup);
+}
+
+renderQuiz();
+updateProgress();
+runSelfTests();
+</script>
+</body>
+</html>
