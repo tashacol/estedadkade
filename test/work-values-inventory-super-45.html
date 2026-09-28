@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="آزمون ارزش‌های شغلی سوپر، نسخه ۴۵ سؤالی، با تصحیح خودکار، رتبه‌بندی نسبی و نمودار نمرات.">
+  <title>آزمون ارزش‌های شغلی سوپر | Work Values Inventory</title>
+  <style>
+    :root{
+      --bg:#f4f7fb;
+      --surface:#ffffff;
+      --surface-2:#f8fafc;
+      --text:#172033;
+      --muted:#64748b;
+      --primary:#0f5ea8;
+      --primary-2:#0b4b86;
+      --primary-soft:#e8f2fb;
+      --success:#157347;
+      --success-soft:#e8f6ee;
+      --danger:#b42318;
+      --danger-soft:#fff0ee;
+      --border:#d9e1ea;
+      --shadow:0 14px 38px rgba(15,35,60,.08);
+      --radius:18px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,#eef5fb 0%,var(--bg) 220px);
+      color:var(--text);
+      font-family:"Vazirmatn","IRANSansX","Tahoma",system-ui,sans-serif;
+      line-height:1.9;
+    }
+    button,input{font:inherit}
+    button{cursor:pointer}
+    button:focus-visible,input:focus-visible{outline:3px solid rgba(15,94,168,.26);outline-offset:2px}
+    .container{width:min(1080px,calc(100% - 28px));margin-inline:auto}
+    .hidden{display:none!important}
+
+    header.topbar{
+      position:sticky;top:0;z-index:20;
+      backdrop-filter:blur(14px);
+      background:rgba(255,255,255,.88);
+      border-bottom:1px solid rgba(217,225,234,.9);
+    }
+    .topbar-inner{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:900;color:var(--primary-2)}
+    .brand-mark{width:38px;height:38px;border-radius:12px;background:var(--primary);display:grid;place-items:center;color:white;font-weight:900}
+    .version-badge{font-size:12px;color:var(--muted);background:var(--surface-2);border:1px solid var(--border);padding:4px 9px;border-radius:999px}
+
+    main{padding:34px 0 70px}
+    .screen{display:none}
+    .screen.active{display:block}
+    .hero,.panel,.result-card,.question-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .hero{padding:34px}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--primary);font-weight:800;background:var(--primary-soft);border:1px solid #c7def3;padding:4px 10px;border-radius:999px;font-size:13px}
+    h1{font-size:clamp(27px,4vw,44px);line-height:1.35;margin:16px 0 10px}
+    h2{font-size:24px;margin:0 0 12px}
+    h3{font-size:18px;margin:0 0 6px}
+    p{margin:0 0 10px}
+    .subtitle{font-size:17px;color:#405066;max-width:850px}
+    .meta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0}
+    .meta{background:var(--surface-2);border:1px solid var(--border);border-radius:14px;padding:14px}
+    .meta b{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
+    .meta span{font-weight:800}
+    .notice{margin-top:18px;padding:16px;border-radius:14px;background:#fff8e8;border:1px solid #f5dfab;color:#6d5100}
+    .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+    .btn{border:0;border-radius:12px;padding:11px 17px;font-weight:800;transition:.18s ease;display:inline-flex;align-items:center;justify-content:center;gap:7px}
+    .btn:hover{transform:translateY(-1px)}
+    .btn-primary{background:var(--primary);color:#fff}
+    .btn-primary:hover{background:var(--primary-2)}
+    .btn-secondary{background:var(--surface-2);color:var(--text);border:1px solid var(--border)}
+    .btn-danger{background:var(--danger-soft);color:var(--danger);border:1px solid #f4c7c3}
+    .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+    .quiz-head{display:flex;flex-direction:column;gap:12px;margin-bottom:16px}
+    .progress-row{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-size:13px;font-weight:700}
+    .progress{height:10px;background:#e8edf3;border-radius:999px;overflow:hidden}
+    .progress > span{display:block;height:100%;width:0;background:var(--primary);border-radius:999px;transition:width .2s ease}
+    .page-nav{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 22px}
+    .page-dot{min-width:34px;height:34px;border-radius:10px;border:1px solid var(--border);background:#fff;color:var(--muted);font-weight:800}
+    .page-dot.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+    .page-dot.done{background:var(--success-soft);color:var(--success);border-color:#b7dec8}
+
+    .questions{display:grid;gap:14px}
+    .question-card{padding:20px}
+    .question-card.missing{border-color:#ef9b93;background:#fffafa;box-shadow:0 0 0 3px rgba(180,35,24,.07)}
+    .q-label{display:flex;gap:10px;align-items:flex-start;font-weight:900;font-size:16px}
+    .q-number{flex:0 0 auto;width:34px;height:34px;border-radius:10px;background:var(--primary-soft);color:var(--primary-2);display:grid;place-items:center}
+    .scale-options{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:16px}
+    .scale-option{position:relative}
+    .scale-option input{position:absolute;opacity:0;inset:0;width:100%;height:100%;cursor:pointer}
+    .scale-option label{height:76px;border:1px solid var(--border);border-radius:12px;background:var(--surface-2);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2px;padding:7px 4px;cursor:pointer;transition:.16s ease}
+    .scale-option label strong{font-size:20px;line-height:1;color:var(--primary-2)}
+    .scale-option label span{font-size:11px;color:var(--muted);font-weight:700;line-height:1.5}
+    .scale-option input:hover + label{border-color:#a9c6e1;background:#f4f9fe}
+    .scale-option input:checked + label{border-color:var(--primary);background:var(--primary-soft);box-shadow:0 0 0 2px rgba(15,94,168,.10)}
+    .validation{margin:14px 0;padding:12px 14px;border-radius:12px;background:var(--danger-soft);border:1px solid #f4c7c3;color:var(--danger);font-weight:800}
+
+    .quiz-footer{display:flex;justify-content:space-between;gap:10px;margin-top:20px;position:sticky;bottom:12px}
+    .footer-group{display:flex;gap:8px}
+
+    .results-header{margin-bottom:16px}
+    .result-summary{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .summary-box{padding:18px;border:1px solid var(--border);border-radius:15px;background:var(--surface)}
+    .summary-box.top{border-color:#b7dec8;background:#f7fcf9}
+    .summary-box.bottom{border-color:#f0cbc7;background:#fff9f8}
+    .tag-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .tag{padding:7px 10px;border-radius:999px;background:var(--surface-2);border:1px solid var(--border);font-weight:800;font-size:13px}
+    .tag.top{background:var(--success-soft);border-color:#b7dec8;color:var(--success)}
+    .tag.bottom{background:var(--danger-soft);border-color:#f0cbc7;color:var(--danger)}
+
+    .panel{margin-top:16px;padding:20px}
+    .chart-wrap{overflow-x:auto}
+    svg.chart{width:100%;min-width:760px;height:auto;display:block}
+    .score-table{width:100%;border-collapse:collapse;margin-top:12px}
+    .score-table th,.score-table td{padding:10px 8px;border-bottom:1px solid var(--border);text-align:right}
+    .score-table th{background:var(--surface-2);font-size:13px;color:var(--muted)}
+    .score-badge{display:inline-flex;min-width:42px;justify-content:center;padding:3px 8px;border-radius:999px;font-weight:900;background:var(--primary-soft);color:var(--primary-2)}
+    .rank{font-weight:900;color:var(--muted)}
+    .meaning{color:#45556b;font-size:13px}
+    .interpretation{line-height:2}
+    .disclaimer{background:#f7f9fc;border:1px dashed #cbd5e1;border-radius:14px;padding:15px;color:#526176;font-size:13px}
+    .result-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}
+
+    @media (max-width:760px){
+      .hero{padding:22px}
+      .meta-grid,.result-summary{grid-template-columns:1fr}
+      .scale-options{grid-template-columns:repeat(5,minmax(52px,1fr))}
+      .scale-option label{height:82px}
+      .scale-option label span{font-size:10px}
+      .quiz-footer{position:static;flex-direction:column}
+      .footer-group{width:100%}
+      .footer-group .btn{flex:1}
+      .brand span{display:none}
+    }
+
+    @media print{
+      body{background:#fff}
+      .topbar,.result-actions,.quiz-footer,.page-nav{display:none!important}
+      main{padding:0}
+      .container{width:100%}
+      .result-card,.panel,.hero{box-shadow:none;border:1px solid #ddd}
+      .result-summary{grid-template-columns:1fr 1fr}
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">W</div>
+        <span>آزمون ارزش‌های شغلی سوپر</span>
+      </div>
+      <span class="version-badge">نسخه ۴۵ سؤالی | ۲۰۰۶ / ۲۰۰۹</span>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- INTRO -->
+    <section id="intro" class="screen active" aria-labelledby="intro-title">
+      <div class="hero">
+        <span class="eyebrow">Work Values Inventory</span>
+        <h1 id="intro-title">آزمون ارزش‌های شغلی سوپر</h1>
+        <p class="subtitle">نسخه Adapted from Donald Super, Ph.D. — Spring 2006, Updated July 2009</p>
+
+        <div class="meta-grid">
+          <div class="meta"><b>تعداد سؤال</b><span>۴۵ سؤال</span></div>
+          <div class="meta"><b>ارزش‌های شغلی</b><span>۱۵ ارزش، هرکدام ۳ سؤال</span></div>
+          <div class="meta"><b>زمان تقریبی</b><span>۱۰ تا ۱۵ دقیقه</span></div>
+        </div>
+
+        <h2>دستورالعمل</h2>
+        <p>هر عبارت را با توجه به <strong>میزان اهمیتی که آن ویژگی برای شما در یک شغل دارد</strong> ارزیابی کنید.</p>
+        <p>۵ = بسیار مهم | ۴ = مهم | ۳ = دارای اهمیت متوسط | ۲ = دارای اهمیت کم | ۱ = بی‌اهمیت</p>
+
+        <div class="notice">
+          همه ۴۵ سؤال باید پاسخ داده شوند. هیچ سؤال معکوسی در این نسخه وجود ندارد. نتیجه بر اساس جمع سه سؤال مربوط به هر ارزش و سپس مقایسه نسبی ۱۵ ارزش در پروفایل خود فرد گزارش می‌شود. این آزمون نمره کل و صدک ندارد.
+        </div>
+
+        <div class="actions">
+          <button id="start-btn" class="btn btn-primary" type="button">شروع آزمون</button>
+          <button id="resume-btn" class="btn btn-secondary hidden" type="button">ادامه پاسخ‌های ذخیره‌شده</button>
+          <button id="reset-saved-btn" class="btn btn-danger hidden" type="button">پاک کردن پاسخ ذخیره‌شده</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUIZ -->
+    <section id="quiz" class="screen" aria-labelledby="quiz-title">
+      <div class="quiz-head">
+        <h2 id="quiz-title">پاسخ به سؤالات</h2>
+        <div class="progress-row">
+          <span id="progress-text">۰ از ۴۵ پاسخ</span>
+          <span id="elapsed-text">زمان سپری‌شده: ۰۰:۰۰</span>
+        </div>
+        <div class="progress" aria-label="درصد تکمیل آزمون"><span id="progress-fill"></span></div>
+        <div id="validation-box" class="validation hidden" role="alert"></div>
+      </div>
+
+      <nav id="page-nav" class="page-nav" aria-label="صفحه‌های آزمون"></nav>
+      <div id="questions-container" class="questions"></div>
+
+      <div class="quiz-footer">
+        <div class="footer-group">
+          <button id="prev-btn" class="btn btn-secondary" type="button">صفحه قبل</button>
+          <button id="next-btn" class="btn btn-primary" type="button">صفحه بعد</button>
+        </div>
+        <div class="footer-group">
+          <button id="finish-btn" class="btn btn-primary hidden" type="button">تصحیح و نمایش نتیجه</button>
+          <button id="quit-btn" class="btn btn-danger" type="button">خروج از آزمون</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section id="results" class="screen" aria-labelledby="results-title">
+      <div class="results-header">
+        <span class="eyebrow">گزارش نتیجه</span>
+        <h1 id="results-title">پروفایل ارزش‌های شغلی شما</h1>
+        <p class="subtitle" id="result-meta"></p>
+      </div>
+
+      <div class="result-summary">
+        <div class="summary-box top">
+          <h3>۳ ارزش با نمره بالاتر</h3>
+          <p class="meaning">بالاترین اولویت‌های نسبی در پروفایل شما. در صورت هم‌نمره بودن در آستانه، همه موارد هم‌نمره گزارش می‌شوند.</p>
+          <div id="top-list" class="tag-list"></div>
+        </div>
+        <div class="summary-box bottom">
+          <h3>۳ ارزش با نمره پایین‌تر</h3>
+          <p class="meaning">کم‌اهمیت‌ترین اولویت‌های نسبی در پروفایل شما. این بخش هم Tie را حفظ می‌کند.</p>
+          <div id="bottom-list" class="tag-list"></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>نمودار ۱۵ ارزش شغلی</h2>
+        <p class="meaning">نمره هر ارزش = جمع نمرات سه سؤال مربوط به آن. محور نمودار از ۳ تا ۱۵ است.</p>
+        <div class="chart-wrap" id="chart-container" aria-label="نمودار میله‌ای افقی نمرات ۱۵ ارزش شغلی"></div>
+      </div>
+
+      <div class="panel">
+        <h2>جدول نمرات و رتبه‌بندی نسبی</h2>
+        <table class="score-table">
+          <thead>
+            <tr><th>رتبه</th><th>ارزش</th><th>نمره</th><th>سؤالات</th><th>مفهوم</th></tr>
+          </thead>
+          <tbody id="scores-tbody"></tbody>
+        </table>
+      </div>
+
+      <div class="panel">
+        <h2>تفسیر</h2>
+        <div id="interpretation" class="interpretation"></div>
+      </div>
+
+      <div class="panel">
+        <div class="disclaimer">این ابزار پروفایل اهمیت ارزش‌های کاری فرد را نشان می‌دهد و می‌تواند در خودشناسی و کاوش شغلی استفاده شود. این آزمون ابزار تشخیص قطعی شغل مناسب نیست. برای تصمیم‌گیری‌های مهم شغلی، مشاوره با متخصص توصیه می‌شود.</div>
+        <div class="result-actions">
+          <button id="print-btn" class="btn btn-primary" type="button">چاپ / ذخیره PDF</button>
+          <button id="copy-btn" class="btn btn-secondary" type="button">کپی خلاصه نتیجه</button>
+          <button id="restart-btn" class="btn btn-secondary" type="button">شروع آزمون جدید</button>
+        </div>
+        <p id="copy-status" class="meaning" aria-live="polite" style="margin-top:10px"></p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    'use strict';
+
+    const STORAGE_KEY = 'super_wvi_45_answers_v1';
+    const TIME_KEY = 'super_wvi_45_started_v1';
+    const QUESTIONS_PER_PAGE = 9;
+
+    const SCALE_OPTIONS = [
+      { value: 5, label: 'بسیار مهم' },
+      { value: 4, label: 'مهم' },
+      { value: 3, label: 'اهمیت متوسط' },
+      { value: 2, label: 'اهمیت کم' },
+      { value: 1, label: 'بی‌اهمیت' }
+    ];
+
+    const QUESTIONS = [
+      'کاری که در آن مجبور باشید پیوسته مسائل و مشکلات جدیدی را حل کنید.',
+      'کاری که در آن به دیگران کمک کنید.',
+      'کاری که در آن امکان افزایش حقوق داشته باشید.',
+      'کاری که در آن تغییرات شغلی برایتان جذاب باشد و منتظر آنها باشید.',
+      'کاری که در حوزه مسئولیت خود آزادی عمل داشته باشید.',
+      'کاری که در آن در زمینه حرفه‌ای خود اعتبار و وجهه کسب کنید.',
+      'کاری که در آن به توانایی هنری نیاز داشته باشید.',
+      'کاری که در آن عضو پذیرفته‌شده و همراهِ گروه همکاران باشید.',
+      'کاری که اطمینان داشته باشید شغلتان ادامه خواهد داشت.',
+      'کاری که به شما اجازه دهد همان نوع فردی باشید که دوست دارید باشید.',
+      'کاری که در آن رئیس یا سرپرست با شما منصفانه رفتار کند.',
+      'کاری که محیط و فضای انجام آن را دوست داشته باشید.',
+      'کاری که در پایان آن احساس کنید یک روز کاری پربار را به انجام رسانده‌اید.',
+      'کاری که در آن بر دیگران اختیار و مسئولیت مدیریتی داشته باشید.',
+      'کاری که در آن بتوانید ایده‌ها و پیشنهادهای جدید را امتحان کنید.',
+      'کاری که در آن بتوانید چیز تازه‌ای ایجاد کنید.',
+      'کاری که از طریق نتایج کارتان بتوانید بفهمید کار را به‌خوبی انجام داده‌اید.',
+      'کاری که رئیس یا سرپرست شما فردی منطقی و معقول باشد.',
+      'کاری که در آن از داشتن شغل خود به‌طور مستمر مطمئن باشید.',
+      'کاری که بتوانید به زیبایی و زیباتر شدن جهان بیفزایید.',
+      'کاری که در آن بتوانید تصمیم‌های خودتان را بگیرید.',
+      'کاری که افزایش حقوق آن متناسب با افزایش هزینه‌های زندگی باشد.',
+      'کاری که از نظر ذهنی شما را به چالش بکشد.',
+      'کاری که بتوانید از توانایی‌های رهبری و هدایت خود استفاده کنید.',
+      'کاری که امکانات رفاهی مناسبی داشته باشد؛ مانند فضای استراحت و سرویس بهداشتی کافی.',
+      'کاری که به شما اجازه دهد سبک زندگی مطلوب خود را خارج از محیط کار داشته باشید.',
+      'کاری که در آن بتوانید با همکارانتان دوستی و روابط دوستانه ایجاد کنید.',
+      'کاری که بدانید دیگران کار شما را مهم و باارزش می‌دانند.',
+      'کاری که مجبور نباشید همیشه یک کار تکراری و یکسان انجام دهید.',
+      'کاری که در آن احساس کنید به فرد دیگری کمک کرده‌اید.',
+      'کاری که به رفاه و بهزیستی دیگران کمک کند.',
+      'کاری که در آن کارها و فعالیت‌های متنوع زیادی انجام دهید.',
+      'کاری که دیگران برای شما احترام و جایگاه قائل باشند.',
+      'کاری که در آن روابط و ارتباطات خوبی با همکارانتان داشته باشید.',
+      'کاری که به شما امکان دهد سبک زندگی‌ای را داشته باشید که بیش از همه از آن لذت می‌برید.',
+      'کاری که محیط فیزیکی مناسبی داشته باشد؛ مانند نور مناسب، آرامش، پاکیزگی و فضای کافی.',
+      'کاری که در آن برنامه‌ریزی و سازمان‌دهی کار دیگران را بر عهده داشته باشید.',
+      'کاری که مستلزم هوشیاری و فعال‌بودن ذهنی شما باشد.',
+      'کاری که درآمد آن برای داشتن یک زندگی مناسب و تأمین نیازهای زندگی کافی باشد.',
+      'کاری که در آن خودتان رئیس خود باشید.',
+      'کاری که در آن بتوانید محصولات یا خروجی‌های زیبا و جذاب ایجاد کنید.',
+      'کاری که اگر شغل فعلی‌تان در شرکت پایان یافت، مطمئن باشید شغل دیگری در همان شرکت خواهید داشت.',
+      'کاری که سرپرست شما در آن با ملاحظه و توجه با شما رفتار کند.',
+      'کاری که بتوانید نتیجه تلاش‌ها و زحمات خود را مشاهده کنید.',
+      'کاری که در آن بتوانید ایده‌های جدید ارائه کنید.'
+    ].map((text, index) => ({ id: index + 1, text }));
+
+    const SCALES = {
+      intellectualStimulation: { fa: 'تحریک ذهنی', qs: [1, 23, 38], meaning: 'حل مسائل جدید، فعال بودن ذهن، مواجهه با چالش‌های فکری' },
+      altruism: { fa: 'نوع‌دوستی', qs: [2, 30, 31], meaning: 'کمک به دیگران و افزایش رفاه آنان' },
+      economicReturn: { fa: 'بازده اقتصادی', qs: [3, 22, 39], meaning: 'درآمد، افزایش حقوق و کفایت مالی شغل' },
+      variety: { fa: 'تنوع', qs: [4, 29, 32], meaning: 'تغییر، فعالیت‌های گوناگون و پرهیز از یکنواختی' },
+      independence: { fa: 'استقلال', qs: [5, 21, 40], meaning: 'آزادی عمل، تصمیم‌گیری شخصی و خودمختاری' },
+      prestige: { fa: 'اعتبار', qs: [6, 28, 33], meaning: 'جایگاه، اعتبار حرفه‌ای و احترام دیگران' },
+      aesthetics: { fa: 'زیبایی‌شناسی', qs: [7, 20, 41], meaning: 'خلق یا حفظ زیبایی و استفاده از توانایی هنری' },
+      associates: { fa: 'همکاران', qs: [8, 27, 34], meaning: 'روابط خوب، دوستی و ارتباط با همکاران' },
+      security: { fa: 'امنیت', qs: [9, 19, 42], meaning: 'ثبات شغلی و اطمینان از تداوم اشتغال' },
+      wayOfLife: { fa: 'سبک زندگی', qs: [10, 26, 35], meaning: 'هماهنگی شغل با شیوه زندگی مطلوب' },
+      supervisoryRelations: { fa: 'رابطه با سرپرست', qs: [11, 18, 43], meaning: 'رفتار منصفانه، منطقی و ملاحظه‌گرانه سرپرست' },
+      surroundings: { fa: 'محیط کار', qs: [12, 25, 36], meaning: 'کیفیت و مناسب بودن محیط فیزیکی کار' },
+      achievement: { fa: 'دستاورد', qs: [13, 17, 44], meaning: 'احساس موفقیت و مشاهده نتیجه تلاش' },
+      management: { fa: 'مدیریت', qs: [14, 24, 37], meaning: 'اختیار، رهبری، برنامه‌ریزی و سازمان‌دهی کار دیگران' },
+      creativity: { fa: 'خلاقیت', qs: [15, 16, 45], meaning: 'ایجاد چیزهای جدید و ارائه یا آزمودن ایده‌های تازه' }
+    };
+
+    let answers = loadAnswers();
+    let currentPage = 1;
+    let timerHandle = null;
+    let resultData = null;
+
+    const $ = (id) => document.getElementById(id);
+    const toFaDigits = (value) => String(value).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+    const esc = (value) => String(value)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+
+    function showScreen(id){
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      $(id).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function loadAnswers(){
+      try{
+        const raw = (()=>{ try{return localStorage.getItem(STORAGE_KEY);}catch{return null;} })();
+        if(!raw) return {};
+        const parsed = JSON.parse(raw);
+        if(!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
+        const clean = {};
+        for(const [k,v] of Object.entries(parsed)){
+          const q = Number(k), n = Number(v);
+          if(Number.isInteger(q) && q >= 1 && q <= 45 && Number.isInteger(n) && n >= 1 && n <= 5){
+            clean[q] = n;
+          }
+        }
+        return clean;
+      }catch{ return {}; }
+    }
+
+    function persist(){
+      try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(answers)); }catch{}
+    }
+
+    function countAnswered(){
+      return Object.keys(answers).filter(k => Number.isInteger(answers[k]) && answers[k] >= 1 && answers[k] <= 5).length;
+    }
+
+    function startTimer(){
+      try{
+        if(!localStorage.getItem(TIME_KEY)) localStorage.setItem(TIME_KEY, String(Date.now()));
+      }catch{}
+      updateElapsed();
+      clearInterval(timerHandle);
+      timerHandle = setInterval(updateElapsed, 1000);
+    }
+
+    function stopTimer(){
+      clearInterval(timerHandle);
+      timerHandle = null;
+    }
+
+    function getElapsedSeconds(){
+      let rawStarted=null;
+      try{ rawStarted=localStorage.getItem(TIME_KEY); }catch{}
+      const started = Number(rawStarted);
+      if(!Number.isFinite(started) || started <= 0) return 0;
+      return Math.max(0, Math.floor((Date.now() - started) / 1000));
+    }
+
+    function formatDuration(seconds){
+      const h = Math.floor(seconds / 3600);
+      const m = Math.floor((seconds % 3600) / 60);
+      const s = seconds % 60;
+      return h > 0 ? `${toFaDigits(String(h).padStart(2,'0'))}:${toFaDigits(String(m).padStart(2,'0'))}:${toFaDigits(String(s).padStart(2,'0'))}` : `${toFaDigits(String(m).padStart(2,'0'))}:${toFaDigits(String(s).padStart(2,'0'))}`;
+    }
+
+    function updateElapsed(){
+      $('elapsed-text').textContent = `زمان سپری‌شده: ${formatDuration(getElapsedSeconds())}`;
+    }
+
+    function renderLandingButtons(){
+      const hasSaved = countAnswered() > 0;
+      $('resume-btn').classList.toggle('hidden', !hasSaved);
+      $('reset-saved-btn').classList.toggle('hidden', !hasSaved);
+    }
+
+    function renderProgress(){
+      const answered = countAnswered();
+      const pct = Math.round(answered / 45 * 100);
+      $('progress-text').textContent = `${toFaDigits(answered)} از ${toFaDigits(45)} پاسخ`;
+      $('progress-fill').style.width = `${pct}%`;
+      updateElapsed();
+      renderPageNav();
+    }
+
+    function pageRange(page){
+      const start = (page - 1) * QUESTIONS_PER_PAGE;
+      const end = Math.min(start + QUESTIONS_PER_PAGE, QUESTIONS.length);
+      return { start, end };
+    }
+
+    function pageHasAnswers(page){
+      const {start,end} = pageRange(page);
+      return QUESTIONS.slice(start,end).some(q => Object.hasOwn(answers,q.id));
+    }
+
+    function renderPageNav(){
+      const totalPages = Math.ceil(QUESTIONS.length / QUESTIONS_PER_PAGE);
+      const nav = $('page-nav');
+      nav.innerHTML = '';
+      for(let p=1;p<=totalPages;p++){
+        const b = document.createElement('button');
+        b.type='button';
+        b.className = `page-dot${p===currentPage?' active':''}${pageHasAnswers(p)?' done':''}`;
+        b.textContent = toFaDigits(p);
+        b.setAttribute('aria-label', `صفحه ${toFaDigits(p)}`);
+        b.addEventListener('click',()=>{ currentPage=p; renderQuestions(); });
+        nav.appendChild(b);
+      }
+    }
+
+    function renderQuestions(){
+      const {start,end} = pageRange(currentPage);
+      const box = $('questions-container');
+      box.innerHTML='';
+      $('validation-box').classList.add('hidden');
+
+      for(let i=start;i<end;i++){
+        const q = QUESTIONS[i];
+        const card = document.createElement('article');
+        card.className='question-card';
+        card.id=`question-${q.id}`;
+
+        const qLabel = document.createElement('div');
+        qLabel.className='q-label';
+        const number = document.createElement('span');
+        number.className='q-number';
+        number.textContent = toFaDigits(q.id);
+        const text = document.createElement('span');
+        text.textContent = q.text;
+        qLabel.append(number,text);
+        card.appendChild(qLabel);
+
+        const options = document.createElement('div');
+        options.className='scale-options';
+        options.setAttribute('role','radiogroup');
+        options.setAttribute('aria-label',`پاسخ سؤال ${q.id}`);
+
+        for(const option of SCALE_OPTIONS){
+          const wrap=document.createElement('div');
+          wrap.className='scale-option';
+          const input=document.createElement('input');
+          input.type='radio'; input.id=`q${q.id}-v${option.value}`; input.name=`q${q.id}`; input.value=String(option.value);
+          input.checked = Number(answers[q.id]) === option.value;
+          input.setAttribute('aria-label',`${option.label} - ${toFaDigits(option.value)}`);
+          const label=document.createElement('label');
+          label.htmlFor=input.id;
+          label.innerHTML=`<strong>${toFaDigits(option.value)}</strong><span>${esc(option.label)}</span>`;
+          input.addEventListener('change',()=>{
+            answers[q.id]=option.value;
+            card.classList.remove('missing');
+            persist();
+            renderProgress();
+          });
+          wrap.append(input,label);
+          options.appendChild(wrap);
+        }
+        card.appendChild(options);
+        box.appendChild(card);
+      }
+
+      $('prev-btn').disabled = currentPage === 1;
+      const totalPages = Math.ceil(QUESTIONS.length / QUESTIONS_PER_PAGE);
+      $('next-btn').classList.toggle('hidden', currentPage === totalPages);
+      $('finish-btn').classList.toggle('hidden', currentPage !== totalPages);
+      window.scrollTo({top:0,behavior:'smooth'});
+      renderProgress();
+    }
+
+    function validateAnswers(){
+      const missing=[];
+      for(let q=1;q<=45;q++){
+        const v=answers[q];
+        if(!Number.isInteger(v) || v<1 || v>5) missing.push(q);
+      }
+      return {valid:missing.length===0,missing};
+    }
+
+    function calculateScores(validAnswers){
+      const results={};
+      for(const [key,scale] of Object.entries(SCALES)){
+        results[key]=scale.qs.reduce((sum,q)=>sum+validAnswers[q],0);
+      }
+      return results;
+    }
+
+    function rankResults(scores){
+      return Object.entries(scores)
+        .map(([key,score])=>({key,fa:SCALES[key].fa,score,qs:SCALES[key].qs,meaning:SCALES[key].meaning}))
+        .sort((a,b)=>b.score-a.score || a.qs[0]-b.qs[0]);
+    }
+
+    function tieAwareTopBottom(ranked){
+      const topCutoff=ranked[2].score;
+      const bottomCutoff=ranked[ranked.length-3].score;
+      return {
+        top:ranked.filter(x=>x.score>=topCutoff),
+        bottom:ranked.filter(x=>x.score<=bottomCutoff)
+      };
+    }
+
+    function ordinalRank(ranked,index){
+      if(index===0) return 1;
+      const score=ranked[index].score;
+      let first=index;
+      while(first>0 && ranked[first-1].score===score) first--;
+      return first+1;
+    }
+
+    function buildSummaryItems(items, cls){
+      return items.map(x=>`<span class="tag ${cls}">${esc(x.fa)} (${toFaDigits(x.score)})</span>`).join('');
+    }
+
+    function renderChart(ranked){
+      const width=960, rowH=44, top=32, left=250, right=54;
+      const height=top + ranked.length*rowH + 28;
+      const chart= document.createElementNS('http://www.w3.org/2000/svg','svg');
+      chart.setAttribute('viewBox',`0 0 ${width} ${height}`);
+      chart.setAttribute('class','chart');
+      chart.setAttribute('role','img');
+      chart.setAttribute('aria-label','نمودار میله‌ای افقی نمرات ۱۵ ارزش شغلی');
+
+      const NS='http://www.w3.org/2000/svg';
+      const add=(tag,attrs,text='')=>{
+        const el=document.createElementNS(NS,tag);
+        for(const [k,v] of Object.entries(attrs||{})) el.setAttribute(k,v);
+        if(text) el.textContent=text;
+        chart.appendChild(el); return el;
+      };
+      const x0=left, x1=width-right, plotW=x1-x0;
+      const xFor=v=>x0+((v-3)/12)*plotW;
+
+      add('text',{x:width-right,y:20,'text-anchor':'end','font-size':'13',fill:'#64748b'},'نمره خام');
+      [3,6,9,12,15].forEach(t=>{
+        const x=xFor(t);
+        add('line',{x1:x,y1:top-7,x2:x,y2:height-20,stroke:'#dbe3ec','stroke-width':'1'});
+        add('text',{x,y:height-3,'text-anchor':'middle','font-size':'12',fill:'#64748b'},toFaDigits(t));
+      });
+
+      ranked.forEach((item,i)=>{
+        const y=top+i*rowH;
+        const barY=y+7;
+        const barH=24;
+        const w=Math.max(3, xFor(item.score)-x0);
+        add('text',{x:left-14,y:y+25,'text-anchor':'end','font-size':'13',fill:'#172033','font-weight':'700'},item.fa);
+        add('rect',{x:x0,y:barY,width:plotW,height:barH,rx:'7',fill:'#eef2f6'});
+        add('rect',{x:x0,y:barY,width:w,height:barH,rx:'7',fill:'#0f5ea8'});
+        add('text',{x:Math.min(x0+w+9,x1-2),y:y+25,'text-anchor':'start','font-size':'12',fill:'#0b4b86','font-weight':'900'},toFaDigits(item.score));
+      });
+
+      $('chart-container').innerHTML='';
+      $('chart-container').appendChild(chart);
+    }
+
+    function renderResults(result){
+      resultData=result;
+      const {ranked,top,bottom,elapsed}=result;
+      $('result-meta').textContent = `مدت پاسخ‌گویی: ${formatDuration(elapsed)} | نمره‌ها در دامنه ۳ تا ۱۵ گزارش شده‌اند.`;
+      $('top-list').innerHTML=buildSummaryItems(top,'top');
+      $('bottom-list').innerHTML=buildSummaryItems(bottom,'bottom');
+      renderChart(ranked);
+
+      $('scores-tbody').innerHTML=ranked.map((x,i)=>{
+        const rank=ordinalRank(ranked,i);
+        return `<tr><td class="rank">${toFaDigits(rank)}</td><td><strong>${esc(x.fa)}</strong></td><td><span class="score-badge">${toFaDigits(x.score)}</span></td><td>${x.qs.map(toFaDigits).join('، ')}</td><td class="meaning">${esc(x.meaning)}</td></tr>`;
+      }).join('');
+
+      const topText=top.map(x=>`${x.fa} (${x.score})`).join('، ');
+      const bottomText=bottom.map(x=>`${x.fa} (${x.score})`).join('، ');
+      $('interpretation').innerHTML = [
+        `<p>در پروفایل شما، ارزش‌هایی که بالاترین اهمیت نسبی را داشته‌اند عبارت‌اند از: <strong>${esc(topText)}</strong>.</p>`,
+        `<p>ارزش‌هایی که پایین‌ترین اهمیت نسبی را داشته‌اند عبارت‌اند از: <strong>${esc(bottomText)}</strong>.</p>`,
+        `<p>این آزمون بر مقایسه <strong>درون‌فردی</strong> ۱۵ ارزش تکیه دارد. بنابراین نمره یک ارزش باید در کنار سایر ارزش‌های همان پروفایل خوانده شود، نه به‌عنوان یک طبقه‌بندی هنجاری مطلق. در این نسخه برای نمره‌های ۱۲ تا ۱۵ یا هر دامنه دیگری cut-off رسمی تعریف نشده است و نمره صدکی نیز محاسبه نمی‌شود.</p>`,
+        `<p>همچنین این نتیجه به‌تنهایی تعیین نمی‌کند که چه شغلی برای فرد «مناسب» است؛ فقط نشان می‌دهد فرد در میان این ۱۵ ارزش، چه اولویت نسبی‌ای گزارش کرده است.</p>`
+      ].join('');
+    }
+
+    function finishQuiz(){
+      const validation=validateAnswers();
+      if(!validation.valid){
+        validation.missing.forEach(q=>{
+          const card=$(`question-${q}`); if(card) card.classList.add('missing');
+        });
+        const first=validation.missing[0];
+        currentPage=Math.ceil(first/QUESTIONS_PER_PAGE);
+        renderQuestions();
+        $('validation-box').textContent=`آزمون هنوز کامل نشده است. ${toFaDigits(validation.missing.length)} سؤال بدون پاسخ است. ابتدا سؤال ${toFaDigits(first)} را پاسخ دهید.`;
+        $('validation-box').classList.remove('hidden');
+        const target=$(`question-${first}`);
+        if(target) target.scrollIntoView({behavior:'smooth',block:'center'});
+        return;
+      }
+
+      const scores=calculateScores(answers);
+      const ranked=rankResults(scores);
+      const {top,bottom}=tieAwareTopBottom(ranked);
+      const elapsed=getElapsedSeconds();
+      stopTimer();
+      try{ localStorage.removeItem(STORAGE_KEY); localStorage.removeItem(TIME_KEY); }catch{}
+      renderResults({scores,ranked,top,bottom,elapsed});
+      showScreen('results');
+    }
+
+    function resetSaved(){
+      try{ localStorage.removeItem(STORAGE_KEY); localStorage.removeItem(TIME_KEY); }catch{}
+      answers={};
+      currentPage=1;
+      renderLandingButtons();
+      $('validation-box').classList.add('hidden');
+    }
+
+    function newTest(){
+      stopTimer();
+      answers={};
+      currentPage=1;
+      try{ localStorage.removeItem(STORAGE_KEY); localStorage.removeItem(TIME_KEY); }catch{}
+      renderLandingButtons();
+      showScreen('quiz');
+      startTimer();
+      renderQuestions();
+    }
+
+    function resumeTest(){
+      currentPage=1;
+      showScreen('quiz');
+      startTimer();
+      renderQuestions();
+    }
+
+    function exitQuiz(){
+      persist();
+      stopTimer();
+      renderLandingButtons();
+      showScreen('intro');
+    }
+
+    function buildCopyText(){
+      if(!resultData) return '';
+      const {ranked,top,bottom,elapsed}=resultData;
+      return [
+        'آزمون ارزش‌های شغلی سوپر | Work Values Inventory',
+        'نسخه ۴۵ سؤالی | Adapted from Donald Super, Spring 2006, Updated July 2009',
+        `مدت پاسخ‌گویی: ${formatDuration(elapsed)}`,
+        `۳ ارزش با اهمیت نسبی بیشتر: ${top.map(x=>`${x.fa} (${x.score})`).join('، ')}`,
+        `۳ ارزش با اهمیت نسبی کمتر: ${bottom.map(x=>`${x.fa} (${x.score})`).join('، ')}`,
+        '',
+        'نمرات ۱۵ ارزش:',
+        ...ranked.map((x,i)=>`${i+1}. ${x.fa}: ${x.score}`),
+        '',
+        'تفسیر: مقایسه درون‌فردی ۱۵ ارزش، بدون cut-off رسمی و بدون percentile.'
+      ].join('\n');
+    }
+
+    async function copyResults(){
+      const text=buildCopyText();
+      if(!text) return;
+      try{
+        await navigator.clipboard.writeText(text);
+        $('copy-status').textContent='خلاصه نتیجه با موفقیت کپی شد.';
+      }catch{
+        $('copy-status').textContent='کپی خودکار توسط مرورگر مسدود شد. از گزینه چاپ / ذخیره PDF استفاده کنید.';
+      }
+    }
+
+    function runIntegrityChecks(){
+      if(QUESTIONS.length!==45) throw new Error('Integrity: QUESTIONS must contain exactly 45 items.');
+      const ids=new Set(QUESTIONS.map(q=>q.id));
+      if(ids.size!==45 || [...ids].some((id,i)=>id!==i+1)) throw new Error('Integrity: question IDs must be 1..45 exactly.');
+      const allMapped=Object.values(SCALES).flatMap(s=>s.qs);
+      if(allMapped.length!==45 || new Set(allMapped).size!==45 || [...allMapped].sort((a,b)=>a-b).some((v,i)=>v!==i+1)){
+        throw new Error('Integrity: scale mapping must cover every question exactly once.');
+      }
+      for(const s of Object.values(SCALES)){
+        if(s.qs.length!==3) throw new Error('Integrity: each scale must contain exactly 3 questions.');
+      }
+      const allFive=Object.fromEntries(QUESTIONS.map(q=>[q.id,5]));
+      const scoresFive=calculateScores(allFive);
+      if(Object.values(scoresFive).some(v=>v!==15)) throw new Error('Integrity: all-5 test must yield 15 on every scale.');
+      const allOne=Object.fromEntries(QUESTIONS.map(q=>[q.id,1]));
+      const scoresOne=calculateScores(allOne);
+      if(Object.values(scoresOne).some(v=>v!==3)) throw new Error('Integrity: all-1 test must yield 3 on every scale.');
+    }
+
+    $('start-btn').addEventListener('click',newTest);
+    $('resume-btn').addEventListener('click',resumeTest);
+    $('reset-saved-btn').addEventListener('click',()=>{
+      if(confirm('پاسخ‌های ذخیره‌شده پاک شوند؟')) resetSaved();
+    });
+    $('prev-btn').addEventListener('click',()=>{ if(currentPage>1){currentPage--;renderQuestions();} });
+    $('next-btn').addEventListener('click',()=>{ if(currentPage<Math.ceil(45/QUESTIONS_PER_PAGE)){currentPage++;renderQuestions();} });
+    $('finish-btn').addEventListener('click',finishQuiz);
+    $('quit-btn').addEventListener('click',exitQuiz);
+    $('print-btn').addEventListener('click',()=>window.print());
+    $('copy-btn').addEventListener('click',copyResults);
+    $('restart-btn').addEventListener('click',newTest);
+
+    runIntegrityChecks();
+    renderLandingButtons();
+    if(countAnswered()>0) renderPageNav();
+  </script>
+</body>
+</html>
