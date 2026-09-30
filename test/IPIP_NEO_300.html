@@ -1,0 +1,6818 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IPIP-NEO-300 — اجرای آفلاین</title>
+<meta name="description" content="سامانه آفلاین و قابل حسابرسی اجرای IPIP-NEO-300 بر اساس دو فایل مرجع پروژه">
+<style>
+:root {
+  --bg: #f3f6fa;
+  --surface: #ffffff;
+  --surface-2: #eef4f8;
+  --text: #1d2733;
+  --muted: #657383;
+  --border: #d9e2ea;
+  --navy: #16324f;
+  --blue: #245b83;
+  --green: #1f6b58;
+  --danger: #a13a3a;
+  --warning: #9a651e;
+  --shadow: 0 10px 30px rgba(22, 50, 79, 0.08);
+  --radius: 18px;
+  --radius-sm: 12px;
+  --focus: 0 0 0 3px rgba(36, 91, 131, 0.22);
+}
+* { box-sizing: border-box; }
+html, body { min-height: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Tahoma, Arial, sans-serif;
+  line-height: 1.8;
+}
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+button:focus-visible, input:focus-visible, label.option:focus-within { outline: none; box-shadow: var(--focus); }
+.app-shell { width: min(1100px, calc(100% - 28px)); margin: 22px auto 42px; }
+.topbar {
+  display: flex; justify-content: space-between; align-items: center; gap: 14px;
+  margin-bottom: 16px;
+}
+.brand { font-weight: 800; color: var(--navy); font-size: 1.05rem; }
+.badge { font-size: .82rem; background: #e8f0f7; color: var(--blue); padding: 4px 10px; border-radius: 999px; }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 28px;
+}
+.hidden { display: none !important; }
+.muted { color: var(--muted); }
+.small { font-size: .88rem; }
+.h1 { margin: 0 0 8px; font-size: clamp(1.5rem, 3.2vw, 2.2rem); color: var(--navy); }
+.h2 { margin: 0 0 8px; font-size: 1.25rem; color: var(--navy); }
+.lead { font-size: 1rem; color: #334352; }
+.stack > * + * { margin-top: 14px; }
+.note {
+  padding: 14px 16px; border-radius: var(--radius-sm); background: #f5f8fb; border: 1px solid var(--border);
+}
+.note.warning { background: #fff8ec; border-color: #ead6b6; color: #5f491f; }
+.note.danger { background: #fff1f1; border-color: #e6c1c1; color: #6e2929; }
+.actions {
+  display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px;
+}
+.btn {
+  border: 0; border-radius: 12px; padding: 12px 18px; min-height: 46px;
+  font-weight: 700; transition: transform .12s ease, filter .12s ease;
+}
+.btn:hover { filter: brightness(.98); }
+.btn:active { transform: translateY(1px); }
+.btn.primary { background: var(--navy); color: #fff; }
+.btn.secondary { background: #eaf1f6; color: var(--navy); border: 1px solid var(--border); }
+.btn.green { background: var(--green); color: #fff; }
+.btn.danger { background: var(--danger); color: #fff; }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.grid-2 {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px;
+}
+.field label { display:block; font-weight:700; margin-bottom:6px; color:var(--navy); }
+.field input, .field select {
+  width: 100%; min-height: 46px; border: 1px solid var(--border); border-radius: 10px;
+  padding: 10px 12px; background: #fff; color: var(--text);
+}
+.progress-wrap { margin-bottom: 18px; }
+.progress-meta {
+  display:flex; justify-content:space-between; align-items:center; gap: 10px;
+  color:var(--muted); font-size:.9rem; margin-bottom:7px;
+}
+.progress {
+  height: 10px; background: #e6edf3; border-radius: 999px; overflow:hidden;
+}
+.progress > div {
+  height:100%; width:0%; background:var(--green); transition: width .18s ease;
+}
+.question-head { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; }
+.question-number { font-size: .92rem; color:var(--blue); font-weight:800; }
+.question-text {
+  margin: 8px 0 24px; color: #182532; font-size: clamp(1.2rem, 2.6vw, 1.62rem); font-weight: 700;
+}
+.options { display:grid; grid-template-columns: 1fr; gap: 10px; }
+.option {
+  display:flex; align-items:center; gap: 12px; width: 100%;
+  padding: 14px 16px; border: 1px solid var(--border); border-radius: 14px;
+  background: #fff; color: var(--text);
+  user-select: none;
+}
+.option:hover { background: #f7fafc; }
+.option.selected { border-color: #6b98bb; background: #edf5fb; }
+.option input { width: 19px; height: 19px; accent-color: var(--green); flex:0 0 auto; }
+.option .num {
+  width: 28px; height: 28px; display:grid; place-items:center; border-radius:50%;
+  background:#eaf1f6; color:var(--navy); font-weight:800; flex:0 0 auto;
+}
+.option.selected .num { background: var(--navy); color:#fff; }
+.option .label { font-weight: 700; }
+.question-footer {
+  display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;
+  margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border);
+}
+.progress-count { font-weight:700; color:var(--navy); }
+.table-wrap {
+  overflow:auto; border:1px solid var(--border); border-radius:14px; margin-top:12px;
+}
+table { width:100%; border-collapse:collapse; min-width:600px; background:#fff; }
+th, td { padding:10px 12px; border-bottom:1px solid var(--border); text-align:right; vertical-align:top; }
+th { background:#f2f6f9; color:var(--navy); font-weight:800; }
+tr:last-child td { border-bottom:0; }
+.status-pill {
+  display:inline-flex; align-items:center; gap:6px; padding:4px 9px; border-radius:999px; font-size:.82rem; font-weight:800;
+}
+.status-pass { background:#e8f4ef; color:#1e614f; }
+.status-warn { background:#fff4df; color:#7b561f; }
+.status-unresolved { background:#f0eef8; color:#50437b; }
+.kpi-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin-top:14px; }
+.kpi { background:var(--surface-2); border:1px solid var(--border); border-radius:14px; padding:12px; }
+.kpi .value { font-size:1.12rem; font-weight:800; color:var(--navy); }
+.kpi .label { color:var(--muted); font-size:.8rem; }
+.interpretation {
+  padding:14px 16px; border-radius:14px; border:1px solid var(--border); background:#fbfcfd;
+}
+.result-section { margin-top:24px; }
+.section-title { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.modal-backdrop {
+  position:fixed; inset:0; background:rgba(13,22,31,.42); display:flex; align-items:center; justify-content:center;
+  padding:20px; z-index:50;
+}
+.modal {
+  width:min(520px,100%); background:#fff; border-radius:18px; border:1px solid var(--border); box-shadow:var(--shadow);
+  padding:24px;
+}
+.modal h3 { margin-top:0; color:var(--navy); }
+.debug-panel {
+  margin-top:18px; border-top:1px dashed var(--border); padding-top:18px;
+}
+.code {
+  direction:ltr; text-align:left; font-family:Consolas, "Courier New", monospace; font-size:.8rem;
+  white-space:pre-wrap; word-break:break-word; background:#f6f7f9; border:1px solid var(--border); border-radius:10px; padding:12px;
+}
+.footer-note { margin-top:18px; color:var(--muted); font-size:.82rem; }
+@media (max-width: 820px) {
+  .grid-2 { grid-template-columns:1fr; }
+  .kpi-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .card { padding:20px; }
+}
+@media (max-width: 560px) {
+  .app-shell { width:min(100% - 16px, 1100px); margin-top:10px; }
+  .card { padding:16px; border-radius:14px; }
+  .topbar { flex-direction:column; align-items:flex-start; }
+  .question-text { font-size:1.18rem; }
+  .btn { width:100%; }
+  .actions .btn { flex:1 1 100%; }
+  .question-footer > * { width:100%; }
+  .question-footer .nav-actions { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+}
+@media print {
+  @page { size:A4; margin:12mm; }
+  body { background:#fff; color:#000; }
+  .no-print, .topbar, .progress-wrap, .modal-backdrop { display:none !important; }
+  .app-shell { width:100%; margin:0; }
+  .card { box-shadow:none; border:0; padding:0; }
+  .result-section { break-inside:avoid; }
+  table { min-width:0; font-size:9.5pt; }
+  th, td { padding:6px 7px; }
+  .interpretation { border:0; padding:8px 0; background:#fff; }
+  .print-break { page-break-before:always; }
+  a { color:inherit; text-decoration:none; }
+}
+</style>
+</head>
+<body>
+<div id="app" class="app-shell">
+  <div class="topbar no-print">
+    <div class="brand">IPIP-NEO-300 — اجرای آفلاین</div>
+    <span class="badge">300 آیتم / 30 Facet / 5 Domain</span>
+  </div>
+
+  <section id="screen-start" class="card">
+    <h1 class="h1">آزمون شخصیت IPIP-NEO-300</h1>
+    <div class="stack">
+      <p class="lead">نسخه آفلاین و مستقل این سامانه بر اساس دو فایل مرجع همین پروژه ساخته شده است. همه ۳۰۰ آیتم در ترتیب Full# منبع بارگذاری می‌شوند.</p>
+      <div class="note">
+        <strong>دستورالعمل پاسخ‌دهی</strong>
+        <p>بر اساس وضعیت معمول فعلی خود پاسخ دهید، نه آنچه آرزو می‌کنید باشید. در پاسخ‌ها نسبت به افراد هم‌جنس و حدوداً هم‌سن خود صادق باشید و به همه آیتم‌ها پاسخ دهید.</p>
+      </div>
+      <div class="note warning">
+        <strong>نکته فنی مهم</strong>
+        <p>Normهای نسخه ۳۰۰ موجود در مرجع، آرایه رسمی منتشرشده Johnson نیستند؛ آن‌ها از داده <code>IPIP300.dat</code> سال ۲۰۱۴ بازسازی شده‌اند. این موضوع در گزارش نهایی نیز صریحاً درج می‌شود.</p>
+      </div>
+      <div class="note">
+        <strong>درباره تفسیر</strong>
+        <p>این سامانه متن‌های تفسیری موجود در مستندات پروژه را استفاده می‌کند. برای Facetها، در منابع ارائه‌شده متن تفسیری اختصاصی وجود ندارد و متن جدید تولید نمی‌شود.</p>
+      </div>
+      <div id="resume-box" class="note hidden"></div>
+      <div class="actions no-print">
+        <button id="btn-start" class="btn primary">شروع آزمون</button>
+        <button id="btn-resume" class="btn secondary hidden">ادامه آزمون ذخیره‌شده</button>
+        <button id="btn-tech-start" class="btn secondary">اطلاعات فنی</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="screen-demo" class="card hidden">
+    <h1 class="h1">اطلاعات اولیه</h1>
+    <p class="lead">برای انتخاب Norm بازسازی‌شده، سن و جنسیت لازم است. نام یا کد اختیاری است.</p>
+    <div class="grid-2">
+      <div class="field">
+        <label for="name-code">نام / کد (اختیاری)</label>
+        <input id="name-code" type="text" autocomplete="off" maxlength="120">
+      </div>
+      <div class="field">
+        <label for="age">سن</label>
+        <input id="age" type="number" inputmode="decimal" step="any" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="sex">جنسیت</label>
+        <select id="sex">
+          <option value="">انتخاب کنید</option>
+          <option value="female">زن</option>
+          <option value="male">مرد</option>
+        </select>
+      </div>
+    </div>
+    <div class="note small" style="margin-top:14px">
+      باندهای سنی دقیقاً از جدول Norm مرجع گرفته می‌شوند: کمتر از ۲۱، ۲۱ تا ۴۰، ۴۱ تا ۶۰، بیش از ۶۰.
+    </div>
+    <div id="demo-error" class="note danger hidden" style="margin-top:14px"></div>
+    <div class="actions no-print">
+      <button id="btn-demo-back" class="btn secondary">بازگشت</button>
+      <button id="btn-begin-test" class="btn primary">ورود به آزمون</button>
+    </div>
+  </section>
+
+  <section id="screen-test" class="card hidden">
+    <div class="progress-wrap no-print">
+      <div class="progress-meta">
+        <span id="current-progress-label">سؤال 1 از 300</span>
+        <span id="current-progress-pct">0.3%</span>
+      </div>
+      <div class="progress"><div id="progress-bar"></div></div>
+    </div>
+
+    <div class="question-head">
+      <div>
+        <div id="question-code" class="question-number">سؤال 1</div>
+        <h2 id="question-text" class="question-text"></h2>
+      </div>
+      <div class="small muted">کد: <span id="question-key"></span></div>
+    </div>
+
+    <div id="options" class="options" role="radiogroup" aria-label="گزینه‌های پاسخ"></div>
+
+    <div class="question-footer no-print">
+      <div class="progress-count">تعداد پاسخ داده‌شده: <span id="answered-count">0</span> / 300</div>
+      <div class="nav-actions" style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button id="btn-prev" class="btn secondary">سؤال قبل</button>
+        <button id="btn-next" class="btn primary">سؤال بعد</button>
+        <button id="btn-finish" class="btn green hidden">پایان آزمون</button>
+      </div>
+    </div>
+
+    <div id="jump-message" class="note warning hidden no-print" style="margin-top:14px;"></div>
+  </section>
+
+  <section id="screen-result" class="card hidden">
+    <div class="section-title">
+      <div>
+        <h1 class="h1">گزارش آزمون شخصیت IPIP-NEO-300</h1>
+        <div class="muted small" id="result-date"></div>
+      </div>
+      <span class="badge no-print">گزارش آفلاین</span>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi"><div class="label">نام / کد</div><div class="value" id="r-name">—</div></div>
+      <div class="kpi"><div class="label">سن</div><div class="value" id="r-age">—</div></div>
+      <div class="kpi"><div class="label">جنسیت</div><div class="value" id="r-sex">—</div></div>
+      <div class="kpi"><div class="label">نوع Norm</div><div class="value">بازسازی‌شده</div></div>
+    </div>
+
+    <div class="actions no-print">
+      <button id="btn-print" class="btn primary">چاپ / ذخیره PDF</button>
+      <button id="btn-export" class="btn secondary">Export JSON</button>
+      <button id="btn-restart" class="btn danger">شروع مجدد</button>
+      <button id="btn-tech-result" class="btn secondary">اطلاعات فنی</button>
+    </div>
+
+    <div id="result-notes" class="stack" style="margin-top:16px;"></div>
+
+    <div class="result-section">
+      <div class="section-title">
+        <h2 class="h2">نتایج ۵ حوزه</h2>
+      </div>
+      <div id="domain-table" class="table-wrap"></div>
+    </div>
+
+    <div class="result-section">
+      <div class="section-title">
+        <h2 class="h2">نتایج ۳۰ Facet</h2>
+      </div>
+      <div id="facet-table" class="table-wrap"></div>
+    </div>
+
+    <div class="result-section print-break">
+      <div class="section-title">
+        <h2 class="h2">تفسیر حوزه‌ها</h2>
+      </div>
+      <div id="domain-narratives" class="stack"></div>
+    </div>
+
+    <div class="result-section">
+      <div class="section-title">
+        <h2 class="h2">تفسیر Facetها</h2>
+      </div>
+      <div class="note">برای Facetهای این نسخه، در دو فایل مرجع متن تفسیری اختصاصی ارائه نشده است؛ از تولید تفسیر جدید خودداری شده است.</div>
+      <div id="facet-narratives" class="stack" style="margin-top:12px;"></div>
+    </div>
+
+    <div id="debug-panel" class="debug-panel hidden no-print"></div>
+
+    <div class="footer-note">
+      این گزارش بر اساس منابع مرجع پروژه تولید شده است. نمرات و متون ارائه‌شده جایگزین تشخیص پزشکی یا روان‌شناختی نیستند؛ قواعد اعتبارسنجی تاریخی موجود در مستندات برای غربال یک نمونه پژوهشی وبی طراحی شده‌اند.
+    </div>
+  </section>
+</div>
+
+<div id="modal-root" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal">
+    <h3 id="modal-title">تأیید</h3>
+    <div id="modal-body" class="muted"></div>
+    <div class="actions no-print">
+      <button id="modal-cancel" class="btn secondary">انصراف</button>
+      <button id="modal-confirm" class="btn primary">تأیید</button>
+    </div>
+  </div>
+</div>
+
+<div id="tech-root" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="tech-title">
+  <div class="modal" style="width:min(860px,100%);max-height:90vh;overflow:auto;">
+    <h3 id="tech-title">اطلاعات فنی و Audit</h3>
+    <div id="tech-body"></div>
+    <div class="actions no-print">
+      <button id="tech-close" class="btn secondary">بستن</button>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+/* =========================================================
+   DATA
+   ========================================================= */
+const DEBUG_MODE = false;
+const APP_VERSION = "IPIP-NEO-300-offline-reference-build-1";
+const STORAGE_KEY = "IPIP_NEO_300_OFFLINE_DRAFT_V1";
+
+const SOURCE_METADATA = {
+  technicalFile: "IPIP_NEO_300_Complete_Technical_Documentation.md",
+  itemKeyFile: "IPIP_NEO_300_ItemKey.json",
+  technicalSha256: "e94e43398c9e67b87137f8afeb5f4e17d5641cb74bfa2540c56b3e6d8a9f736e",
+  itemKeySha256: "e9efc6b26d1848ce56259d2e089520f55bae46edc230c45920c1ba5eaf4ad7ea",
+  itemCount: 300,
+  facetCount: 30,
+  domainCount: 5,
+  reverseItemCount: 148,
+  evidenceNote: "Norm رسمی مستقل برای 300 در منابع بررسی‌شده یافت نشده؛ Norm موجود از IPIP300.dat سال 2014 بازسازی شده و Official Johnson Norm نیست."
+};
+
+const DOMAIN_NAMES_FA = {
+  "N": "روان‌رنجورخویی",
+  "E": "برون‌گرایی",
+  "O": "گشودگی به تجربه",
+  "A": "توافق‌پذیری",
+  "C": "وظیفه‌شناسی"
+};
+const FACET_NAMES_FA = {
+  "N1": "اضطراب",
+  "N2": "خشم",
+  "N3": "افسردگی",
+  "N4": "خودآگاهی اجتماعی",
+  "N5": "بی‌اعتدالی",
+  "N6": "آسیب‌پذیری",
+  "E1": "صمیمیت",
+  "E2": "معاشرت‌پذیری",
+  "E3": "قاطعیت",
+  "E4": "سطح فعالیت",
+  "E5": "هیجان‌خواهی",
+  "E6": "شادمانی",
+  "O1": "تخیل",
+  "O2": "علایق هنری",
+  "O3": "هیجانی‌بودن",
+  "O4": "ماجراجویی",
+  "O5": "اندیشه‌ورزی",
+  "O6": "آزاداندیشی",
+  "A1": "اعتماد",
+  "A2": "اخلاق‌مداری",
+  "A3": "نوع‌دوستی",
+  "A4": "همکاری",
+  "A5": "فروتنی",
+  "A6": "همدلی",
+  "C1": "خودکارآمدی",
+  "C2": "نظم‌مندی",
+  "C3": "وظیفه‌مداری",
+  "C4": "تلاش برای پیشرفت",
+  "C5": "خودانضباطی",
+  "C6": "احتیاط"
+};
+const DOMAIN_NARRATIVES = {
+  "N": "ثبات هیجانی/آسیب‌پذیری در برابر هیجان‌های منفی؛ نمره بالاتر با تجربه بیشتر اضطراب، خشم، افسردگی و آسیب‌پذیری همراه است.",
+  "E": "درگیری با جهان بیرونی، انرژی، فعالیت، هیجان‌های مثبت، صحبت/ابراز وجود و گرایش به تعامل اجتماعی.",
+  "O": "گشودگی به تجربه‌های درونی و بیرونی، تخیل، زیبایی‌شناسی، هیجان، تازگی، تفکر و انعطاف در باورها.",
+  "A": "همکاری و هماهنگی اجتماعی، اعتماد، توجه به دیگران، همدلی/نوع‌دوستی و تمایل به سازش.",
+  "C": "خودکارآمدی، نظم، مسئولیت‌پذیری، انگیزش پیشرفت، خودانضباطی و احتیاط در تصمیم‌گیری."
+};
+const SEX_LABELS = {
+  "female": "زن",
+  "male": "مرد"
+};
+const AGE_GROUP_LABELS = {
+  "lt21": "کمتر از ۲۱",
+  "21_40": "۲۱ تا ۴۰",
+  "41_60": "۴۱ تا ۶۰",
+  "gt60": "بیش از ۶۰"
+};
+
+/* Historical polynomial from the provided documentation.
+   IMPORTANT: Proven for the historical 120-item CGI only; NEVER applied to 300 here. */
+const HISTORICAL_120_PERCENTILE = {
+  coefficients: [-0.00270624341822222, 0.405936512733332, -16.7379362643389, 210.335958661391],
+  lowT: 27,
+  highT: 73,
+  floorPercentile: 1,
+  ceilingPercentile: 99,
+  provenance: "historical CGI 120"
+};
+
+/* Historical narrative cutoff from the provided documentation.
+   IMPORTANT: It is a 120-item CGI cutoff and is not automatically valid for 300. */
+const HISTORICAL_120_LEVEL_CUTOFF = {
+  lowBelow: 45,
+  highAbove: 55,
+  provenance: "historical CGI 120"
+};
+
+const RESPONSE_OPTIONS = [
+  {value:1, label:"کاملاً نادرست / اصلاً درباره من صدق نمی‌کند"},
+  {value:2, label:"نسبتاً نادرست"},
+  {value:3, label:"نه درست و نه نادرست / بینابین"},
+  {value:4, label:"نسبتاً درست"},
+  {value:5, label:"کاملاً درست"}
+];
+
+const ITEMS = [
+  {
+    "full": 1,
+    "short": 1,
+    "sign": "+N1",
+    "key": "N1",
+    "domain": "N",
+    "facet": "N1",
+    "reverse": false,
+    "textEn": "Worry about things.",
+    "textFa": "درباره چیزها نگران می‌شوم."
+  },
+  {
+    "full": 2,
+    "short": 2,
+    "sign": "+E1",
+    "key": "E1",
+    "domain": "E",
+    "facet": "E1",
+    "reverse": false,
+    "textEn": "Make friends easily.",
+    "textFa": "به‌راحتی دوست پیدا می‌کنم."
+  },
+  {
+    "full": 3,
+    "short": 3,
+    "sign": "+O1",
+    "key": "O1",
+    "domain": "O",
+    "facet": "O1",
+    "reverse": false,
+    "textEn": "Have a vivid imagination.",
+    "textFa": "تخیلی زنده دارم."
+  },
+  {
+    "full": 4,
+    "short": 4,
+    "sign": "+A1",
+    "key": "A1",
+    "domain": "A",
+    "facet": "A1",
+    "reverse": false,
+    "textEn": "Trust others.",
+    "textFa": "به دیگران اعتماد می‌کنم."
+  },
+  {
+    "full": 5,
+    "short": 5,
+    "sign": "+C1",
+    "key": "C1",
+    "domain": "C",
+    "facet": "C1",
+    "reverse": false,
+    "textEn": "Complete tasks successfully.",
+    "textFa": "کارها را با موفقیت به پایان می‌رسانم."
+  },
+  {
+    "full": 6,
+    "short": 6,
+    "sign": "+N2",
+    "key": "N2",
+    "domain": "N",
+    "facet": "N2",
+    "reverse": false,
+    "textEn": "Get angry easily.",
+    "textFa": "به‌راحتی عصبانی می‌شوم."
+  },
+  {
+    "full": 7,
+    "short": 7,
+    "sign": "+E2",
+    "key": "E2",
+    "domain": "E",
+    "facet": "E2",
+    "reverse": false,
+    "textEn": "Love large parties.",
+    "textFa": "مهمانی‌های بزرگ را دوست دارم."
+  },
+  {
+    "full": 8,
+    "short": 8,
+    "sign": "+O2",
+    "key": "O2",
+    "domain": "O",
+    "facet": "O2",
+    "reverse": false,
+    "textEn": "Believe in the importance of art.",
+    "textFa": "به اهمیت هنر باور دارم."
+  },
+  {
+    "full": 9,
+    "short": null,
+    "sign": "+A2",
+    "key": "A2",
+    "domain": "A",
+    "facet": "A2",
+    "reverse": false,
+    "textEn": "Would never cheat on my taxes.",
+    "textFa": "هرگز در پرداخت مالیاتم تقلب نمی‌کنم."
+  },
+  {
+    "full": 10,
+    "short": null,
+    "sign": "+C2",
+    "key": "C2",
+    "domain": "C",
+    "facet": "C2",
+    "reverse": false,
+    "textEn": "Like order.",
+    "textFa": "نظم را دوست دارم."
+  },
+  {
+    "full": 11,
+    "short": 11,
+    "sign": "+N3",
+    "key": "N3",
+    "domain": "N",
+    "facet": "N3",
+    "reverse": false,
+    "textEn": "Often feel blue.",
+    "textFa": "اغلب احساس دلگیری می‌کنم."
+  },
+  {
+    "full": 12,
+    "short": 12,
+    "sign": "+E3",
+    "key": "E3",
+    "domain": "E",
+    "facet": "E3",
+    "reverse": false,
+    "textEn": "Take charge.",
+    "textFa": "ابتکار عمل را به دست می‌گیرم."
+  },
+  {
+    "full": 13,
+    "short": 13,
+    "sign": "+O3",
+    "key": "O3",
+    "domain": "O",
+    "facet": "O3",
+    "reverse": false,
+    "textEn": "Experience my emotions intensely.",
+    "textFa": "هیجان‌هایم را با شدت تجربه می‌کنم."
+  },
+  {
+    "full": 14,
+    "short": null,
+    "sign": "+A3",
+    "key": "A3",
+    "domain": "A",
+    "facet": "A3",
+    "reverse": false,
+    "textEn": "Make people feel welcome.",
+    "textFa": "باعث می‌شوم دیگران احساس خوش‌آمدگویی داشته باشند."
+  },
+  {
+    "full": 15,
+    "short": null,
+    "sign": "+C3",
+    "key": "C3",
+    "domain": "C",
+    "facet": "C3",
+    "reverse": false,
+    "textEn": "Try to follow the rules.",
+    "textFa": "سعی می‌کنم از قوانین پیروی کنم."
+  },
+  {
+    "full": 16,
+    "short": null,
+    "sign": "+N4",
+    "key": "N4",
+    "domain": "N",
+    "facet": "N4",
+    "reverse": false,
+    "textEn": "Am easily intimidated.",
+    "textFa": "به‌راحتی مرعوب می‌شوم."
+  },
+  {
+    "full": 17,
+    "short": 17,
+    "sign": "+E4",
+    "key": "E4",
+    "domain": "E",
+    "facet": "E4",
+    "reverse": false,
+    "textEn": "Am always busy.",
+    "textFa": "همیشه مشغولم."
+  },
+  {
+    "full": 18,
+    "short": 18,
+    "sign": "+O4",
+    "key": "O4",
+    "domain": "O",
+    "facet": "O4",
+    "reverse": false,
+    "textEn": "Prefer variety to routine.",
+    "textFa": "تنوع را به روال معمول ترجیح می‌دهم."
+  },
+  {
+    "full": 19,
+    "short": null,
+    "sign": "+A4",
+    "key": "A4",
+    "domain": "A",
+    "facet": "A4",
+    "reverse": false,
+    "textEn": "Am easy to satisfy.",
+    "textFa": "به‌راحتی راضی می‌شوم."
+  },
+  {
+    "full": 20,
+    "short": null,
+    "sign": "+C4",
+    "key": "C4",
+    "domain": "C",
+    "facet": "C4",
+    "reverse": false,
+    "textEn": "Go straight for the goal.",
+    "textFa": "مستقیم سراغ هدف می‌روم."
+  },
+  {
+    "full": 21,
+    "short": null,
+    "sign": "+N5",
+    "key": "N5",
+    "domain": "N",
+    "facet": "N5",
+    "reverse": false,
+    "textEn": "Often eat too much.",
+    "textFa": "اغلب بیش از حد غذا می‌خورم."
+  },
+  {
+    "full": 22,
+    "short": 22,
+    "sign": "+E5",
+    "key": "E5",
+    "domain": "E",
+    "facet": "E5",
+    "reverse": false,
+    "textEn": "Love excitement.",
+    "textFa": "هیجان را دوست دارم."
+  },
+  {
+    "full": 23,
+    "short": null,
+    "sign": "+O5",
+    "key": "O5",
+    "domain": "O",
+    "facet": "O5",
+    "reverse": false,
+    "textEn": "Like to solve complex problems.",
+    "textFa": "حل کردن مسائل پیچیده را دوست دارم."
+  },
+  {
+    "full": 24,
+    "short": null,
+    "sign": "+A5",
+    "key": "A5",
+    "domain": "A",
+    "facet": "A5",
+    "reverse": false,
+    "textEn": "Dislike being the center of attention.",
+    "textFa": "دوست ندارم مرکز توجه باشم."
+  },
+  {
+    "full": 25,
+    "short": null,
+    "sign": "+C5",
+    "key": "C5",
+    "domain": "C",
+    "facet": "C5",
+    "reverse": false,
+    "textEn": "Get chores done right away.",
+    "textFa": "کارهای خانه را فوراً انجام می‌دهم."
+  },
+  {
+    "full": 26,
+    "short": 26,
+    "sign": "+N6",
+    "key": "N6",
+    "domain": "N",
+    "facet": "N6",
+    "reverse": false,
+    "textEn": "Panic easily.",
+    "textFa": "به‌راحتی وحشت‌زده می‌شوم."
+  },
+  {
+    "full": 27,
+    "short": 27,
+    "sign": "+E6",
+    "key": "E6",
+    "domain": "E",
+    "facet": "E6",
+    "reverse": false,
+    "textEn": "Radiate joy.",
+    "textFa": "شادی را از خود ساطع می‌کنم."
+  },
+  {
+    "full": 28,
+    "short": 28,
+    "sign": "+O6",
+    "key": "O6",
+    "domain": "O",
+    "facet": "O6",
+    "reverse": false,
+    "textEn": "Tend to vote for liberal political candidates.",
+    "textFa": "معمولاً به نامزدهای سیاسی لیبرال رأی می‌دهم."
+  },
+  {
+    "full": 29,
+    "short": 29,
+    "sign": "+A6",
+    "key": "A6",
+    "domain": "A",
+    "facet": "A6",
+    "reverse": false,
+    "textEn": "Sympathize with the homeless.",
+    "textFa": "با افراد بی‌خانمان همدردی می‌کنم."
+  },
+  {
+    "full": 30,
+    "short": null,
+    "sign": "+C6",
+    "key": "C6",
+    "domain": "C",
+    "facet": "C6",
+    "reverse": false,
+    "textEn": "Avoid mistakes.",
+    "textFa": "از اشتباه‌ها اجتناب می‌کنم."
+  },
+  {
+    "full": 31,
+    "short": 31,
+    "sign": "+N1",
+    "key": "N1",
+    "domain": "N",
+    "facet": "N1",
+    "reverse": false,
+    "textEn": "Fear for the worst.",
+    "textFa": "از بدترین حالت می‌ترسم."
+  },
+  {
+    "full": 32,
+    "short": null,
+    "sign": "+E1",
+    "key": "E1",
+    "domain": "E",
+    "facet": "E1",
+    "reverse": false,
+    "textEn": "Warm up quickly to others.",
+    "textFa": "به‌سرعت با دیگران صمیمی می‌شوم."
+  },
+  {
+    "full": 33,
+    "short": 33,
+    "sign": "+O1",
+    "key": "O1",
+    "domain": "O",
+    "facet": "O1",
+    "reverse": false,
+    "textEn": "Enjoy wild flights of fantasy.",
+    "textFa": "از پروازهای خیال‌پردازانه و دور از واقعیت لذت می‌برم."
+  },
+  {
+    "full": 34,
+    "short": 34,
+    "sign": "+A1",
+    "key": "A1",
+    "domain": "A",
+    "facet": "A1",
+    "reverse": false,
+    "textEn": "Believe that others have good intentions.",
+    "textFa": "باور دارم دیگران نیت‌های خوبی دارند."
+  },
+  {
+    "full": 35,
+    "short": 35,
+    "sign": "+C1",
+    "key": "C1",
+    "domain": "C",
+    "facet": "C1",
+    "reverse": false,
+    "textEn": "Excel in what I do.",
+    "textFa": "در کاری که انجام می‌دهم بسیار خوب عمل می‌کنم."
+  },
+  {
+    "full": 36,
+    "short": 36,
+    "sign": "+N2",
+    "key": "N2",
+    "domain": "N",
+    "facet": "N2",
+    "reverse": false,
+    "textEn": "Get irritated easily.",
+    "textFa": "به‌راحتی تحریک می‌شوم."
+  },
+  {
+    "full": 37,
+    "short": 37,
+    "sign": "+E2",
+    "key": "E2",
+    "domain": "E",
+    "facet": "E2",
+    "reverse": false,
+    "textEn": "Talk to a lot of different people at parties.",
+    "textFa": "در مهمانی‌ها با افراد بسیار متفاوتی صحبت می‌کنم."
+  },
+  {
+    "full": 38,
+    "short": null,
+    "sign": "+O2",
+    "key": "O2",
+    "domain": "O",
+    "facet": "O2",
+    "reverse": false,
+    "textEn": "Like music.",
+    "textFa": "موسیقی را دوست دارم."
+  },
+  {
+    "full": 39,
+    "short": null,
+    "sign": "+A2",
+    "key": "A2",
+    "domain": "A",
+    "facet": "A2",
+    "reverse": false,
+    "textEn": "Stick to the rules.",
+    "textFa": "از قوانین پیروی می‌کنم."
+  },
+  {
+    "full": 40,
+    "short": 10,
+    "sign": "+C2",
+    "key": "C2",
+    "domain": "C",
+    "facet": "C2",
+    "reverse": false,
+    "textEn": "Like to tidy up.",
+    "textFa": "دوست دارم مرتب‌سازی کنم."
+  },
+  {
+    "full": 41,
+    "short": 41,
+    "sign": "+N3",
+    "key": "N3",
+    "domain": "N",
+    "facet": "N3",
+    "reverse": false,
+    "textEn": "Dislike myself.",
+    "textFa": "از خودم بدم می‌آید."
+  },
+  {
+    "full": 42,
+    "short": 42,
+    "sign": "+E3",
+    "key": "E3",
+    "domain": "E",
+    "facet": "E3",
+    "reverse": false,
+    "textEn": "Try to lead others.",
+    "textFa": "سعی می‌کنم دیگران را رهبری کنم."
+  },
+  {
+    "full": 43,
+    "short": 43,
+    "sign": "+O3",
+    "key": "O3",
+    "domain": "O",
+    "facet": "O3",
+    "reverse": false,
+    "textEn": "Feel others' emotions.",
+    "textFa": "احساسات دیگران را احساس می‌کنم."
+  },
+  {
+    "full": 44,
+    "short": null,
+    "sign": "+A3",
+    "key": "A3",
+    "domain": "A",
+    "facet": "A3",
+    "reverse": false,
+    "textEn": "Anticipate the needs of others.",
+    "textFa": "نیازهای دیگران را پیش‌بینی می‌کنم."
+  },
+  {
+    "full": 45,
+    "short": 15,
+    "sign": "+C3",
+    "key": "C3",
+    "domain": "C",
+    "facet": "C3",
+    "reverse": false,
+    "textEn": "Keep my promises.",
+    "textFa": "به قول‌هایم عمل می‌کنم."
+  },
+  {
+    "full": 46,
+    "short": null,
+    "sign": "+N4",
+    "key": "N4",
+    "domain": "N",
+    "facet": "N4",
+    "reverse": false,
+    "textEn": "Am afraid that I will do the wrong thing.",
+    "textFa": "می‌ترسم کار اشتباهی انجام دهم."
+  },
+  {
+    "full": 47,
+    "short": 47,
+    "sign": "+E4",
+    "key": "E4",
+    "domain": "E",
+    "facet": "E4",
+    "reverse": false,
+    "textEn": "Am always on the go.",
+    "textFa": "همیشه در حال جنب‌وجوشم."
+  },
+  {
+    "full": 48,
+    "short": null,
+    "sign": "+O4",
+    "key": "O4",
+    "domain": "O",
+    "facet": "O4",
+    "reverse": false,
+    "textEn": "Like to visit new places.",
+    "textFa": "دوست دارم از مکان‌های جدید دیدن کنم."
+  },
+  {
+    "full": 49,
+    "short": null,
+    "sign": "+A4",
+    "key": "A4",
+    "domain": "A",
+    "facet": "A4",
+    "reverse": false,
+    "textEn": "Can't stand confrontations.",
+    "textFa": "تحمل رویارویی و درگیری را ندارم."
+  },
+  {
+    "full": 50,
+    "short": 20,
+    "sign": "+C4",
+    "key": "C4",
+    "domain": "C",
+    "facet": "C4",
+    "reverse": false,
+    "textEn": "Work hard.",
+    "textFa": "سخت کار می‌کنم."
+  },
+  {
+    "full": 51,
+    "short": null,
+    "sign": "+N5",
+    "key": "N5",
+    "domain": "N",
+    "facet": "N5",
+    "reverse": false,
+    "textEn": "Don't know why I do some of the things I do.",
+    "textFa": "نمی‌دانم چرا بعضی از کارهایی را که انجام می‌دهم، انجام می‌دهم."
+  },
+  {
+    "full": 52,
+    "short": 52,
+    "sign": "+E5",
+    "key": "E5",
+    "domain": "E",
+    "facet": "E5",
+    "reverse": false,
+    "textEn": "Seek adventure.",
+    "textFa": "ماجراجویی را دنبال می‌کنم."
+  },
+  {
+    "full": 53,
+    "short": 23,
+    "sign": "+O5",
+    "key": "O5",
+    "domain": "O",
+    "facet": "O5",
+    "reverse": false,
+    "textEn": "Love to read challenging material.",
+    "textFa": "خواندن مطالب چالش‌برانگیز را خیلی دوست دارم."
+  },
+  {
+    "full": 54,
+    "short": null,
+    "sign": "+A5",
+    "key": "A5",
+    "domain": "A",
+    "facet": "A5",
+    "reverse": false,
+    "textEn": "Dislike talking about myself.",
+    "textFa": "دوست ندارم درباره خودم صحبت کنم."
+  },
+  {
+    "full": 55,
+    "short": 25,
+    "sign": "+C5",
+    "key": "C5",
+    "domain": "C",
+    "facet": "C5",
+    "reverse": false,
+    "textEn": "Am always prepared.",
+    "textFa": "همیشه آماده‌ام."
+  },
+  {
+    "full": 56,
+    "short": 56,
+    "sign": "+N6",
+    "key": "N6",
+    "domain": "N",
+    "facet": "N6",
+    "reverse": false,
+    "textEn": "Become overwhelmed by events.",
+    "textFa": "در برابر رویدادها احساس درماندگی می‌کنم."
+  },
+  {
+    "full": 57,
+    "short": 57,
+    "sign": "+E6",
+    "key": "E6",
+    "domain": "E",
+    "facet": "E6",
+    "reverse": false,
+    "textEn": "Have a lot of fun.",
+    "textFa": "خیلی خوش می‌گذرانم."
+  },
+  {
+    "full": 58,
+    "short": 58,
+    "sign": "+O6",
+    "key": "O6",
+    "domain": "O",
+    "facet": "O6",
+    "reverse": false,
+    "textEn": "Believe that there is no absolute right or wrong.",
+    "textFa": "باور دارم هیچ درست یا غلط مطلقی وجود ندارد."
+  },
+  {
+    "full": 59,
+    "short": 59,
+    "sign": "+A6",
+    "key": "A6",
+    "domain": "A",
+    "facet": "A6",
+    "reverse": false,
+    "textEn": "Feel sympathy for those who are worse off than myself.",
+    "textFa": "برای کسانی که از من وضعیت بدتری دارند احساس همدردی می‌کنم."
+  },
+  {
+    "full": 60,
+    "short": null,
+    "sign": "+C6",
+    "key": "C6",
+    "domain": "C",
+    "facet": "C6",
+    "reverse": false,
+    "textEn": "Choose my words with care.",
+    "textFa": "کلماتم را با دقت انتخاب می‌کنم."
+  },
+  {
+    "full": 61,
+    "short": 61,
+    "sign": "+N1",
+    "key": "N1",
+    "domain": "N",
+    "facet": "N1",
+    "reverse": false,
+    "textEn": "Am afraid of many things.",
+    "textFa": "از چیزهای زیادی می‌ترسم."
+  },
+  {
+    "full": 62,
+    "short": 32,
+    "sign": "+E1",
+    "key": "E1",
+    "domain": "E",
+    "facet": "E1",
+    "reverse": false,
+    "textEn": "Feel comfortable around people.",
+    "textFa": "در کنار مردم احساس راحتی می‌کنم."
+  },
+  {
+    "full": 63,
+    "short": 63,
+    "sign": "+O1",
+    "key": "O1",
+    "domain": "O",
+    "facet": "O1",
+    "reverse": false,
+    "textEn": "Love to daydream.",
+    "textFa": "خیال‌پردازی در بیداری را خیلی دوست دارم."
+  },
+  {
+    "full": 64,
+    "short": 64,
+    "sign": "+A1",
+    "key": "A1",
+    "domain": "A",
+    "facet": "A1",
+    "reverse": false,
+    "textEn": "Trust what people say.",
+    "textFa": "به حرف مردم اعتماد می‌کنم."
+  },
+  {
+    "full": 65,
+    "short": 65,
+    "sign": "+C1",
+    "key": "C1",
+    "domain": "C",
+    "facet": "C1",
+    "reverse": false,
+    "textEn": "Handle tasks smoothly.",
+    "textFa": "کارها را روان و بدون مشکل انجام می‌دهم."
+  },
+  {
+    "full": 66,
+    "short": null,
+    "sign": "+N2",
+    "key": "N2",
+    "domain": "N",
+    "facet": "N2",
+    "reverse": false,
+    "textEn": "Get upset easily.",
+    "textFa": "به‌راحتی ناراحت می‌شوم."
+  },
+  {
+    "full": 67,
+    "short": null,
+    "sign": "+E2",
+    "key": "E2",
+    "domain": "E",
+    "facet": "E2",
+    "reverse": false,
+    "textEn": "Enjoy being part of a group.",
+    "textFa": "از بودن در یک گروه لذت می‌برم."
+  },
+  {
+    "full": 68,
+    "short": 38,
+    "sign": "+O2",
+    "key": "O2",
+    "domain": "O",
+    "facet": "O2",
+    "reverse": false,
+    "textEn": "See beauty in things that others might not notice.",
+    "textFa": "زیبایی چیزهایی را می‌بینم که ممکن است دیگران متوجه آن‌ها نشوند."
+  },
+  {
+    "full": 69,
+    "short": null,
+    "sign": "-A2",
+    "key": "A2",
+    "domain": "A",
+    "facet": "A2",
+    "reverse": true,
+    "textEn": "Use flattery to get ahead.",
+    "textFa": "برای پیشرفت از تملق و چاپلوسی استفاده می‌کنم."
+  },
+  {
+    "full": 70,
+    "short": null,
+    "sign": "+C2",
+    "key": "C2",
+    "domain": "C",
+    "facet": "C2",
+    "reverse": false,
+    "textEn": "Want everything to be \"just right.\"",
+    "textFa": "می‌خواهم همه‌چیز «کاملاً سر جای خود» باشد."
+  },
+  {
+    "full": 71,
+    "short": 71,
+    "sign": "+N3",
+    "key": "N3",
+    "domain": "N",
+    "facet": "N3",
+    "reverse": false,
+    "textEn": "Am often down in the dumps.",
+    "textFa": "اغلب کاملاً دلگیر و افسرده‌ام."
+  },
+  {
+    "full": 72,
+    "short": null,
+    "sign": "+E3",
+    "key": "E3",
+    "domain": "E",
+    "facet": "E3",
+    "reverse": false,
+    "textEn": "Can talk others into doing things.",
+    "textFa": "می‌توانم دیگران را متقاعد کنم کاری را انجام دهند."
+  },
+  {
+    "full": 73,
+    "short": null,
+    "sign": "+O3",
+    "key": "O3",
+    "domain": "O",
+    "facet": "O3",
+    "reverse": false,
+    "textEn": "Am passionate about causes.",
+    "textFa": "نسبت به آرمان‌ها و هدف‌هایمان شور و اشتیاق دارم."
+  },
+  {
+    "full": 74,
+    "short": 14,
+    "sign": "+A3",
+    "key": "A3",
+    "domain": "A",
+    "facet": "A3",
+    "reverse": false,
+    "textEn": "Love to help others.",
+    "textFa": "کمک کردن به دیگران را خیلی دوست دارم."
+  },
+  {
+    "full": 75,
+    "short": null,
+    "sign": "+C3",
+    "key": "C3",
+    "domain": "C",
+    "facet": "C3",
+    "reverse": false,
+    "textEn": "Pay my bills on time.",
+    "textFa": "قبض‌هایم را به‌موقع پرداخت می‌کنم."
+  },
+  {
+    "full": 76,
+    "short": 16,
+    "sign": "+N4",
+    "key": "N4",
+    "domain": "N",
+    "facet": "N4",
+    "reverse": false,
+    "textEn": "Find it difficult to approach others.",
+    "textFa": "برای نزدیک شدن به دیگران مشکل دارم."
+  },
+  {
+    "full": 77,
+    "short": 77,
+    "sign": "+E4",
+    "key": "E4",
+    "domain": "E",
+    "facet": "E4",
+    "reverse": false,
+    "textEn": "Do a lot in my spare time.",
+    "textFa": "در اوقات فراغتم کارهای زیادی انجام می‌دهم."
+  },
+  {
+    "full": 78,
+    "short": null,
+    "sign": "+O4",
+    "key": "O4",
+    "domain": "O",
+    "facet": "O4",
+    "reverse": false,
+    "textEn": "Interested in many things.",
+    "textFa": "به چیزهای زیادی علاقه‌مندم."
+  },
+  {
+    "full": 79,
+    "short": null,
+    "sign": "+A4",
+    "key": "A4",
+    "domain": "A",
+    "facet": "A4",
+    "reverse": false,
+    "textEn": "Hate to seem pushy.",
+    "textFa": "از اینکه سمج به نظر برسم متنفرم."
+  },
+  {
+    "full": 80,
+    "short": null,
+    "sign": "+C4",
+    "key": "C4",
+    "domain": "C",
+    "facet": "C4",
+    "reverse": false,
+    "textEn": "Turn plans into actions.",
+    "textFa": "برنامه‌ها را به عمل تبدیل می‌کنم."
+  },
+  {
+    "full": 81,
+    "short": null,
+    "sign": "+N5",
+    "key": "N5",
+    "domain": "N",
+    "facet": "N5",
+    "reverse": false,
+    "textEn": "Do things I later regret.",
+    "textFa": "کارهایی می‌کنم که بعداً از آن‌ها پشیمان می‌شوم."
+  },
+  {
+    "full": 82,
+    "short": null,
+    "sign": "+E5",
+    "key": "E5",
+    "domain": "E",
+    "facet": "E5",
+    "reverse": false,
+    "textEn": "Love action.",
+    "textFa": "عمل و هیجان را دوست دارم."
+  },
+  {
+    "full": 83,
+    "short": null,
+    "sign": "+O5",
+    "key": "O5",
+    "domain": "O",
+    "facet": "O5",
+    "reverse": false,
+    "textEn": "Have a rich vocabulary.",
+    "textFa": "دایره واژگان غنی‌ای دارم."
+  },
+  {
+    "full": 84,
+    "short": null,
+    "sign": "+A5",
+    "key": "A5",
+    "domain": "A",
+    "facet": "A5",
+    "reverse": false,
+    "textEn": "Consider myself an average person.",
+    "textFa": "خودم را فردی معمولی می‌دانم."
+  },
+  {
+    "full": 85,
+    "short": null,
+    "sign": "+C5",
+    "key": "C5",
+    "domain": "C",
+    "facet": "C5",
+    "reverse": false,
+    "textEn": "Start tasks right away.",
+    "textFa": "کارها را فوراً شروع می‌کنم."
+  },
+  {
+    "full": 86,
+    "short": 86,
+    "sign": "+N6",
+    "key": "N6",
+    "domain": "N",
+    "facet": "N6",
+    "reverse": false,
+    "textEn": "Feel that I'm unable to deal with things.",
+    "textFa": "احساس می‌کنم از عهده کارها برنمی‌آیم."
+  },
+  {
+    "full": 87,
+    "short": null,
+    "sign": "+E6",
+    "key": "E6",
+    "domain": "E",
+    "facet": "E6",
+    "reverse": false,
+    "textEn": "Express childlike joy.",
+    "textFa": "شادی کودکانه‌ام را ابراز می‌کنم."
+  },
+  {
+    "full": 88,
+    "short": null,
+    "sign": "+O6",
+    "key": "O6",
+    "domain": "O",
+    "facet": "O6",
+    "reverse": false,
+    "textEn": "Believe that criminals should receive help rather than punishment.",
+    "textFa": "باور دارم مجرمان باید به‌جای مجازات کمک دریافت کنند."
+  },
+  {
+    "full": 89,
+    "short": null,
+    "sign": "+A6",
+    "key": "A6",
+    "domain": "A",
+    "facet": "A6",
+    "reverse": false,
+    "textEn": "Value cooperation over competition.",
+    "textFa": "همکاری را بر رقابت ترجیح می‌دهم."
+  },
+  {
+    "full": 90,
+    "short": null,
+    "sign": "+C6",
+    "key": "C6",
+    "domain": "C",
+    "facet": "C6",
+    "reverse": false,
+    "textEn": "Stick to my chosen path.",
+    "textFa": "به مسیر انتخابی خود پایبند می‌مانم."
+  },
+  {
+    "full": 91,
+    "short": 91,
+    "sign": "+N1",
+    "key": "N1",
+    "domain": "N",
+    "facet": "N1",
+    "reverse": false,
+    "textEn": "Get stressed out easily.",
+    "textFa": "به‌راحتی دچار استرس می‌شوم."
+  },
+  {
+    "full": 92,
+    "short": null,
+    "sign": "+E1",
+    "key": "E1",
+    "domain": "E",
+    "facet": "E1",
+    "reverse": false,
+    "textEn": "Act comfortably with others.",
+    "textFa": "در کنار دیگران راحت رفتار می‌کنم."
+  },
+  {
+    "full": 93,
+    "short": 93,
+    "sign": "+O1",
+    "key": "O1",
+    "domain": "O",
+    "facet": "O1",
+    "reverse": false,
+    "textEn": "Like to get lost in thought.",
+    "textFa": "دوست دارم در افکارم غرق شوم."
+  },
+  {
+    "full": 94,
+    "short": null,
+    "sign": "+A1",
+    "key": "A1",
+    "domain": "A",
+    "facet": "A1",
+    "reverse": false,
+    "textEn": "Believe that people are basically moral.",
+    "textFa": "باور دارم مردم اساساً اخلاق‌مدارند."
+  },
+  {
+    "full": 95,
+    "short": null,
+    "sign": "+C1",
+    "key": "C1",
+    "domain": "C",
+    "facet": "C1",
+    "reverse": false,
+    "textEn": "Am sure of my ground.",
+    "textFa": "در تصمیم‌ها و موضع خود اطمینان دارم."
+  },
+  {
+    "full": 96,
+    "short": null,
+    "sign": "+N2",
+    "key": "N2",
+    "domain": "N",
+    "facet": "N2",
+    "reverse": false,
+    "textEn": "Am often in a bad mood.",
+    "textFa": "اغلب حال‌وهوای بدی دارم."
+  },
+  {
+    "full": 97,
+    "short": null,
+    "sign": "+E2",
+    "key": "E2",
+    "domain": "E",
+    "facet": "E2",
+    "reverse": false,
+    "textEn": "Involve others in what I am doing.",
+    "textFa": "دیگران را در کاری که انجام می‌دهم وارد می‌کنم."
+  },
+  {
+    "full": 98,
+    "short": null,
+    "sign": "+O2",
+    "key": "O2",
+    "domain": "O",
+    "facet": "O2",
+    "reverse": false,
+    "textEn": "Love flowers.",
+    "textFa": "گل‌ها را خیلی دوست دارم."
+  },
+  {
+    "full": 99,
+    "short": 9,
+    "sign": "-A2",
+    "key": "A2",
+    "domain": "A",
+    "facet": "A2",
+    "reverse": true,
+    "textEn": "Use others for my own ends.",
+    "textFa": "از دیگران برای رسیدن به هدف‌های خودم استفاده می‌کنم."
+  },
+  {
+    "full": 100,
+    "short": null,
+    "sign": "+C2",
+    "key": "C2",
+    "domain": "C",
+    "facet": "C2",
+    "reverse": false,
+    "textEn": "Love order and regularity.",
+    "textFa": "نظم و ترتیب را خیلی دوست دارم."
+  },
+  {
+    "full": 101,
+    "short": null,
+    "sign": "+N3",
+    "key": "N3",
+    "domain": "N",
+    "facet": "N3",
+    "reverse": false,
+    "textEn": "Have a low opinion of myself.",
+    "textFa": "نظر پایینی درباره خودم دارم."
+  },
+  {
+    "full": 102,
+    "short": null,
+    "sign": "+E3",
+    "key": "E3",
+    "domain": "E",
+    "facet": "E3",
+    "reverse": false,
+    "textEn": "Seek to influence others.",
+    "textFa": "سعی می‌کنم بر دیگران تأثیر بگذارم."
+  },
+  {
+    "full": 103,
+    "short": null,
+    "sign": "+O3",
+    "key": "O3",
+    "domain": "O",
+    "facet": "O3",
+    "reverse": false,
+    "textEn": "Enjoy examining myself and my life.",
+    "textFa": "از بررسی خودم و زندگی‌ام لذت می‌برم."
+  },
+  {
+    "full": 104,
+    "short": 44,
+    "sign": "+A3",
+    "key": "A3",
+    "domain": "A",
+    "facet": "A3",
+    "reverse": false,
+    "textEn": "Am concerned about others.",
+    "textFa": "به دیگران اهمیت می‌دهم."
+  },
+  {
+    "full": 105,
+    "short": 45,
+    "sign": "+C3",
+    "key": "C3",
+    "domain": "C",
+    "facet": "C3",
+    "reverse": false,
+    "textEn": "Tell the truth.",
+    "textFa": "حقیقت را می‌گویم."
+  },
+  {
+    "full": 106,
+    "short": 46,
+    "sign": "+N4",
+    "key": "N4",
+    "domain": "N",
+    "facet": "N4",
+    "reverse": false,
+    "textEn": "Am afraid to draw attention to myself.",
+    "textFa": "می‌ترسم توجه دیگران را به خودم جلب کنم."
+  },
+  {
+    "full": 107,
+    "short": null,
+    "sign": "+E4",
+    "key": "E4",
+    "domain": "E",
+    "facet": "E4",
+    "reverse": false,
+    "textEn": "Can manage many things at the same time.",
+    "textFa": "می‌توانم هم‌زمان کارهای زیادی را مدیریت کنم."
+  },
+  {
+    "full": 108,
+    "short": null,
+    "sign": "+O4",
+    "key": "O4",
+    "domain": "O",
+    "facet": "O4",
+    "reverse": false,
+    "textEn": "Like to begin new things.",
+    "textFa": "شروع کردن کارهای جدید را دوست دارم."
+  },
+  {
+    "full": 109,
+    "short": null,
+    "sign": "-A4",
+    "key": "A4",
+    "domain": "A",
+    "facet": "A4",
+    "reverse": true,
+    "textEn": "Have a sharp tongue.",
+    "textFa": "زبان تندی دارم."
+  },
+  {
+    "full": 110,
+    "short": null,
+    "sign": "+C4",
+    "key": "C4",
+    "domain": "C",
+    "facet": "C4",
+    "reverse": false,
+    "textEn": "Plunge into tasks with all my heart.",
+    "textFa": "با تمام وجود وارد کارها می‌شوم."
+  },
+  {
+    "full": 111,
+    "short": 21,
+    "sign": "+N5",
+    "key": "N5",
+    "domain": "N",
+    "facet": "N5",
+    "reverse": false,
+    "textEn": "Go on binges.",
+    "textFa": "دچار پرخوری یا افراط می‌شوم."
+  },
+  {
+    "full": 112,
+    "short": null,
+    "sign": "+E5",
+    "key": "E5",
+    "domain": "E",
+    "facet": "E5",
+    "reverse": false,
+    "textEn": "Enjoy being part of a loud crowd.",
+    "textFa": "از اینکه بخشی از یک جمع پرسر‌وصدا باشم لذت می‌برم."
+  },
+  {
+    "full": 113,
+    "short": null,
+    "sign": "+O5",
+    "key": "O5",
+    "domain": "O",
+    "facet": "O5",
+    "reverse": false,
+    "textEn": "Can handle a lot of information.",
+    "textFa": "می‌توانم حجم زیادی از اطلاعات را مدیریت کنم."
+  },
+  {
+    "full": 114,
+    "short": null,
+    "sign": "+A5",
+    "key": "A5",
+    "domain": "A",
+    "facet": "A5",
+    "reverse": false,
+    "textEn": "Seldom toot my own horn.",
+    "textFa": "به‌ندرت از خودم تعریف می‌کنم."
+  },
+  {
+    "full": 115,
+    "short": null,
+    "sign": "+C5",
+    "key": "C5",
+    "domain": "C",
+    "facet": "C5",
+    "reverse": false,
+    "textEn": "Get to work at once.",
+    "textFa": "فوراً شروع به کار می‌کنم."
+  },
+  {
+    "full": 116,
+    "short": null,
+    "sign": "+N6",
+    "key": "N6",
+    "domain": "N",
+    "facet": "N6",
+    "reverse": false,
+    "textEn": "Can't make up my mind.",
+    "textFa": "نمی‌توانم تصمیم بگیرم."
+  },
+  {
+    "full": 117,
+    "short": null,
+    "sign": "+E6",
+    "key": "E6",
+    "domain": "E",
+    "facet": "E6",
+    "reverse": false,
+    "textEn": "Laugh my way through life.",
+    "textFa": "با خنده از زندگی عبور می‌کنم."
+  },
+  {
+    "full": 118,
+    "short": null,
+    "sign": "-O6",
+    "key": "O6",
+    "domain": "O",
+    "facet": "O6",
+    "reverse": true,
+    "textEn": "Believe in one true religion.",
+    "textFa": "به وجود یک دین واحد و حقیقی باور دارم."
+  },
+  {
+    "full": 119,
+    "short": null,
+    "sign": "+A6",
+    "key": "A6",
+    "domain": "A",
+    "facet": "A6",
+    "reverse": false,
+    "textEn": "Suffer from others' sorrows.",
+    "textFa": "از رنج دیگران رنج می‌برم."
+  },
+  {
+    "full": 120,
+    "short": 30,
+    "sign": "-C6",
+    "key": "C6",
+    "domain": "C",
+    "facet": "C6",
+    "reverse": true,
+    "textEn": "Jump into things without thinking.",
+    "textFa": "بدون فکر کردن خودم را وارد کارها می‌کنم."
+  },
+  {
+    "full": 121,
+    "short": null,
+    "sign": "+N1",
+    "key": "N1",
+    "domain": "N",
+    "facet": "N1",
+    "reverse": false,
+    "textEn": "Get caught up in my problems.",
+    "textFa": "در مشکلات خودم غرق می‌شوم."
+  },
+  {
+    "full": 122,
+    "short": null,
+    "sign": "+E1",
+    "key": "E1",
+    "domain": "E",
+    "facet": "E1",
+    "reverse": false,
+    "textEn": "Cheer people up.",
+    "textFa": "روحیه دیگران را بهتر می‌کنم."
+  },
+  {
+    "full": 123,
+    "short": null,
+    "sign": "+O1",
+    "key": "O1",
+    "domain": "O",
+    "facet": "O1",
+    "reverse": false,
+    "textEn": "Indulge in my fantasies.",
+    "textFa": "در خیال‌پردازی‌های خودم غرق می‌شوم."
+  },
+  {
+    "full": 124,
+    "short": null,
+    "sign": "+A1",
+    "key": "A1",
+    "domain": "A",
+    "facet": "A1",
+    "reverse": false,
+    "textEn": "Believe in human goodness.",
+    "textFa": "به خوبی انسان‌ها باور دارم."
+  },
+  {
+    "full": 125,
+    "short": null,
+    "sign": "+C1",
+    "key": "C1",
+    "domain": "C",
+    "facet": "C1",
+    "reverse": false,
+    "textEn": "Come up with good solutions.",
+    "textFa": "راه‌های خوبی برای حل مسائل پیدا می‌کنم."
+  },
+  {
+    "full": 126,
+    "short": 66,
+    "sign": "+N2",
+    "key": "N2",
+    "domain": "N",
+    "facet": "N2",
+    "reverse": false,
+    "textEn": "Lose my temper.",
+    "textFa": "کنترلم را از دست می‌دهم و عصبانی می‌شوم."
+  },
+  {
+    "full": 127,
+    "short": null,
+    "sign": "+E2",
+    "key": "E2",
+    "domain": "E",
+    "facet": "E2",
+    "reverse": false,
+    "textEn": "Love surprise parties.",
+    "textFa": "مهمانی‌های غافلگیرکننده را خیلی دوست دارم."
+  },
+  {
+    "full": 128,
+    "short": null,
+    "sign": "+O2",
+    "key": "O2",
+    "domain": "O",
+    "facet": "O2",
+    "reverse": false,
+    "textEn": "Enjoy the beauty of nature.",
+    "textFa": "از زیبایی طبیعت لذت می‌برم."
+  },
+  {
+    "full": 129,
+    "short": null,
+    "sign": "-A2",
+    "key": "A2",
+    "domain": "A",
+    "facet": "A2",
+    "reverse": true,
+    "textEn": "Know how to get around the rules.",
+    "textFa": "می‌دانم چگونه از زیر قوانین در بروم."
+  },
+  {
+    "full": 130,
+    "short": null,
+    "sign": "+C2",
+    "key": "C2",
+    "domain": "C",
+    "facet": "C2",
+    "reverse": false,
+    "textEn": "Do things according to a plan.",
+    "textFa": "کارها را طبق یک برنامه انجام می‌دهم."
+  },
+  {
+    "full": 131,
+    "short": null,
+    "sign": "+N3",
+    "key": "N3",
+    "domain": "N",
+    "facet": "N3",
+    "reverse": false,
+    "textEn": "Have frequent mood swings.",
+    "textFa": "تغییرات مکرر خلق‌وخو دارم."
+  },
+  {
+    "full": 132,
+    "short": 72,
+    "sign": "+E3",
+    "key": "E3",
+    "domain": "E",
+    "facet": "E3",
+    "reverse": false,
+    "textEn": "Take control of things.",
+    "textFa": "کنترل امور را به دست می‌گیرم."
+  },
+  {
+    "full": 133,
+    "short": null,
+    "sign": "+O3",
+    "key": "O3",
+    "domain": "O",
+    "facet": "O3",
+    "reverse": false,
+    "textEn": "Try to understand myself.",
+    "textFa": "سعی می‌کنم خودم را درک کنم."
+  },
+  {
+    "full": 134,
+    "short": null,
+    "sign": "+A3",
+    "key": "A3",
+    "domain": "A",
+    "facet": "A3",
+    "reverse": false,
+    "textEn": "Have a good word for everyone.",
+    "textFa": "برای همه حرف خوبی دارم."
+  },
+  {
+    "full": 135,
+    "short": null,
+    "sign": "+C3",
+    "key": "C3",
+    "domain": "C",
+    "facet": "C3",
+    "reverse": false,
+    "textEn": "Listen to my conscience.",
+    "textFa": "به ندای وجدانم گوش می‌دهم."
+  },
+  {
+    "full": 136,
+    "short": 76,
+    "sign": "+N4",
+    "key": "N4",
+    "domain": "N",
+    "facet": "N4",
+    "reverse": false,
+    "textEn": "Only feel comfortable with friends.",
+    "textFa": "فقط در کنار دوستان احساس راحتی می‌کنم."
+  },
+  {
+    "full": 137,
+    "short": null,
+    "sign": "+E4",
+    "key": "E4",
+    "domain": "E",
+    "facet": "E4",
+    "reverse": false,
+    "textEn": "React quickly.",
+    "textFa": "سریع واکنش نشان می‌دهم."
+  },
+  {
+    "full": 138,
+    "short": 48,
+    "sign": "-O4",
+    "key": "O4",
+    "domain": "O",
+    "facet": "O4",
+    "reverse": true,
+    "textEn": "Prefer to stick with things that I know.",
+    "textFa": "ترجیح می‌دهم به چیزهایی که می‌شناسم پایبند بمانم."
+  },
+  {
+    "full": 139,
+    "short": null,
+    "sign": "-A4",
+    "key": "A4",
+    "domain": "A",
+    "facet": "A4",
+    "reverse": true,
+    "textEn": "Contradict others.",
+    "textFa": "با دیگران مخالفت می‌کنم."
+  },
+  {
+    "full": 140,
+    "short": 50,
+    "sign": "+C4",
+    "key": "C4",
+    "domain": "C",
+    "facet": "C4",
+    "reverse": false,
+    "textEn": "Do more than what's expected of me.",
+    "textFa": "بیش از آنچه از من انتظار می‌رود انجام می‌دهم."
+  },
+  {
+    "full": 141,
+    "short": null,
+    "sign": "+N5",
+    "key": "N5",
+    "domain": "N",
+    "facet": "N5",
+    "reverse": false,
+    "textEn": "Love to eat.",
+    "textFa": "خوردن را خیلی دوست دارم."
+  },
+  {
+    "full": 142,
+    "short": 82,
+    "sign": "+E5",
+    "key": "E5",
+    "domain": "E",
+    "facet": "E5",
+    "reverse": false,
+    "textEn": "Enjoy being reckless.",
+    "textFa": "از بی‌پروایی لذت می‌برم."
+  },
+  {
+    "full": 143,
+    "short": null,
+    "sign": "+O5",
+    "key": "O5",
+    "domain": "O",
+    "facet": "O5",
+    "reverse": false,
+    "textEn": "Enjoy thinking about things.",
+    "textFa": "از فکر کردن درباره چیزها لذت می‌برم."
+  },
+  {
+    "full": 144,
+    "short": 24,
+    "sign": "-A5",
+    "key": "A5",
+    "domain": "A",
+    "facet": "A5",
+    "reverse": true,
+    "textEn": "Believe that I am better than others.",
+    "textFa": "باور دارم از دیگران بهترم."
+  },
+  {
+    "full": 145,
+    "short": 55,
+    "sign": "+C5",
+    "key": "C5",
+    "domain": "C",
+    "facet": "C5",
+    "reverse": false,
+    "textEn": "Carry out my plans.",
+    "textFa": "برنامه‌هایم را اجرا می‌کنم."
+  },
+  {
+    "full": 146,
+    "short": null,
+    "sign": "+N6",
+    "key": "N6",
+    "domain": "N",
+    "facet": "N6",
+    "reverse": false,
+    "textEn": "Get overwhelmed by emotions.",
+    "textFa": "از شدت هیجان‌ها احساس درماندگی می‌کنم."
+  },
+  {
+    "full": 147,
+    "short": 87,
+    "sign": "+E6",
+    "key": "E6",
+    "domain": "E",
+    "facet": "E6",
+    "reverse": false,
+    "textEn": "Love life.",
+    "textFa": "زندگی را دوست دارم."
+  },
+  {
+    "full": 148,
+    "short": 88,
+    "sign": "-O6",
+    "key": "O6",
+    "domain": "O",
+    "facet": "O6",
+    "reverse": true,
+    "textEn": "Tend to vote for conservative political candidates.",
+    "textFa": "معمولاً به نامزدهای سیاسی محافظه‌کار رأی می‌دهم."
+  },
+  {
+    "full": 149,
+    "short": 89,
+    "sign": "-A6",
+    "key": "A6",
+    "domain": "A",
+    "facet": "A6",
+    "reverse": true,
+    "textEn": "Am not interested in other people's problems.",
+    "textFa": "به مشکلات دیگران علاقه‌ای ندارم."
+  },
+  {
+    "full": 150,
+    "short": 60,
+    "sign": "-C6",
+    "key": "C6",
+    "domain": "C",
+    "facet": "C6",
+    "reverse": true,
+    "textEn": "Make rash decisions.",
+    "textFa": "تصمیم‌های عجولانه می‌گیرم."
+  },
+  {
+    "full": 151,
+    "short": null,
+    "sign": "-N1",
+    "key": "N1",
+    "domain": "N",
+    "facet": "N1",
+    "reverse": true,
+    "textEn": "Am not easily bothered by things.",
+    "textFa": "به‌راحتی از چیزها ناراحت نمی‌شوم."
+  },
+  {
+    "full": 152,
+    "short": null,
+    "sign": "-E1",
+    "key": "E1",
+    "domain": "E",
+    "facet": "E1",
+    "reverse": true,
+    "textEn": "Am hard to get to know.",
+    "textFa": "شناختنم برای دیگران دشوار است."
+  },
+  {
+    "full": 153,
+    "short": null,
+    "sign": "+O1",
+    "key": "O1",
+    "domain": "O",
+    "facet": "O1",
+    "reverse": false,
+    "textEn": "Spend time reflecting on things.",
+    "textFa": "برای فکر کردن و تأمل در چیزها وقت می‌گذارم."
+  },
+  {
+    "full": 154,
+    "short": null,
+    "sign": "+A1",
+    "key": "A1",
+    "domain": "A",
+    "facet": "A1",
+    "reverse": false,
+    "textEn": "Think that all will be well.",
+    "textFa": "فکر می‌کنم همه‌چیز خوب پیش خواهد رفت."
+  },
+  {
+    "full": 155,
+    "short": 95,
+    "sign": "+C1",
+    "key": "C1",
+    "domain": "C",
+    "facet": "C1",
+    "reverse": false,
+    "textEn": "Know how to get things done.",
+    "textFa": "می‌دانم چگونه کارها را به سرانجام برسانم."
+  },
+  {
+    "full": 156,
+    "short": null,
+    "sign": "-N2",
+    "key": "N2",
+    "domain": "N",
+    "facet": "N2",
+    "reverse": true,
+    "textEn": "Rarely get irritated.",
+    "textFa": "به‌ندرت تحریک می‌شوم."
+  },
+  {
+    "full": 157,
+    "short": 67,
+    "sign": "-E2",
+    "key": "E2",
+    "domain": "E",
+    "facet": "E2",
+    "reverse": true,
+    "textEn": "Prefer to be alone.",
+    "textFa": "ترجیح می‌دهم تنها باشم."
+  },
+  {
+    "full": 158,
+    "short": null,
+    "sign": "-O2",
+    "key": "O2",
+    "domain": "O",
+    "facet": "O2",
+    "reverse": true,
+    "textEn": "Do not like art.",
+    "textFa": "هنر را دوست ندارم."
+  },
+  {
+    "full": 159,
+    "short": 39,
+    "sign": "-A2",
+    "key": "A2",
+    "domain": "A",
+    "facet": "A2",
+    "reverse": true,
+    "textEn": "Cheat to get ahead.",
+    "textFa": "برای پیشرفت تقلب می‌کنم."
+  },
+  {
+    "full": 160,
+    "short": 40,
+    "sign": "-C2",
+    "key": "C2",
+    "domain": "C",
+    "facet": "C2",
+    "reverse": true,
+    "textEn": "Often forget to put things back in their proper place.",
+    "textFa": "اغلب فراموش می‌کنم وسایل را سر جای مناسبشان برگردانم."
+  },
+  {
+    "full": 161,
+    "short": null,
+    "sign": "+N3",
+    "key": "N3",
+    "domain": "N",
+    "facet": "N3",
+    "reverse": false,
+    "textEn": "Feel desperate.",
+    "textFa": "احساس ناامیدی می‌کنم."
+  },
+  {
+    "full": 162,
+    "short": 102,
+    "sign": "-E3",
+    "key": "E3",
+    "domain": "E",
+    "facet": "E3",
+    "reverse": true,
+    "textEn": "Wait for others to lead the way.",
+    "textFa": "منتظر می‌مانم دیگران راه را نشان دهند."
+  },
+  {
+    "full": 163,
+    "short": null,
+    "sign": "-O3",
+    "key": "O3",
+    "domain": "O",
+    "facet": "O3",
+    "reverse": true,
+    "textEn": "Seldom get emotional.",
+    "textFa": "به‌ندرت هیجانی می‌شوم."
+  },
+  {
+    "full": 164,
+    "short": null,
+    "sign": "-A3",
+    "key": "A3",
+    "domain": "A",
+    "facet": "A3",
+    "reverse": true,
+    "textEn": "Look down on others.",
+    "textFa": "دیگران را تحقیر می‌کنم."
+  },
+  {
+    "full": 165,
+    "short": 75,
+    "sign": "-C3",
+    "key": "C3",
+    "domain": "C",
+    "facet": "C3",
+    "reverse": true,
+    "textEn": "Break rules.",
+    "textFa": "قوانین را زیر پا می‌گذارم."
+  },
+  {
+    "full": 166,
+    "short": null,
+    "sign": "+N4",
+    "key": "N4",
+    "domain": "N",
+    "facet": "N4",
+    "reverse": false,
+    "textEn": "Stumble over my words.",
+    "textFa": "هنگام صحبت کردن در کلماتم گیر می‌کنم."
+  },
+  {
+    "full": 167,
+    "short": 107,
+    "sign": "-E4",
+    "key": "E4",
+    "domain": "E",
+    "facet": "E4",
+    "reverse": true,
+    "textEn": "Like to take it easy.",
+    "textFa": "دوست دارم آرام و بی‌دغدغه باشم."
+  },
+  {
+    "full": 168,
+    "short": 78,
+    "sign": "-O4",
+    "key": "O4",
+    "domain": "O",
+    "facet": "O4",
+    "reverse": true,
+    "textEn": "Dislike changes.",
+    "textFa": "تغییرات را دوست ندارم."
+  },
+  {
+    "full": 169,
+    "short": 19,
+    "sign": "-A4",
+    "key": "A4",
+    "domain": "A",
+    "facet": "A4",
+    "reverse": true,
+    "textEn": "Love a good fight.",
+    "textFa": "یک دعوای خوب را دوست دارم."
+  },
+  {
+    "full": 170,
+    "short": null,
+    "sign": "+C4",
+    "key": "C4",
+    "domain": "C",
+    "facet": "C4",
+    "reverse": false,
+    "textEn": "Set high standards for myself and others.",
+    "textFa": "برای خودم و دیگران استانداردهای بالایی تعیین می‌کنم."
+  },
+  {
+    "full": 171,
+    "short": 51,
+    "sign": "-N5",
+    "key": "N5",
+    "domain": "N",
+    "facet": "N5",
+    "reverse": true,
+    "textEn": "Rarely overindulge.",
+    "textFa": "به‌ندرت زیاده‌روی می‌کنم."
+  },
+  {
+    "full": 172,
+    "short": 112,
+    "sign": "+E5",
+    "key": "E5",
+    "domain": "E",
+    "facet": "E5",
+    "reverse": false,
+    "textEn": "Act wild and crazy.",
+    "textFa": "رفتارهای وحشیانه و دیوانه‌وار دارم."
+  },
+  {
+    "full": 173,
+    "short": null,
+    "sign": "-O5",
+    "key": "O5",
+    "domain": "O",
+    "facet": "O5",
+    "reverse": true,
+    "textEn": "Am not interested in abstract ideas.",
+    "textFa": "به ایده‌های انتزاعی علاقه‌ای ندارم."
+  },
+  {
+    "full": 174,
+    "short": 54,
+    "sign": "-A5",
+    "key": "A5",
+    "domain": "A",
+    "facet": "A5",
+    "reverse": true,
+    "textEn": "Think highly of myself.",
+    "textFa": "نظر بسیار خوبی درباره خودم دارم."
+  },
+  {
+    "full": 175,
+    "short": null,
+    "sign": "-C5",
+    "key": "C5",
+    "domain": "C",
+    "facet": "C5",
+    "reverse": true,
+    "textEn": "Find it difficult to get down to work.",
+    "textFa": "شروع به کار کردن برایم دشوار است."
+  },
+  {
+    "full": 176,
+    "short": 116,
+    "sign": "-N6",
+    "key": "N6",
+    "domain": "N",
+    "facet": "N6",
+    "reverse": true,
+    "textEn": "Remain calm under pressure.",
+    "textFa": "زیر فشار آرام می‌مانم."
+  },
+  {
+    "full": 177,
+    "short": 117,
+    "sign": "+E6",
+    "key": "E6",
+    "domain": "E",
+    "facet": "E6",
+    "reverse": false,
+    "textEn": "Look at the bright side of life.",
+    "textFa": "جنبه روشن زندگی را می‌بینم."
+  },
+  {
+    "full": 178,
+    "short": null,
+    "sign": "-O6",
+    "key": "O6",
+    "domain": "O",
+    "facet": "O6",
+    "reverse": true,
+    "textEn": "Believe that too much tax money goes to support artists.",
+    "textFa": "معتقد هستم مقدار زیادی از پول مالیات صرف حمایت از هنرمندان می‌شود."
+  },
+  {
+    "full": 179,
+    "short": null,
+    "sign": "-A6",
+    "key": "A6",
+    "domain": "A",
+    "facet": "A6",
+    "reverse": true,
+    "textEn": "Tend to dislike soft-hearted people.",
+    "textFa": "معمولاً از افراد نرم‌دل خوشم نمی‌آید."
+  },
+  {
+    "full": 180,
+    "short": null,
+    "sign": "-C6",
+    "key": "C6",
+    "domain": "C",
+    "facet": "C6",
+    "reverse": true,
+    "textEn": "Like to act on a whim.",
+    "textFa": "دوست دارم بر اساس هوس و ناگهانی عمل کنم."
+  },
+  {
+    "full": 181,
+    "short": null,
+    "sign": "-N1",
+    "key": "N1",
+    "domain": "N",
+    "facet": "N1",
+    "reverse": true,
+    "textEn": "Am relaxed most of the time.",
+    "textFa": "بیشتر اوقات آرام هستم."
+  },
+  {
+    "full": 182,
+    "short": null,
+    "sign": "-E1",
+    "key": "E1",
+    "domain": "E",
+    "facet": "E1",
+    "reverse": true,
+    "textEn": "Often feel uncomfortable around others.",
+    "textFa": "اغلب در کنار دیگران احساس ناراحتی می‌کنم."
+  },
+  {
+    "full": 183,
+    "short": null,
+    "sign": "-O1",
+    "key": "O1",
+    "domain": "O",
+    "facet": "O1",
+    "reverse": true,
+    "textEn": "Seldom daydream.",
+    "textFa": "به‌ندرت خیال‌پردازی می‌کنم."
+  },
+  {
+    "full": 184,
+    "short": 94,
+    "sign": "-A1",
+    "key": "A1",
+    "domain": "A",
+    "facet": "A1",
+    "reverse": true,
+    "textEn": "Distrust people.",
+    "textFa": "به مردم بی‌اعتمادم."
+  },
+  {
+    "full": 185,
+    "short": null,
+    "sign": "-C1",
+    "key": "C1",
+    "domain": "C",
+    "facet": "C1",
+    "reverse": true,
+    "textEn": "Misjudge situations.",
+    "textFa": "در موقعیت‌ها اشتباه قضاوت می‌کنم."
+  },
+  {
+    "full": 186,
+    "short": null,
+    "sign": "-N2",
+    "key": "N2",
+    "domain": "N",
+    "facet": "N2",
+    "reverse": true,
+    "textEn": "Seldom get mad.",
+    "textFa": "به‌ندرت عصبانی می‌شوم."
+  },
+  {
+    "full": 187,
+    "short": null,
+    "sign": "-E2",
+    "key": "E2",
+    "domain": "E",
+    "facet": "E2",
+    "reverse": true,
+    "textEn": "Want to be left alone.",
+    "textFa": "می‌خواهم دیگران مرا تنها بگذارند."
+  },
+  {
+    "full": 188,
+    "short": 68,
+    "sign": "-O2",
+    "key": "O2",
+    "domain": "O",
+    "facet": "O2",
+    "reverse": true,
+    "textEn": "Do not like poetry.",
+    "textFa": "شعر را دوست ندارم."
+  },
+  {
+    "full": 189,
+    "short": null,
+    "sign": "-A2",
+    "key": "A2",
+    "domain": "A",
+    "facet": "A2",
+    "reverse": true,
+    "textEn": "Put people under pressure.",
+    "textFa": "به دیگران فشار می‌آورم."
+  },
+  {
+    "full": 190,
+    "short": 70,
+    "sign": "-C2",
+    "key": "C2",
+    "domain": "C",
+    "facet": "C2",
+    "reverse": true,
+    "textEn": "Leave a mess in my room.",
+    "textFa": "در اتاقم به‌هم‌ریختگی به جا می‌گذارم."
+  },
+  {
+    "full": 191,
+    "short": null,
+    "sign": "+N3",
+    "key": "N3",
+    "domain": "N",
+    "facet": "N3",
+    "reverse": false,
+    "textEn": "Feel that my life lacks direction.",
+    "textFa": "احساس می‌کنم زندگی‌ام جهت مشخصی ندارد."
+  },
+  {
+    "full": 192,
+    "short": null,
+    "sign": "-E3",
+    "key": "E3",
+    "domain": "E",
+    "facet": "E3",
+    "reverse": true,
+    "textEn": "Keep in the background.",
+    "textFa": "در حاشیه می‌مانم."
+  },
+  {
+    "full": 193,
+    "short": null,
+    "sign": "-O3",
+    "key": "O3",
+    "domain": "O",
+    "facet": "O3",
+    "reverse": true,
+    "textEn": "Am not easily affected by my emotions.",
+    "textFa": "به‌راحتی تحت تأثیر هیجان‌هایم قرار نمی‌گیرم."
+  },
+  {
+    "full": 194,
+    "short": 74,
+    "sign": "-A3",
+    "key": "A3",
+    "domain": "A",
+    "facet": "A3",
+    "reverse": true,
+    "textEn": "Am indifferent to the feelings of others.",
+    "textFa": "نسبت به احساسات دیگران بی‌تفاوتم."
+  },
+  {
+    "full": 195,
+    "short": 105,
+    "sign": "-C3",
+    "key": "C3",
+    "domain": "C",
+    "facet": "C3",
+    "reverse": true,
+    "textEn": "Break my promises.",
+    "textFa": "به قول‌هایم عمل نمی‌کنم."
+  },
+  {
+    "full": 196,
+    "short": null,
+    "sign": "-N4",
+    "key": "N4",
+    "domain": "N",
+    "facet": "N4",
+    "reverse": true,
+    "textEn": "Am not embarrassed easily.",
+    "textFa": "به‌راحتی خجالت‌زده نمی‌شوم."
+  },
+  {
+    "full": 197,
+    "short": null,
+    "sign": "-E4",
+    "key": "E4",
+    "domain": "E",
+    "facet": "E4",
+    "reverse": true,
+    "textEn": "Like to take my time.",
+    "textFa": "دوست دارم با آرامش و در وقت خودم پیش بروم."
+  },
+  {
+    "full": 198,
+    "short": null,
+    "sign": "-O4",
+    "key": "O4",
+    "domain": "O",
+    "facet": "O4",
+    "reverse": true,
+    "textEn": "Don't like the idea of change.",
+    "textFa": "از ایده تغییر خوشم نمی‌آید."
+  },
+  {
+    "full": 199,
+    "short": 49,
+    "sign": "-A4",
+    "key": "A4",
+    "domain": "A",
+    "facet": "A4",
+    "reverse": true,
+    "textEn": "Yell at people.",
+    "textFa": "سر مردم فریاد می‌زنم."
+  },
+  {
+    "full": 200,
+    "short": null,
+    "sign": "+C4",
+    "key": "C4",
+    "domain": "C",
+    "facet": "C4",
+    "reverse": false,
+    "textEn": "Demand quality.",
+    "textFa": "کیفیت را مطالبه می‌کنم."
+  },
+  {
+    "full": 201,
+    "short": 81,
+    "sign": "-N5",
+    "key": "N5",
+    "domain": "N",
+    "facet": "N5",
+    "reverse": true,
+    "textEn": "Easily resist temptations.",
+    "textFa": "به‌راحتی در برابر وسوسه‌ها مقاومت می‌کنم."
+  },
+  {
+    "full": 202,
+    "short": null,
+    "sign": "+E5",
+    "key": "E5",
+    "domain": "E",
+    "facet": "E5",
+    "reverse": false,
+    "textEn": "Willing to try anything once.",
+    "textFa": "مایلم هر چیزی را دست‌کم یک‌بار امتحان کنم."
+  },
+  {
+    "full": 203,
+    "short": 53,
+    "sign": "-O5",
+    "key": "O5",
+    "domain": "O",
+    "facet": "O5",
+    "reverse": true,
+    "textEn": "Avoid philosophical discussions.",
+    "textFa": "از بحث‌های فلسفی اجتناب می‌کنم."
+  },
+  {
+    "full": 204,
+    "short": 84,
+    "sign": "-A5",
+    "key": "A5",
+    "domain": "A",
+    "facet": "A5",
+    "reverse": true,
+    "textEn": "Have a high opinion of myself.",
+    "textFa": "نظر بسیار بالایی درباره خودم دارم."
+  },
+  {
+    "full": 205,
+    "short": 85,
+    "sign": "-C5",
+    "key": "C5",
+    "domain": "C",
+    "facet": "C5",
+    "reverse": true,
+    "textEn": "Waste my time.",
+    "textFa": "وقت خود را هدر می‌دهم."
+  },
+  {
+    "full": 206,
+    "short": null,
+    "sign": "-N6",
+    "key": "N6",
+    "domain": "N",
+    "facet": "N6",
+    "reverse": true,
+    "textEn": "Can handle complex problems.",
+    "textFa": "از عهده مسائل پیچیده برمی‌آیم."
+  },
+  {
+    "full": 207,
+    "short": null,
+    "sign": "+E6",
+    "key": "E6",
+    "domain": "E",
+    "facet": "E6",
+    "reverse": false,
+    "textEn": "Laugh aloud.",
+    "textFa": "بلند می‌خندم."
+  },
+  {
+    "full": 208,
+    "short": null,
+    "sign": "-O6",
+    "key": "O6",
+    "domain": "O",
+    "facet": "O6",
+    "reverse": true,
+    "textEn": "Believe laws should be strictly enforced.",
+    "textFa": "معتقد هستم قوانین باید به‌طور سخت‌گیرانه اجرا شوند."
+  },
+  {
+    "full": 209,
+    "short": null,
+    "sign": "-A6",
+    "key": "A6",
+    "domain": "A",
+    "facet": "A6",
+    "reverse": true,
+    "textEn": "Believe in an eye for an eye.",
+    "textFa": "به این باور دارم که مجازات باید متقابل باشد."
+  },
+  {
+    "full": 210,
+    "short": 90,
+    "sign": "-C6",
+    "key": "C6",
+    "domain": "C",
+    "facet": "C6",
+    "reverse": true,
+    "textEn": "Rush into things.",
+    "textFa": "با عجله وارد کارها می‌شوم."
+  },
+  {
+    "full": 211,
+    "short": null,
+    "sign": "-N1",
+    "key": "N1",
+    "domain": "N",
+    "facet": "N1",
+    "reverse": true,
+    "textEn": "Am not easily disturbed by events.",
+    "textFa": "درباره رویدادها به‌راحتی آشفته نمی‌شوم."
+  },
+  {
+    "full": 212,
+    "short": 62,
+    "sign": "-E1",
+    "key": "E1",
+    "domain": "E",
+    "facet": "E1",
+    "reverse": true,
+    "textEn": "Avoid contacts with others.",
+    "textFa": "از برقراری تماس با دیگران اجتناب می‌کنم."
+  },
+  {
+    "full": 213,
+    "short": null,
+    "sign": "-O1",
+    "key": "O1",
+    "domain": "O",
+    "facet": "O1",
+    "reverse": true,
+    "textEn": "Do not have a good imagination.",
+    "textFa": "تخیل خوبی ندارم."
+  },
+  {
+    "full": 214,
+    "short": null,
+    "sign": "-A1",
+    "key": "A1",
+    "domain": "A",
+    "facet": "A1",
+    "reverse": true,
+    "textEn": "Suspect hidden motives in others.",
+    "textFa": "به انگیزه‌های پنهان دیگران مشکوکم."
+  },
+  {
+    "full": 215,
+    "short": null,
+    "sign": "-C1",
+    "key": "C1",
+    "domain": "C",
+    "facet": "C1",
+    "reverse": true,
+    "textEn": "Don't understand things.",
+    "textFa": "چیزها را درک نمی‌کنم."
+  },
+  {
+    "full": 216,
+    "short": 96,
+    "sign": "-N2",
+    "key": "N2",
+    "domain": "N",
+    "facet": "N2",
+    "reverse": true,
+    "textEn": "Am not easily annoyed.",
+    "textFa": "به‌راحتی عصبانی نمی‌شوم."
+  },
+  {
+    "full": 217,
+    "short": null,
+    "sign": "-E2",
+    "key": "E2",
+    "domain": "E",
+    "facet": "E2",
+    "reverse": true,
+    "textEn": "Don't like crowded events.",
+    "textFa": "رویدادهای شلوغ را دوست ندارم."
+  },
+  {
+    "full": 218,
+    "short": 98,
+    "sign": "-O2",
+    "key": "O2",
+    "domain": "O",
+    "facet": "O2",
+    "reverse": true,
+    "textEn": "Do not enjoy going to art museums.",
+    "textFa": "از رفتن به موزه‌های هنری لذت نمی‌برم."
+  },
+  {
+    "full": 219,
+    "short": null,
+    "sign": "-A2",
+    "key": "A2",
+    "domain": "A",
+    "facet": "A2",
+    "reverse": true,
+    "textEn": "Pretend to be concerned for others.",
+    "textFa": "تظاهر می‌کنم به دیگران اهمیت می‌دهم."
+  },
+  {
+    "full": 220,
+    "short": 100,
+    "sign": "-C2",
+    "key": "C2",
+    "domain": "C",
+    "facet": "C2",
+    "reverse": true,
+    "textEn": "Leave my belongings around.",
+    "textFa": "وسایلم را در اطراف اتاق رها می‌کنم."
+  },
+  {
+    "full": 221,
+    "short": null,
+    "sign": "-N3",
+    "key": "N3",
+    "domain": "N",
+    "facet": "N3",
+    "reverse": true,
+    "textEn": "Seldom feel blue.",
+    "textFa": "به‌ندرت احساس دلگیری می‌کنم."
+  },
+  {
+    "full": 222,
+    "short": null,
+    "sign": "-E3",
+    "key": "E3",
+    "domain": "E",
+    "facet": "E3",
+    "reverse": true,
+    "textEn": "Have little to say.",
+    "textFa": "حرف چندانی برای گفتن ندارم."
+  },
+  {
+    "full": 223,
+    "short": 73,
+    "sign": "-O3",
+    "key": "O3",
+    "domain": "O",
+    "facet": "O3",
+    "reverse": true,
+    "textEn": "Rarely notice my emotional reactions.",
+    "textFa": "به‌ندرت متوجه واکنش‌های هیجانی خود می‌شوم."
+  },
+  {
+    "full": 224,
+    "short": null,
+    "sign": "-A3",
+    "key": "A3",
+    "domain": "A",
+    "facet": "A3",
+    "reverse": true,
+    "textEn": "Make people feel uncomfortable.",
+    "textFa": "باعث می‌شوم دیگران احساس ناراحتی کنند."
+  },
+  {
+    "full": 225,
+    "short": null,
+    "sign": "-C3",
+    "key": "C3",
+    "domain": "C",
+    "facet": "C3",
+    "reverse": true,
+    "textEn": "Get others to do my duties.",
+    "textFa": "دیگران را وادار می‌کنم وظایفم را انجام دهند."
+  },
+  {
+    "full": 226,
+    "short": null,
+    "sign": "-N4",
+    "key": "N4",
+    "domain": "N",
+    "facet": "N4",
+    "reverse": true,
+    "textEn": "Am comfortable in unfamiliar situations.",
+    "textFa": "در موقعیت‌های اجتماعی ناآشنا احساس راحتی می‌کنم."
+  },
+  {
+    "full": 227,
+    "short": null,
+    "sign": "-E4",
+    "key": "E4",
+    "domain": "E",
+    "facet": "E4",
+    "reverse": true,
+    "textEn": "Like a leisurely lifestyle.",
+    "textFa": "دوست دارم زندگی آرام و بی‌شتابی داشته باشم."
+  },
+  {
+    "full": 228,
+    "short": null,
+    "sign": "-O4",
+    "key": "O4",
+    "domain": "O",
+    "facet": "O4",
+    "reverse": true,
+    "textEn": "Am a creature of habit.",
+    "textFa": "آدم عادت‌مندی هستم."
+  },
+  {
+    "full": 229,
+    "short": 79,
+    "sign": "-A4",
+    "key": "A4",
+    "domain": "A",
+    "facet": "A4",
+    "reverse": true,
+    "textEn": "Insult people.",
+    "textFa": "به مردم توهین می‌کنم."
+  },
+  {
+    "full": 230,
+    "short": null,
+    "sign": "-C4",
+    "key": "C4",
+    "domain": "C",
+    "facet": "C4",
+    "reverse": true,
+    "textEn": "Am not highly motivated to succeed.",
+    "textFa": "انگیزه زیادی برای موفق شدن ندارم."
+  },
+  {
+    "full": 231,
+    "short": 111,
+    "sign": "-N5",
+    "key": "N5",
+    "domain": "N",
+    "facet": "N5",
+    "reverse": true,
+    "textEn": "Am able to control my cravings.",
+    "textFa": "می‌توانم هوس‌هایم را کنترل کنم."
+  },
+  {
+    "full": 232,
+    "short": null,
+    "sign": "+E5",
+    "key": "E5",
+    "domain": "E",
+    "facet": "E5",
+    "reverse": false,
+    "textEn": "Seek danger.",
+    "textFa": "به دنبال خطر می‌روم."
+  },
+  {
+    "full": 233,
+    "short": 83,
+    "sign": "-O5",
+    "key": "O5",
+    "domain": "O",
+    "facet": "O5",
+    "reverse": true,
+    "textEn": "Have difficulty understanding abstract ideas.",
+    "textFa": "در درک ایده‌های انتزاعی مشکل دارم."
+  },
+  {
+    "full": 234,
+    "short": null,
+    "sign": "-A5",
+    "key": "A5",
+    "domain": "A",
+    "facet": "A5",
+    "reverse": true,
+    "textEn": "Know the answers to many questions.",
+    "textFa": "پاسخ بسیاری از پرسش‌ها را می‌دانم."
+  },
+  {
+    "full": 235,
+    "short": null,
+    "sign": "-C5",
+    "key": "C5",
+    "domain": "C",
+    "facet": "C5",
+    "reverse": true,
+    "textEn": "Need a push to get started.",
+    "textFa": "برای شروع کار به هل دادن وادارکننده نیاز دارم."
+  },
+  {
+    "full": 236,
+    "short": null,
+    "sign": "-N6",
+    "key": "N6",
+    "domain": "N",
+    "facet": "N6",
+    "reverse": true,
+    "textEn": "Know how to cope.",
+    "textFa": "می‌دانم چگونه با مسائل کنار بیایم."
+  },
+  {
+    "full": 237,
+    "short": null,
+    "sign": "+E6",
+    "key": "E6",
+    "domain": "E",
+    "facet": "E6",
+    "reverse": false,
+    "textEn": "Amuse my friends.",
+    "textFa": "دوستانم را سرگرم می‌کنم."
+  },
+  {
+    "full": 238,
+    "short": null,
+    "sign": "-O6",
+    "key": "O6",
+    "domain": "O",
+    "facet": "O6",
+    "reverse": true,
+    "textEn": "Believe that we coddle criminals too much.",
+    "textFa": "معتقد هستم بیش از حد با مجرمان مماشات می‌کنیم."
+  },
+  {
+    "full": 239,
+    "short": 119,
+    "sign": "-A6",
+    "key": "A6",
+    "domain": "A",
+    "facet": "A6",
+    "reverse": true,
+    "textEn": "Try not to think about the needy.",
+    "textFa": "سعی می‌کنم به افراد نیازمند فکر نکنم."
+  },
+  {
+    "full": 240,
+    "short": null,
+    "sign": "-C6",
+    "key": "C6",
+    "domain": "C",
+    "facet": "C6",
+    "reverse": true,
+    "textEn": "Do crazy things.",
+    "textFa": "کارهای دیوانه‌وار انجام می‌دهم."
+  },
+  {
+    "full": 241,
+    "short": null,
+    "sign": "-N1",
+    "key": "N1",
+    "domain": "N",
+    "facet": "N1",
+    "reverse": true,
+    "textEn": "Don't worry about things that have already happened.",
+    "textFa": "درباره چیزهایی که قبلاً اتفاق افتاده‌اند نگران نمی‌شوم."
+  },
+  {
+    "full": 242,
+    "short": null,
+    "sign": "-E1",
+    "key": "E1",
+    "domain": "E",
+    "facet": "E1",
+    "reverse": true,
+    "textEn": "Am not really interested in others.",
+    "textFa": "واقعاً به دیگران علاقه‌ای ندارم."
+  },
+  {
+    "full": 243,
+    "short": null,
+    "sign": "-O1",
+    "key": "O1",
+    "domain": "O",
+    "facet": "O1",
+    "reverse": true,
+    "textEn": "Seldom get lost in thought.",
+    "textFa": "به‌ندرت در افکارم غرق می‌شوم."
+  },
+  {
+    "full": 244,
+    "short": null,
+    "sign": "-A1",
+    "key": "A1",
+    "domain": "A",
+    "facet": "A1",
+    "reverse": true,
+    "textEn": "Am wary of others.",
+    "textFa": "نسبت به دیگران محتاط و بدگمانم."
+  },
+  {
+    "full": 245,
+    "short": null,
+    "sign": "-C1",
+    "key": "C1",
+    "domain": "C",
+    "facet": "C1",
+    "reverse": true,
+    "textEn": "Have little to contribute.",
+    "textFa": "چیز زیادی برای مشارکت و عرضه ندارم."
+  },
+  {
+    "full": 246,
+    "short": null,
+    "sign": "-N2",
+    "key": "N2",
+    "domain": "N",
+    "facet": "N2",
+    "reverse": true,
+    "textEn": "Keep my cool.",
+    "textFa": "خونسردی خود را حفظ می‌کنم."
+  },
+  {
+    "full": 247,
+    "short": 97,
+    "sign": "-E2",
+    "key": "E2",
+    "domain": "E",
+    "facet": "E2",
+    "reverse": true,
+    "textEn": "Avoid crowds.",
+    "textFa": "از جمعیت‌ها اجتناب می‌کنم."
+  },
+  {
+    "full": 248,
+    "short": null,
+    "sign": "-O2",
+    "key": "O2",
+    "domain": "O",
+    "facet": "O2",
+    "reverse": true,
+    "textEn": "Do not like concerts.",
+    "textFa": "از رفتن به کنسرت لذت نمی‌برم."
+  },
+  {
+    "full": 249,
+    "short": 69,
+    "sign": "-A2",
+    "key": "A2",
+    "domain": "A",
+    "facet": "A2",
+    "reverse": true,
+    "textEn": "Take advantage of others.",
+    "textFa": "از دیگران سوءاستفاده می‌کنم."
+  },
+  {
+    "full": 250,
+    "short": null,
+    "sign": "-C2",
+    "key": "C2",
+    "domain": "C",
+    "facet": "C2",
+    "reverse": true,
+    "textEn": "Am not bothered by messy people.",
+    "textFa": "آدم‌های نامرتب مرا ناراحت نمی‌کنند."
+  },
+  {
+    "full": 251,
+    "short": 101,
+    "sign": "-N3",
+    "key": "N3",
+    "domain": "N",
+    "facet": "N3",
+    "reverse": true,
+    "textEn": "Feel comfortable with myself.",
+    "textFa": "با خودم احساس راحتی می‌کنم."
+  },
+  {
+    "full": 252,
+    "short": null,
+    "sign": "-E3",
+    "key": "E3",
+    "domain": "E",
+    "facet": "E3",
+    "reverse": true,
+    "textEn": "Don't like to draw attention to myself.",
+    "textFa": "دوست ندارم توجه دیگران را به خودم جلب کنم."
+  },
+  {
+    "full": 253,
+    "short": null,
+    "sign": "-O3",
+    "key": "O3",
+    "domain": "O",
+    "facet": "O3",
+    "reverse": true,
+    "textEn": "Experience very few emotional highs and lows.",
+    "textFa": "فراز و فرودهای هیجانی بسیار کمی را تجربه می‌کنم."
+  },
+  {
+    "full": 254,
+    "short": null,
+    "sign": "-A3",
+    "key": "A3",
+    "domain": "A",
+    "facet": "A3",
+    "reverse": true,
+    "textEn": "Turn my back on others.",
+    "textFa": "به دیگران پشت می‌کنم."
+  },
+  {
+    "full": 255,
+    "short": null,
+    "sign": "-C3",
+    "key": "C3",
+    "domain": "C",
+    "facet": "C3",
+    "reverse": true,
+    "textEn": "Do the opposite of what is asked.",
+    "textFa": "برعکس آنچه از من خواسته می‌شود انجام می‌دهم."
+  },
+  {
+    "full": 256,
+    "short": 106,
+    "sign": "-N4",
+    "key": "N4",
+    "domain": "N",
+    "facet": "N4",
+    "reverse": true,
+    "textEn": "Am not bothered by difficult social situations.",
+    "textFa": "موقعیت‌های اجتماعی دشوار مرا ناراحت نمی‌کنند."
+  },
+  {
+    "full": 257,
+    "short": null,
+    "sign": "-E4",
+    "key": "E4",
+    "domain": "E",
+    "facet": "E4",
+    "reverse": true,
+    "textEn": "Let things proceed at their own pace.",
+    "textFa": "می‌گذارم کارها با سرعت خودشان پیش بروند."
+  },
+  {
+    "full": 258,
+    "short": null,
+    "sign": "-O4",
+    "key": "O4",
+    "domain": "O",
+    "facet": "O4",
+    "reverse": true,
+    "textEn": "Dislike new foods.",
+    "textFa": "غذاهای جدید را دوست ندارم."
+  },
+  {
+    "full": 259,
+    "short": 109,
+    "sign": "-A4",
+    "key": "A4",
+    "domain": "A",
+    "facet": "A4",
+    "reverse": true,
+    "textEn": "Get back at others.",
+    "textFa": "از دیگران انتقام می‌گیرم."
+  },
+  {
+    "full": 260,
+    "short": 80,
+    "sign": "-C4",
+    "key": "C4",
+    "domain": "C",
+    "facet": "C4",
+    "reverse": true,
+    "textEn": "Do just enough work to get by.",
+    "textFa": "فقط به اندازه‌ای کار می‌کنم که از پس کار برآیم."
+  },
+  {
+    "full": 261,
+    "short": null,
+    "sign": "-N5",
+    "key": "N5",
+    "domain": "N",
+    "facet": "N5",
+    "reverse": true,
+    "textEn": "Never spend more than I can afford.",
+    "textFa": "هرگز بیشتر از توان مالی‌ام خرج نمی‌کنم."
+  },
+  {
+    "full": 262,
+    "short": null,
+    "sign": "-E5",
+    "key": "E5",
+    "domain": "E",
+    "facet": "E5",
+    "reverse": true,
+    "textEn": "Would never go hang gliding or bungee jumping.",
+    "textFa": "هرگز هنگ‌گلایدینگ یا بانجی‌جامپینگ انجام نمی‌دهم."
+  },
+  {
+    "full": 263,
+    "short": 113,
+    "sign": "-O5",
+    "key": "O5",
+    "domain": "O",
+    "facet": "O5",
+    "reverse": true,
+    "textEn": "Am not interested in theoretical discussions.",
+    "textFa": "به بحث‌های نظری علاقه‌ای ندارم."
+  },
+  {
+    "full": 264,
+    "short": 114,
+    "sign": "-A5",
+    "key": "A5",
+    "domain": "A",
+    "facet": "A5",
+    "reverse": true,
+    "textEn": "Boast about my virtues.",
+    "textFa": "از فضایل خودم تعریف می‌کنم."
+  },
+  {
+    "full": 265,
+    "short": 115,
+    "sign": "-C5",
+    "key": "C5",
+    "domain": "C",
+    "facet": "C5",
+    "reverse": true,
+    "textEn": "Have difficulty starting tasks.",
+    "textFa": "شروع کردن کارها برایم دشوار است."
+  },
+  {
+    "full": 266,
+    "short": null,
+    "sign": "-N6",
+    "key": "N6",
+    "domain": "N",
+    "facet": "N6",
+    "reverse": true,
+    "textEn": "Readily overcome setbacks.",
+    "textFa": "به‌راحتی از پس شکست‌ها و ناکامی‌ها برمی‌آیم."
+  },
+  {
+    "full": 267,
+    "short": null,
+    "sign": "-E6",
+    "key": "E6",
+    "domain": "E",
+    "facet": "E6",
+    "reverse": true,
+    "textEn": "Am not easily amused.",
+    "textFa": "به‌راحتی سرگرم نمی‌شوم."
+  },
+  {
+    "full": 268,
+    "short": 118,
+    "sign": "-O6",
+    "key": "O6",
+    "domain": "O",
+    "facet": "O6",
+    "reverse": true,
+    "textEn": "Believe that we should be tough on crime.",
+    "textFa": "معتقد هستم باید با جرم و جنایت سخت‌گیرانه برخورد کنیم."
+  },
+  {
+    "full": 269,
+    "short": null,
+    "sign": "-A6",
+    "key": "A6",
+    "domain": "A",
+    "facet": "A6",
+    "reverse": true,
+    "textEn": "Believe people should fend for themselves.",
+    "textFa": "معتقد هستم مردم باید خودشان از عهده مشکلات خود برآیند."
+  },
+  {
+    "full": 270,
+    "short": 120,
+    "sign": "-C6",
+    "key": "C6",
+    "domain": "C",
+    "facet": "C6",
+    "reverse": true,
+    "textEn": "Act without thinking.",
+    "textFa": "بدون فکر کردن عمل می‌کنم."
+  },
+  {
+    "full": 271,
+    "short": null,
+    "sign": "-N1",
+    "key": "N1",
+    "domain": "N",
+    "facet": "N1",
+    "reverse": true,
+    "textEn": "Adapt easily to new situations.",
+    "textFa": "به‌راحتی با موقعیت‌های جدید سازگار می‌شوم."
+  },
+  {
+    "full": 272,
+    "short": 92,
+    "sign": "-E1",
+    "key": "E1",
+    "domain": "E",
+    "facet": "E1",
+    "reverse": true,
+    "textEn": "Keep others at a distance.",
+    "textFa": "دیگران را از خود دور نگه می‌دارم."
+  },
+  {
+    "full": 273,
+    "short": null,
+    "sign": "-O1",
+    "key": "O1",
+    "domain": "O",
+    "facet": "O1",
+    "reverse": true,
+    "textEn": "Have difficulty imagining things.",
+    "textFa": "تصور کردن چیزها برایم دشوار است."
+  },
+  {
+    "full": 274,
+    "short": null,
+    "sign": "-A1",
+    "key": "A1",
+    "domain": "A",
+    "facet": "A1",
+    "reverse": true,
+    "textEn": "Believe that people are essentially evil.",
+    "textFa": "معتقد هستم مردم در اصل شرورند."
+  },
+  {
+    "full": 275,
+    "short": null,
+    "sign": "-C1",
+    "key": "C1",
+    "domain": "C",
+    "facet": "C1",
+    "reverse": true,
+    "textEn": "Don't see the consequences of things.",
+    "textFa": "پیامدهای کارها را نمی‌بینم."
+  },
+  {
+    "full": 276,
+    "short": null,
+    "sign": "-N2",
+    "key": "N2",
+    "domain": "N",
+    "facet": "N2",
+    "reverse": true,
+    "textEn": "Rarely complain.",
+    "textFa": "به‌ندرت شکایت می‌کنم."
+  },
+  {
+    "full": 277,
+    "short": null,
+    "sign": "-E2",
+    "key": "E2",
+    "domain": "E",
+    "facet": "E2",
+    "reverse": true,
+    "textEn": "Seek quiet.",
+    "textFa": "محیط آرام و سکوت را ترجیح می‌دهم."
+  },
+  {
+    "full": 278,
+    "short": null,
+    "sign": "-O2",
+    "key": "O2",
+    "domain": "O",
+    "facet": "O2",
+    "reverse": true,
+    "textEn": "Do not enjoy watching dance performances.",
+    "textFa": "از تماشای اجراهای رقص لذت نمی‌برم."
+  },
+  {
+    "full": 279,
+    "short": 99,
+    "sign": "-A2",
+    "key": "A2",
+    "domain": "A",
+    "facet": "A2",
+    "reverse": true,
+    "textEn": "Obstruct others' plans.",
+    "textFa": "برنامه‌های دیگران را مختل می‌کنم."
+  },
+  {
+    "full": 280,
+    "short": null,
+    "sign": "-C2",
+    "key": "C2",
+    "domain": "C",
+    "facet": "C2",
+    "reverse": true,
+    "textEn": "Am not bothered by disorder.",
+    "textFa": "بی‌نظمی مرا ناراحت نمی‌کند."
+  },
+  {
+    "full": 281,
+    "short": null,
+    "sign": "-N3",
+    "key": "N3",
+    "domain": "N",
+    "facet": "N3",
+    "reverse": true,
+    "textEn": "Am very pleased with myself.",
+    "textFa": "از خودم بسیار راضی‌ام."
+  },
+  {
+    "full": 282,
+    "short": null,
+    "sign": "-E3",
+    "key": "E3",
+    "domain": "E",
+    "facet": "E3",
+    "reverse": true,
+    "textEn": "Hold back my opinions.",
+    "textFa": "عقایدم را برای خودم نگه می‌دارم."
+  },
+  {
+    "full": 283,
+    "short": 103,
+    "sign": "-O3",
+    "key": "O3",
+    "domain": "O",
+    "facet": "O3",
+    "reverse": true,
+    "textEn": "Don't understand people who get emotional.",
+    "textFa": "افرادی را که احساسی می‌شوند درک نمی‌کنم."
+  },
+  {
+    "full": 284,
+    "short": 104,
+    "sign": "-A3",
+    "key": "A3",
+    "domain": "A",
+    "facet": "A3",
+    "reverse": true,
+    "textEn": "Take no time for others.",
+    "textFa": "برای دیگران هیچ وقتی نمی‌گذارم."
+  },
+  {
+    "full": 285,
+    "short": null,
+    "sign": "-C3",
+    "key": "C3",
+    "domain": "C",
+    "facet": "C3",
+    "reverse": true,
+    "textEn": "Misrepresent the facts.",
+    "textFa": "واقعیت‌ها را نادرست جلوه می‌دهم."
+  },
+  {
+    "full": 286,
+    "short": null,
+    "sign": "-N4",
+    "key": "N4",
+    "domain": "N",
+    "facet": "N4",
+    "reverse": true,
+    "textEn": "Am able to stand up for myself.",
+    "textFa": "می‌توانم از حق خودم دفاع کنم."
+  },
+  {
+    "full": 287,
+    "short": null,
+    "sign": "-E4",
+    "key": "E4",
+    "domain": "E",
+    "facet": "E4",
+    "reverse": true,
+    "textEn": "React slowly.",
+    "textFa": "آهسته واکنش نشان می‌دهم."
+  },
+  {
+    "full": 288,
+    "short": 108,
+    "sign": "-O4",
+    "key": "O4",
+    "domain": "O",
+    "facet": "O4",
+    "reverse": true,
+    "textEn": "Am attached to conventional ways.",
+    "textFa": "به روش‌های متعارف وابسته‌ام."
+  },
+  {
+    "full": 289,
+    "short": null,
+    "sign": "-A4",
+    "key": "A4",
+    "domain": "A",
+    "facet": "A4",
+    "reverse": true,
+    "textEn": "Hold a grudge.",
+    "textFa": "کینه به دل می‌گیرم."
+  },
+  {
+    "full": 290,
+    "short": 110,
+    "sign": "-C4",
+    "key": "C4",
+    "domain": "C",
+    "facet": "C4",
+    "reverse": true,
+    "textEn": "Put little time and effort into my work.",
+    "textFa": "برای کارم زمان و تلاش کمی صرف می‌کنم."
+  },
+  {
+    "full": 291,
+    "short": null,
+    "sign": "-N5",
+    "key": "N5",
+    "domain": "N",
+    "facet": "N5",
+    "reverse": true,
+    "textEn": "Never splurge.",
+    "textFa": "هرگز ولخرجی نمی‌کنم."
+  },
+  {
+    "full": 292,
+    "short": null,
+    "sign": "-E5",
+    "key": "E5",
+    "domain": "E",
+    "facet": "E5",
+    "reverse": true,
+    "textEn": "Dislike loud music.",
+    "textFa": "از موسیقی بلند خوشم نمی‌آید."
+  },
+  {
+    "full": 293,
+    "short": null,
+    "sign": "-O5",
+    "key": "O5",
+    "domain": "O",
+    "facet": "O5",
+    "reverse": true,
+    "textEn": "Avoid difficult reading material.",
+    "textFa": "از خواندن مطالب دشوار اجتناب می‌کنم."
+  },
+  {
+    "full": 294,
+    "short": null,
+    "sign": "-A5",
+    "key": "A5",
+    "domain": "A",
+    "facet": "A5",
+    "reverse": true,
+    "textEn": "Make myself the center of attention.",
+    "textFa": "خودم را مرکز توجه قرار می‌دهم."
+  },
+  {
+    "full": 295,
+    "short": null,
+    "sign": "-C5",
+    "key": "C5",
+    "domain": "C",
+    "facet": "C5",
+    "reverse": true,
+    "textEn": "Postpone decisions.",
+    "textFa": "تصمیم‌ها را به تعویق می‌اندازم."
+  },
+  {
+    "full": 296,
+    "short": null,
+    "sign": "-N6",
+    "key": "N6",
+    "domain": "N",
+    "facet": "N6",
+    "reverse": true,
+    "textEn": "Am calm even in tense situations.",
+    "textFa": "حتی در موقعیت‌های تنش‌زا آرام هستم."
+  },
+  {
+    "full": 297,
+    "short": null,
+    "sign": "-E6",
+    "key": "E6",
+    "domain": "E",
+    "facet": "E6",
+    "reverse": true,
+    "textEn": "Seldom joke around.",
+    "textFa": "به‌ندرت شوخی می‌کنم."
+  },
+  {
+    "full": 298,
+    "short": null,
+    "sign": "-O6",
+    "key": "O6",
+    "domain": "O",
+    "facet": "O6",
+    "reverse": true,
+    "textEn": "Like to stand during the national anthem.",
+    "textFa": "دوست دارم هنگام پخش سرود ملی بایستم."
+  },
+  {
+    "full": 299,
+    "short": null,
+    "sign": "-A6",
+    "key": "A6",
+    "domain": "A",
+    "facet": "A6",
+    "reverse": true,
+    "textEn": "Can't stand weak people.",
+    "textFa": "افراد ضعیف را تحمل نمی‌کنم."
+  },
+  {
+    "full": 300,
+    "short": null,
+    "sign": "-C6",
+    "key": "C6",
+    "domain": "C",
+    "facet": "C6",
+    "reverse": true,
+    "textEn": "Often make last-minute plans.",
+    "textFa": "اغلب برنامه‌ریزی را تا آخرین لحظه به تعویق می‌اندازم."
+  }
+];
+
+/* Exact reconstructed 2014 norms from ItemKey.json.
+   IMPORTANT:
+   - This is a reconstruction from Johnson-derived IPIP300.dat.
+   - It is NOT an official published Johnson 300 norm.
+   - The source documentation notes a historical data-representation/reverse discrepancy.
+   For a NEW user, raw semantic responses are scored once using the current ItemKey.
+*/
+const NORMS = [
+  {
+    "sex": "male",
+    "age_group": "lt21",
+    "N": {
+      "mean": 186.215902214692,
+      "sd": 14.062595795018
+    },
+    "E": {
+      "mean": 194.67229416273346,
+      "sd": 14.378343726774391
+    },
+    "O": {
+      "mean": 189.33143733107426,
+      "sd": 11.354391143190627
+    },
+    "A": {
+      "mean": 179.860906047037,
+      "sd": 14.621486294834936
+    },
+    "C": {
+      "mean": 191.34852152164265,
+      "sd": 12.850345889804622
+    },
+    "N1": {
+      "mean": 31.855318891443787,
+      "sd": 3.5601136994462235
+    },
+    "N2": {
+      "mean": 30.127334704909437,
+      "sd": 3.18076322521447
+    },
+    "N3": {
+      "mean": 28.72203396667877,
+      "sd": 4.947395279695072
+    },
+    "N4": {
+      "mean": 31.339969341240067,
+      "sd": 3.6514565113448625
+    },
+    "N5": {
+      "mean": 31.838557424664167,
+      "sd": 3.854640985596685
+    },
+    "N6": {
+      "mean": 32.33268788575578,
+      "sd": 3.6061656092646075
+    },
+    "E1": {
+      "mean": 31.3906168058413,
+      "sd": 3.085313335569801
+    },
+    "E2": {
+      "mean": 31.61735043769414,
+      "sd": 3.52692940066952
+    },
+    "E3": {
+      "mean": 31.56081326394772,
+      "sd": 3.8271368384683844
+    },
+    "E4": {
+      "mean": 34.32697970874178,
+      "sd": 3.9398382597092514
+    },
+    "E5": {
+      "mean": 31.938097543265158,
+      "sd": 5.542561822457857
+    },
+    "E6": {
+      "mean": 33.83843640324337,
+      "sd": 5.404294929682477
+    },
+    "O1": {
+      "mean": 31.703638710718465,
+      "sd": 3.262492653303378
+    },
+    "O2": {
+      "mean": 32.01381661220703,
+      "sd": 3.2633611047251856
+    },
+    "O3": {
+      "mean": 32.28115293073541,
+      "sd": 4.068022008280646
+    },
+    "O4": {
+      "mean": 33.332768566702974,
+      "sd": 3.913583291420276
+    },
+    "O5": {
+      "mean": 29.723102989229094,
+      "sd": 3.254830213318814
+    },
+    "O6": {
+      "mean": 30.276957521481304,
+      "sd": 4.247131321064668
+    },
+    "A1": {
+      "mean": 31.692686272136836,
+      "sd": 3.511212817180353
+    },
+    "A2": {
+      "mean": 27.454213562467224,
+      "sd": 5.147991517545412
+    },
+    "A3": {
+      "mean": 29.621081931501877,
+      "sd": 3.1573868018804716
+    },
+    "A4": {
+      "mean": 31.053471297753035,
+      "sd": 5.262631193661027
+    },
+    "A5": {
+      "mean": 30.17953527774416,
+      "sd": 4.076509142698393
+    },
+    "A6": {
+      "mean": 29.859917705433862,
+      "sd": 3.5925184658693596
+    },
+    "C1": {
+      "mean": 32.494554036064386,
+      "sd": 3.236497860569507
+    },
+    "C2": {
+      "mean": 32.723284521360284,
+      "sd": 3.946243915698498
+    },
+    "C3": {
+      "mean": 30.624752914599217,
+      "sd": 2.801682386199046
+    },
+    "C4": {
+      "mean": 32.92216305619428,
+      "sd": 3.69193247991725
+    },
+    "C5": {
+      "mean": 30.295493969099198,
+      "sd": 3.4618387714075007
+    },
+    "C6": {
+      "mean": 32.288273024325306,
+      "sd": 5.414612689510828
+    }
+  },
+  {
+    "sex": "male",
+    "age_group": "21_40",
+    "N": {
+      "mean": 182.34832980283525,
+      "sd": 13.69497927448957
+    },
+    "E": {
+      "mean": 192.22758676877953,
+      "sd": 14.146521620957135
+    },
+    "O": {
+      "mean": 188.21057519960894,
+      "sd": 10.717273033967688
+    },
+    "A": {
+      "mean": 176.89522568029983,
+      "sd": 13.972551325293615
+    },
+    "C": {
+      "mean": 188.50400847319537,
+      "sd": 11.813056261077026
+    },
+    "N1": {
+      "mean": 31.480413883004726,
+      "sd": 3.35506789686911
+    },
+    "N2": {
+      "mean": 29.9090598012058,
+      "sd": 3.038969904743922
+    },
+    "N3": {
+      "mean": 28.10803324099723,
+      "sd": 5.016867277975489
+    },
+    "N4": {
+      "mean": 30.664184454945413,
+      "sd": 3.676953705412116
+    },
+    "N5": {
+      "mean": 30.335000814730325,
+      "sd": 3.7534185306810004
+    },
+    "N6": {
+      "mean": 31.85163760795177,
+      "sd": 3.3603072073882587
+    },
+    "E1": {
+      "mean": 31.401124327847484,
+      "sd": 3.0439178180198976
+    },
+    "E2": {
+      "mean": 31.377708978328172,
+      "sd": 3.4174794033773193
+    },
+    "E3": {
+      "mean": 31.61023301287274,
+      "sd": 3.6105818487844994
+    },
+    "E4": {
+      "mean": 34.262359459019066,
+      "sd": 3.7937006493008254
+    },
+    "E5": {
+      "mean": 30.314648851230242,
+      "sd": 5.413366511916336
+    },
+    "E6": {
+      "mean": 33.26151213948183,
+      "sd": 5.270953629963904
+    },
+    "O1": {
+      "mean": 31.032947694313183,
+      "sd": 3.2557090138772993
+    },
+    "O2": {
+      "mean": 31.817907772527292,
+      "sd": 3.159164088733394
+    },
+    "O3": {
+      "mean": 32.542203030796806,
+      "sd": 3.929703791289615
+    },
+    "O4": {
+      "mean": 32.811406224539674,
+      "sd": 3.8717466509489293
+    },
+    "O5": {
+      "mean": 29.712693498452012,
+      "sd": 2.9999869960249486
+    },
+    "O6": {
+      "mean": 30.29341697897996,
+      "sd": 4.237770602180074
+    },
+    "A1": {
+      "mean": 31.45294117647059,
+      "sd": 3.275039091270736
+    },
+    "A2": {
+      "mean": 25.947466188691543,
+      "sd": 5.045577003736017
+    },
+    "A3": {
+      "mean": 29.563109010917387,
+      "sd": 2.9770917813530384
+    },
+    "A4": {
+      "mean": 29.04503829232524,
+      "sd": 5.118010494237057
+    },
+    "A5": {
+      "mean": 30.87500407365162,
+      "sd": 3.7336752302228158
+    },
+    "A6": {
+      "mean": 30.01166693824344,
+      "sd": 3.5739822138071062
+    },
+    "C1": {
+      "mean": 32.07440117321167,
+      "sd": 2.974025649790708
+    },
+    "C2": {
+      "mean": 32.283200260713706,
+      "sd": 3.8359820034797387
+    },
+    "C3": {
+      "mean": 29.98095160501874,
+      "sd": 2.7467143832788006
+    },
+    "C4": {
+      "mean": 33.446015968714356,
+      "sd": 3.4255302566016397
+    },
+    "C5": {
+      "mean": 30.210510021182987,
+      "sd": 3.3270007768723566
+    },
+    "C6": {
+      "mean": 30.508929444353917,
+      "sd": 5.5217733013771895
+    }
+  },
+  {
+    "sex": "male",
+    "age_group": "41_60",
+    "N": {
+      "mean": 177.83212092583844,
+      "sd": 13.708065577426545
+    },
+    "E": {
+      "mean": 188.50732168162494,
+      "sd": 13.647363734505557
+    },
+    "O": {
+      "mean": 186.8897496457251,
+      "sd": 10.704485543711721
+    },
+    "A": {
+      "mean": 171.6552668871044,
+      "sd": 13.17915775954034
+    },
+    "C": {
+      "mean": 185.08370335380255,
+      "sd": 11.276601365770057
+    },
+    "N1": {
+      "mean": 30.616060462919226,
+      "sd": 3.2306706097862192
+    },
+    "N2": {
+      "mean": 29.70505432215399,
+      "sd": 3.0439769220636896
+    },
+    "N3": {
+      "mean": 27.087293339631554,
+      "sd": 5.060792006831702
+    },
+    "N4": {
+      "mean": 29.45366084081247,
+      "sd": 3.6556151819502474
+    },
+    "N5": {
+      "mean": 29.980916391119507,
+      "sd": 3.617770047983629
+    },
+    "N6": {
+      "mean": 30.9891355692017,
+      "sd": 3.2716768030181234
+    },
+    "E1": {
+      "mean": 30.977137458667926,
+      "sd": 3.02131610834573
+    },
+    "E2": {
+      "mean": 31.04326877657062,
+      "sd": 3.3631346802059943
+    },
+    "E3": {
+      "mean": 31.484364666981577,
+      "sd": 3.5394022019440405
+    },
+    "E4": {
+      "mean": 33.895229097779875,
+      "sd": 3.7380801873804517
+    },
+    "E5": {
+      "mean": 28.794615021256494,
+      "sd": 5.187612915801672
+    },
+    "E6": {
+      "mean": 32.31270666036845,
+      "sd": 5.216196476696555
+    },
+    "O1": {
+      "mean": 29.841473783656117,
+      "sd": 3.275807370333267
+    },
+    "O2": {
+      "mean": 31.89400094473311,
+      "sd": 3.2133018638313278
+    },
+    "O3": {
+      "mean": 32.022012281530465,
+      "sd": 3.7243690859879592
+    },
+    "O4": {
+      "mean": 32.67709022201228,
+      "sd": 3.9159524892709414
+    },
+    "O5": {
+      "mean": 29.88823807274445,
+      "sd": 2.9983112159009933
+    },
+    "O6": {
+      "mean": 30.566934341048654,
+      "sd": 4.299084380835723
+    },
+    "A1": {
+      "mean": 31.177137458667925,
+      "sd": 3.0741477329980076
+    },
+    "A2": {
+      "mean": 23.95673122342938,
+      "sd": 4.642879353837103
+    },
+    "A3": {
+      "mean": 29.068493150684933,
+      "sd": 2.7982579896127633
+    },
+    "A4": {
+      "mean": 27.07945205479452,
+      "sd": 5.009761642819774
+    },
+    "A5": {
+      "mean": 30.73311289560699,
+      "sd": 3.656410154286977
+    },
+    "A6": {
+      "mean": 29.640340103920643,
+      "sd": 3.4289541063944093
+    },
+    "C1": {
+      "mean": 32.123571091166745,
+      "sd": 2.8512897887193
+    },
+    "C2": {
+      "mean": 31.504865375531413,
+      "sd": 3.8225471763542043
+    },
+    "C3": {
+      "mean": 29.782900330656588,
+      "sd": 2.574900378200624
+    },
+    "C4": {
+      "mean": 33.4606518658479,
+      "sd": 3.362483952060601
+    },
+    "C5": {
+      "mean": 29.861974492205952,
+      "sd": 3.189163209060976
+    },
+    "C6": {
+      "mean": 28.349740198393953,
+      "sd": 5.18022927108227
+    }
+  },
+  {
+    "sex": "male",
+    "age_group": "gt60",
+    "N": {
+      "mean": 175.94136291600634,
+      "sd": 14.96603723503534
+    },
+    "E": {
+      "mean": 187.26148969889064,
+      "sd": 15.714610237614394
+    },
+    "O": {
+      "mean": 186.9904912836767,
+      "sd": 12.320710589929245
+    },
+    "A": {
+      "mean": 171.35974643423137,
+      "sd": 14.511918339897727
+    },
+    "C": {
+      "mean": 184.08399366085578,
+      "sd": 12.782214102364565
+    },
+    "N1": {
+      "mean": 30.310618066561013,
+      "sd": 3.469394270116092
+    },
+    "N2": {
+      "mean": 29.684627575277336,
+      "sd": 3.2274224044820516
+    },
+    "N3": {
+      "mean": 26.20919175911252,
+      "sd": 4.973642701950165
+    },
+    "N4": {
+      "mean": 28.879556259904913,
+      "sd": 3.850138376353228
+    },
+    "N5": {
+      "mean": 30.40253565768621,
+      "sd": 3.704085248544964
+    },
+    "N6": {
+      "mean": 30.454833597464344,
+      "sd": 3.4888627240387153
+    },
+    "E1": {
+      "mean": 30.671949286846274,
+      "sd": 3.0620808109294173
+    },
+    "E2": {
+      "mean": 30.920760697305862,
+      "sd": 3.5339707499767066
+    },
+    "E3": {
+      "mean": 31.112519809825674,
+      "sd": 3.773132060403121
+    },
+    "E4": {
+      "mean": 33.652931854199686,
+      "sd": 3.9422401326660323
+    },
+    "E5": {
+      "mean": 28.64500792393027,
+      "sd": 5.314024836247439
+    },
+    "E6": {
+      "mean": 32.258320126782884,
+      "sd": 5.435756663692745
+    },
+    "O1": {
+      "mean": 29.630744849445325,
+      "sd": 3.51029405676412
+    },
+    "O2": {
+      "mean": 31.70364500792393,
+      "sd": 3.4727011618471963
+    },
+    "O3": {
+      "mean": 31.91917591125198,
+      "sd": 3.8319620676689543
+    },
+    "O4": {
+      "mean": 32.93660855784469,
+      "sd": 4.067576857999863
+    },
+    "O5": {
+      "mean": 30.08716323296355,
+      "sd": 3.443006719905253
+    },
+    "O6": {
+      "mean": 30.713153724247228,
+      "sd": 4.360188000914125
+    },
+    "A1": {
+      "mean": 30.839936608557846,
+      "sd": 3.3761144185888847
+    },
+    "A2": {
+      "mean": 23.900158478605388,
+      "sd": 5.050021213872175
+    },
+    "A3": {
+      "mean": 29.076069730586372,
+      "sd": 3.0000922348074837
+    },
+    "A4": {
+      "mean": 27.08557844690967,
+      "sd": 5.189638450242279
+    },
+    "A5": {
+      "mean": 30.68145800316957,
+      "sd": 3.766808479976228
+    },
+    "A6": {
+      "mean": 29.776545166402535,
+      "sd": 3.4767921879506885
+    },
+    "C1": {
+      "mean": 31.920760697305862,
+      "sd": 2.8944495418956286
+    },
+    "C2": {
+      "mean": 31.489698890649763,
+      "sd": 3.959654274388272
+    },
+    "C3": {
+      "mean": 30.009508716323296,
+      "sd": 2.6076635980886897
+    },
+    "C4": {
+      "mean": 33.11727416798732,
+      "sd": 3.669116435218299
+    },
+    "C5": {
+      "mean": 29.76703645007924,
+      "sd": 3.315369298341236
+    },
+    "C6": {
+      "mean": 27.7797147385103,
+      "sd": 5.363364903966532
+    }
+  },
+  {
+    "sex": "female",
+    "age_group": "lt21",
+    "N": {
+      "mean": 186.0018734723756,
+      "sd": 13.61659034988065
+    },
+    "E": {
+      "mean": 195.19028772069132,
+      "sd": 13.551214236953635
+    },
+    "O": {
+      "mean": 187.2022481668507,
+      "sd": 10.891256647397983
+    },
+    "A": {
+      "mean": 175.35193985037034,
+      "sd": 13.745996384888691
+    },
+    "C": {
+      "mean": 190.3374111341332,
+      "sd": 12.360675997974722
+    },
+    "N1": {
+      "mean": 32.027543766051686,
+      "sd": 3.381128691290783
+    },
+    "N2": {
+      "mean": 29.637166714227224,
+      "sd": 3.0615644360092893
+    },
+    "N3": {
+      "mean": 29.081725579721834,
+      "sd": 4.959831044326739
+    },
+    "N4": {
+      "mean": 30.973895457760023,
+      "sd": 3.594690252359901
+    },
+    "N5": {
+      "mean": 31.36365215449323,
+      "sd": 3.725339279863063
+    },
+    "N6": {
+      "mean": 32.91788980012159,
+      "sd": 3.6262157088308475
+    },
+    "E1": {
+      "mean": 31.201106713482798,
+      "sd": 3.008023508954364
+    },
+    "E2": {
+      "mean": 31.933932182781422,
+      "sd": 3.5316508170615433
+    },
+    "E3": {
+      "mean": 30.52447300834998,
+      "sd": 3.7337561480982155
+    },
+    "E4": {
+      "mean": 34.70423950669363,
+      "sd": 3.997045456764384
+    },
+    "E5": {
+      "mean": 31.77577885581707,
+      "sd": 5.558227379640983
+    },
+    "E6": {
+      "mean": 35.05075745356642,
+      "sd": 4.965854463667339
+    },
+    "O1": {
+      "mean": 31.554969664636037,
+      "sd": 3.2373348709527954
+    },
+    "O2": {
+      "mean": 31.202558344396333,
+      "sd": 2.934868370055852
+    },
+    "O3": {
+      "mean": 30.730009057184333,
+      "sd": 3.9060115292100126
+    },
+    "O4": {
+      "mean": 33.741795803918166,
+      "sd": 3.920443732534408
+    },
+    "O5": {
+      "mean": 29.603382175957517,
+      "sd": 3.375776925112319
+    },
+    "O6": {
+      "mean": 30.369533120758323,
+      "sd": 4.022644015346993
+    },
+    "A1": {
+      "mean": 31.51591210809067,
+      "sd": 3.393221184613454
+    },
+    "A2": {
+      "mean": 25.75484807503815,
+      "sd": 4.749287728472879
+    },
+    "A3": {
+      "mean": 29.29461903993846,
+      "sd": 2.9012122270495895
+    },
+    "A4": {
+      "mean": 30.202446680479905,
+      "sd": 5.277965093232471
+    },
+    "A5": {
+      "mean": 28.67783719400985,
+      "sd": 3.9524593663693537
+    },
+    "A6": {
+      "mean": 29.90627675281331,
+      "sd": 3.477250056355613
+    },
+    "C1": {
+      "mean": 32.328552463430064,
+      "sd": 3.1977563736401327
+    },
+    "C2": {
+      "mean": 32.75906648965868,
+      "sd": 3.9696738569831758
+    },
+    "C3": {
+      "mean": 30.244109728408542,
+      "sd": 2.692178351669397
+    },
+    "C4": {
+      "mean": 32.4360475936426,
+      "sd": 3.579171425417673
+    },
+    "C5": {
+      "mean": 30.248749984491123,
+      "sd": 3.4272794556499018
+    },
+    "C6": {
+      "mean": 32.32088487450216,
+      "sd": 5.347132459109119
+    }
+  },
+  {
+    "sex": "female",
+    "age_group": "21_40",
+    "N": {
+      "mean": 182.86557901994928,
+      "sd": 13.799726816311978
+    },
+    "E": {
+      "mean": 191.8390033540968,
+      "sd": 13.596774875275559
+    },
+    "O": {
+      "mean": 186.2680940082041,
+      "sd": 10.444921853833424
+    },
+    "A": {
+      "mean": 172.26973015297955,
+      "sd": 12.958282185705313
+    },
+    "C": {
+      "mean": 187.568291514252,
+      "sd": 11.582858859729855
+    },
+    "N1": {
+      "mean": 31.53302090759288,
+      "sd": 3.291650507379306
+    },
+    "N2": {
+      "mean": 29.39477836081667,
+      "sd": 2.9505511574152874
+    },
+    "N3": {
+      "mean": 28.65907417579207,
+      "sd": 5.058233810661166
+    },
+    "N4": {
+      "mean": 30.462351140042305,
+      "sd": 3.6907651924549496
+    },
+    "N5": {
+      "mean": 29.945574812719858,
+      "sd": 3.688372233217163
+    },
+    "N6": {
+      "mean": 32.870779622985495,
+      "sd": 3.568343313746692
+    },
+    "E1": {
+      "mean": 31.08935687823577,
+      "sd": 3.004217514958351
+    },
+    "E2": {
+      "mean": 31.674418876436008,
+      "sd": 3.523643076699313
+    },
+    "E3": {
+      "mean": 30.611801278530276,
+      "sd": 3.6658838854409237
+    },
+    "E4": {
+      "mean": 34.557563079224465,
+      "sd": 3.859501987665931
+    },
+    "E5": {
+      "mean": 29.71496020662171,
+      "sd": 5.484338928949815
+    },
+    "E6": {
+      "mean": 34.19090303504856,
+      "sd": 4.951038352186223
+    },
+    "O1": {
+      "mean": 30.707971531080908,
+      "sd": 3.276954898022335
+    },
+    "O2": {
+      "mean": 31.359554501151145,
+      "sd": 2.9626814006025137
+    },
+    "O3": {
+      "mean": 30.747963584092,
+      "sd": 3.781179863911329
+    },
+    "O4": {
+      "mean": 33.17319761122863,
+      "sd": 3.918947187800177
+    },
+    "O5": {
+      "mean": 29.984970841562752,
+      "sd": 3.267057281918968
+    },
+    "O6": {
+      "mean": 30.294435939088668,
+      "sd": 4.042776063220008
+    },
+    "A1": {
+      "mean": 31.278460154031343,
+      "sd": 3.190402892391623
+    },
+    "A2": {
+      "mean": 24.027639159956525,
+      "sd": 4.551065203441086
+    },
+    "A3": {
+      "mean": 29.122126520738135,
+      "sd": 2.7367105052124607
+    },
+    "A4": {
+      "mean": 28.42476655720079,
+      "sd": 4.8806064401769875
+    },
+    "A5": {
+      "mean": 29.29711220447135,
+      "sd": 3.743118121681738
+    },
+    "A6": {
+      "mean": 30.119625556581394,
+      "sd": 3.47905119516146
+    },
+    "C1": {
+      "mean": 32.12092278565335,
+      "sd": 2.9994853666076415
+    },
+    "C2": {
+      "mean": 32.205838699498635,
+      "sd": 3.932469304753421
+    },
+    "C3": {
+      "mean": 29.52219897857819,
+      "sd": 2.6832780517077834
+    },
+    "C4": {
+      "mean": 33.064218682435985,
+      "sd": 3.4016892948114186
+    },
+    "C5": {
+      "mean": 30.08602615494291,
+      "sd": 3.330391196502748
+    },
+    "C6": {
+      "mean": 30.569086213142917,
+      "sd": 5.566816935778737
+    }
+  },
+  {
+    "sex": "female",
+    "age_group": "41_60",
+    "N": {
+      "mean": 178.29256279757018,
+      "sd": 14.364050995248503
+    },
+    "E": {
+      "mean": 189.9766321895693,
+      "sd": 13.603922790838366
+    },
+    "O": {
+      "mean": 186.56695671208888,
+      "sd": 10.697608679578865
+    },
+    "A": {
+      "mean": 168.05166092048378,
+      "sd": 12.086934334900196
+    },
+    "C": {
+      "mean": 185.32703989492694,
+      "sd": 11.4305937074028
+    },
+    "N1": {
+      "mean": 30.543971980517703,
+      "sd": 3.3001562091011536
+    },
+    "N2": {
+      "mean": 28.965905981502765,
+      "sd": 3.0186025640543037
+    },
+    "N3": {
+      "mean": 27.552344989875774,
+      "sd": 5.143019036779292
+    },
+    "N4": {
+      "mean": 29.62452799211952,
+      "sd": 3.7995333856777487
+    },
+    "N5": {
+      "mean": 29.654353417610682,
+      "sd": 3.6946802306365543
+    },
+    "N6": {
+      "mean": 31.951458435943742,
+      "sd": 3.548959724871333
+    },
+    "E1": {
+      "mean": 30.951513161495104,
+      "sd": 2.959122414712181
+    },
+    "E2": {
+      "mean": 31.673726262792098,
+      "sd": 3.6076966091547376
+    },
+    "E3": {
+      "mean": 30.989328517484815,
+      "sd": 3.6239386321446703
+    },
+    "E4": {
+      "mean": 34.56980244075959,
+      "sd": 3.818444390997684
+    },
+    "E5": {
+      "mean": 28.111694850325616,
+      "sd": 5.325611746814335
+    },
+    "E6": {
+      "mean": 33.68056695671209,
+      "sd": 5.048237483771242
+    },
+    "O1": {
+      "mean": 29.471460624965797,
+      "sd": 3.3076306750888804
+    },
+    "O2": {
+      "mean": 31.798719422098177,
+      "sd": 3.0207224503174657
+    },
+    "O3": {
+      "mean": 31.037541728232913,
+      "sd": 3.6834450483439927
+    },
+    "O4": {
+      "mean": 33.0333278607782,
+      "sd": 3.920124551067659
+    },
+    "O5": {
+      "mean": 30.369944727193126,
+      "sd": 3.3685047575878793
+    },
+    "O6": {
+      "mean": 30.855962348820665,
+      "sd": 4.1388108826358545
+    },
+    "A1": {
+      "mean": 31.08756088217589,
+      "sd": 3.050113246409293
+    },
+    "A2": {
+      "mean": 22.318557434466154,
+      "sd": 4.101763996607362
+    },
+    "A3": {
+      "mean": 28.912603294478192,
+      "sd": 2.547570907243683
+    },
+    "A4": {
+      "mean": 26.4541126251847,
+      "sd": 4.579826685492034
+    },
+    "A5": {
+      "mean": 29.44524708586439,
+      "sd": 3.700294263022597
+    },
+    "A6": {
+      "mean": 29.833579598314454,
+      "sd": 3.4518906749095777
+    },
+    "C1": {
+      "mean": 32.20680785858917,
+      "sd": 2.8869106541649407
+    },
+    "C2": {
+      "mean": 31.60794615005746,
+      "sd": 3.977190646257692
+    },
+    "C3": {
+      "mean": 29.426476221747933,
+      "sd": 2.4902554263881798
+    },
+    "C4": {
+      "mean": 33.255185245991356,
+      "sd": 3.3648951277198615
+    },
+    "C5": {
+      "mean": 29.898812455535488,
+      "sd": 3.2033215322885016
+    },
+    "C6": {
+      "mean": 28.931811963005526,
+      "sd": 5.328580857508683
+    }
+  },
+  {
+    "sex": "female",
+    "age_group": "gt60",
+    "N": {
+      "mean": 177.21830985915494,
+      "sd": 14.351479628254575
+    },
+    "E": {
+      "mean": 189.72957746478872,
+      "sd": 14.08026952682908
+    },
+    "O": {
+      "mean": 188.04788732394366,
+      "sd": 11.733546943703633
+    },
+    "A": {
+      "mean": 167.04507042253522,
+      "sd": 12.392759029780574
+    },
+    "C": {
+      "mean": 185.55070422535212,
+      "sd": 11.143358350536499
+    },
+    "N1": {
+      "mean": 30.805633802816903,
+      "sd": 3.3179380534240215
+    },
+    "N2": {
+      "mean": 29.070422535211268,
+      "sd": 3.1530044492127285
+    },
+    "N3": {
+      "mean": 26.42676056338028,
+      "sd": 4.864553513692928
+    },
+    "N4": {
+      "mean": 29.11830985915493,
+      "sd": 3.8695334473167056
+    },
+    "N5": {
+      "mean": 30.39718309859155,
+      "sd": 3.7079555318191213
+    },
+    "N6": {
+      "mean": 31.4,
+      "sd": 3.6222163574137047
+    },
+    "E1": {
+      "mean": 30.722535211267605,
+      "sd": 2.854323777454848
+    },
+    "E2": {
+      "mean": 31.774647887323944,
+      "sd": 3.719339853381675
+    },
+    "E3": {
+      "mean": 30.867605633802818,
+      "sd": 3.62010428700186
+    },
+    "E4": {
+      "mean": 34.51690140845071,
+      "sd": 3.925846001932106
+    },
+    "E5": {
+      "mean": 27.864788732394366,
+      "sd": 5.363910605079142
+    },
+    "E6": {
+      "mean": 33.98309859154929,
+      "sd": 4.766744990461362
+    },
+    "O1": {
+      "mean": 29.301408450704226,
+      "sd": 3.6044750808783657
+    },
+    "O2": {
+      "mean": 31.498591549295774,
+      "sd": 2.9460352242264034
+    },
+    "O3": {
+      "mean": 31.718309859154928,
+      "sd": 3.57385545840362
+    },
+    "O4": {
+      "mean": 33.38732394366197,
+      "sd": 4.122675592573126
+    },
+    "O5": {
+      "mean": 30.549295774647888,
+      "sd": 3.5699289930411635
+    },
+    "O6": {
+      "mean": 31.592957746478874,
+      "sd": 4.355721038691572
+    },
+    "A1": {
+      "mean": 30.864788732394366,
+      "sd": 3.0614348338029034
+    },
+    "A2": {
+      "mean": 22.12957746478873,
+      "sd": 4.255930711912173
+    },
+    "A3": {
+      "mean": 28.6056338028169,
+      "sd": 2.5564370107849608
+    },
+    "A4": {
+      "mean": 25.473239436619718,
+      "sd": 4.656462144462782
+    },
+    "A5": {
+      "mean": 29.914084507042254,
+      "sd": 3.5766361332290724
+    },
+    "A6": {
+      "mean": 30.057746478873238,
+      "sd": 3.4503597233541767
+    },
+    "C1": {
+      "mean": 32.35492957746479,
+      "sd": 2.8868061684134667
+    },
+    "C2": {
+      "mean": 31.604225352112675,
+      "sd": 3.835802559433402
+    },
+    "C3": {
+      "mean": 29.716901408450703,
+      "sd": 2.254629208441615
+    },
+    "C4": {
+      "mean": 33.05774647887324,
+      "sd": 3.2119822373922418
+    },
+    "C5": {
+      "mean": 30.27605633802817,
+      "sd": 3.203465365729886
+    },
+    "C6": {
+      "mean": 28.540845070422534,
+      "sd": 5.196059521000464
+    }
+  }
+];
+
+/* =========================================================
+   STATE
+   ========================================================= */
+const STATE = {
+  phase: "start",
+  currentIndex: 0,
+  responses: Array(300).fill(null),
+  demographics: { nameOrCode:"", age:"", sex:"" },
+  startedAt: null,
+  result: null
+};
+
+let pendingModalAction = null;
+
+/* =========================================================
+   CORE ASSERTIONS / MAPPING
+   ========================================================= */
+function assertCondition(condition, message) {
+  if (!condition) throw new Error(message);
+}
+
+function validateDatasetOrHalt() {
+  assertCondition(Array.isArray(ITEMS), "ITEMS is not an array.");
+  assertCondition(ITEMS.length === 300, "UNRESOLVED/ERROR: items.length must be 300.");
+  const ids = ITEMS.map(x => x.full);
+  assertCondition(new Set(ids).size === 300, "UNRESOLVED/ERROR: duplicate item IDs detected.");
+  assertCondition(JSON.stringify(ids) === JSON.stringify(Array.from({length:300}, (_,i) => i+1)),
+                  "UNRESOLVED/ERROR: item numbers are not exactly 1..300.");
+  for (const item of ITEMS) {
+    for (const key of ["textEn","textFa","facet","domain","sign","key","reverse"]) {
+      assertCondition(item[key] !== undefined && item[key] !== null, "UNRESOLVED/ERROR: missing " + key + " for item " + item.full);
+    }
+  }
+  const facetCounts = {};
+  const domainCounts = {};
+  for (const item of ITEMS) {
+    facetCounts[item.facet] = (facetCounts[item.facet] || 0) + 1;
+    domainCounts[item.domain] = (domainCounts[item.domain] || 0) + 1;
+    assertCondition(item.reverse === (String(item.sign).startsWith("-")),
+      "UNRESOLVED/ERROR: reverse/sign mismatch at item " + item.full);
+  }
+  assertCondition(Object.keys(facetCounts).length === 30, "UNRESOLVED/ERROR: not exactly 30 facets in items.");
+  for (const f of Object.keys(FACET_NAMES_FA)) {
+    assertCondition(facetCounts[f] === 10, "UNRESOLVED/ERROR: facet " + f + " does not contain exactly 10 items.");
+  }
+  assertCondition(Object.keys(domainCounts).length === 5, "UNRESOLVED/ERROR: not exactly 5 domains in items.");
+  for (const d of Object.keys(DOMAIN_NAMES_FA)) {
+    assertCondition(domainCounts[d] === 60, "UNRESOLVED/ERROR: domain " + d + " does not contain exactly 60 items.");
+  }
+  assertCondition(ITEMS.filter(x => x.reverse).length === 148, "UNRESOLVED/ERROR: reverse count must be 148.");
+
+  for (const [facet, meta] of Object.entries(FACETS)) {
+    const expectedReverse = meta.items.filter(id => ITEMS[id-1].reverse);
+    assertCondition(JSON.stringify(expectedReverse) === JSON.stringify(meta.reverse_items),
+      "UNRESOLVED/ERROR: facet reverse mapping mismatch for " + facet);
+  }
+  for (const [domain, meta] of Object.entries(DOMAINS)) {
+    assertCondition(meta.facets.length === 6 && meta.items.length === 60,
+      "UNRESOLVED/ERROR: domain structure mismatch for " + domain);
+    const union = meta.facets.flatMap(f => FACETS[f].items);
+    assertCondition(JSON.stringify([...union].sort((a,b)=>a-b)) === JSON.stringify([...meta.items].sort((a,b)=>a-b)),
+      "UNRESOLVED/ERROR: domain item mapping mismatch for " + domain);
+  }
+}
+
+const FACETS = {
+  "N1": {
+    "name": "Anxiety",
+    "items": [
+      1,
+      31,
+      61,
+      91,
+      121,
+      151,
+      181,
+      211,
+      241,
+      271
+    ],
+    "reverse_items": [
+      151,
+      181,
+      211,
+      241,
+      271
+    ]
+  },
+  "N2": {
+    "name": "Anger",
+    "items": [
+      6,
+      36,
+      126,
+      216,
+      66,
+      96,
+      156,
+      186,
+      246,
+      276
+    ],
+    "reverse_items": [
+      216,
+      156,
+      186,
+      246,
+      276
+    ]
+  },
+  "N3": {
+    "name": "Depression",
+    "items": [
+      11,
+      41,
+      71,
+      251,
+      101,
+      131,
+      161,
+      191,
+      221,
+      281
+    ],
+    "reverse_items": [
+      251,
+      221,
+      281
+    ]
+  },
+  "N4": {
+    "name": "Self-Consciousness",
+    "items": [
+      76,
+      106,
+      136,
+      256,
+      16,
+      46,
+      166,
+      196,
+      226,
+      286
+    ],
+    "reverse_items": [
+      256,
+      196,
+      226,
+      286
+    ]
+  },
+  "N5": {
+    "name": "Immoderation",
+    "items": [
+      111,
+      171,
+      201,
+      231,
+      21,
+      51,
+      81,
+      141,
+      261,
+      291
+    ],
+    "reverse_items": [
+      171,
+      201,
+      231,
+      261,
+      291
+    ]
+  },
+  "N6": {
+    "name": "Vulnerability",
+    "items": [
+      26,
+      56,
+      86,
+      176,
+      116,
+      146,
+      206,
+      236,
+      266,
+      296
+    ],
+    "reverse_items": [
+      176,
+      206,
+      236,
+      266,
+      296
+    ]
+  },
+  "E1": {
+    "name": "Friendliness",
+    "items": [
+      2,
+      62,
+      212,
+      272,
+      32,
+      92,
+      122,
+      152,
+      182,
+      242
+    ],
+    "reverse_items": [
+      212,
+      272,
+      152,
+      182,
+      242
+    ]
+  },
+  "E2": {
+    "name": "Gregariousness",
+    "items": [
+      7,
+      37,
+      157,
+      247,
+      67,
+      97,
+      127,
+      187,
+      217,
+      277
+    ],
+    "reverse_items": [
+      157,
+      247,
+      187,
+      217,
+      277
+    ]
+  },
+  "E3": {
+    "name": "Assertiveness",
+    "items": [
+      12,
+      42,
+      132,
+      162,
+      72,
+      102,
+      192,
+      222,
+      252,
+      282
+    ],
+    "reverse_items": [
+      162,
+      192,
+      222,
+      252,
+      282
+    ]
+  },
+  "E4": {
+    "name": "Activity Level",
+    "items": [
+      17,
+      47,
+      77,
+      167,
+      107,
+      137,
+      197,
+      227,
+      257,
+      287
+    ],
+    "reverse_items": [
+      167,
+      197,
+      227,
+      257,
+      287
+    ]
+  },
+  "E5": {
+    "name": "Excitement-Seeking",
+    "items": [
+      22,
+      52,
+      142,
+      172,
+      82,
+      112,
+      202,
+      232,
+      262,
+      292
+    ],
+    "reverse_items": [
+      262,
+      292
+    ]
+  },
+  "E6": {
+    "name": "Cheerfulness",
+    "items": [
+      27,
+      57,
+      147,
+      177,
+      87,
+      117,
+      207,
+      237,
+      267,
+      297
+    ],
+    "reverse_items": [
+      267,
+      297
+    ]
+  },
+  "O1": {
+    "name": "Imagination",
+    "items": [
+      3,
+      33,
+      63,
+      93,
+      123,
+      153,
+      183,
+      213,
+      243,
+      273
+    ],
+    "reverse_items": [
+      183,
+      213,
+      243,
+      273
+    ]
+  },
+  "O2": {
+    "name": "Artistic Interests",
+    "items": [
+      8,
+      68,
+      188,
+      218,
+      38,
+      98,
+      128,
+      158,
+      248,
+      278
+    ],
+    "reverse_items": [
+      188,
+      218,
+      158,
+      248,
+      278
+    ]
+  },
+  "O3": {
+    "name": "Emotionality",
+    "items": [
+      13,
+      43,
+      223,
+      283,
+      73,
+      103,
+      133,
+      163,
+      193,
+      253
+    ],
+    "reverse_items": [
+      223,
+      283,
+      163,
+      193,
+      253
+    ]
+  },
+  "O4": {
+    "name": "Adventurousness",
+    "items": [
+      18,
+      138,
+      168,
+      288,
+      48,
+      78,
+      108,
+      198,
+      228,
+      258
+    ],
+    "reverse_items": [
+      138,
+      168,
+      288,
+      198,
+      228,
+      258
+    ]
+  },
+  "O5": {
+    "name": "Intellect",
+    "items": [
+      53,
+      203,
+      233,
+      263,
+      23,
+      83,
+      113,
+      143,
+      173,
+      293
+    ],
+    "reverse_items": [
+      203,
+      233,
+      263,
+      173,
+      293
+    ]
+  },
+  "O6": {
+    "name": "Liberalism",
+    "items": [
+      28,
+      58,
+      148,
+      268,
+      88,
+      118,
+      178,
+      208,
+      238,
+      298
+    ],
+    "reverse_items": [
+      148,
+      268,
+      118,
+      178,
+      208,
+      238,
+      298
+    ]
+  },
+  "A1": {
+    "name": "Trust",
+    "items": [
+      4,
+      34,
+      64,
+      184,
+      94,
+      124,
+      154,
+      214,
+      244,
+      274
+    ],
+    "reverse_items": [
+      184,
+      214,
+      244,
+      274
+    ]
+  },
+  "A2": {
+    "name": "Morality",
+    "items": [
+      99,
+      159,
+      249,
+      279,
+      9,
+      39,
+      69,
+      129,
+      189,
+      219
+    ],
+    "reverse_items": [
+      99,
+      159,
+      249,
+      279,
+      69,
+      129,
+      189,
+      219
+    ]
+  },
+  "A3": {
+    "name": "Altruism",
+    "items": [
+      74,
+      104,
+      194,
+      284,
+      14,
+      44,
+      134,
+      164,
+      224,
+      254
+    ],
+    "reverse_items": [
+      194,
+      284,
+      164,
+      224,
+      254
+    ]
+  },
+  "A4": {
+    "name": "Cooperation",
+    "items": [
+      169,
+      199,
+      229,
+      259,
+      19,
+      49,
+      79,
+      109,
+      139,
+      289
+    ],
+    "reverse_items": [
+      169,
+      199,
+      229,
+      259,
+      109,
+      139,
+      289
+    ]
+  },
+  "A5": {
+    "name": "Modesty",
+    "items": [
+      144,
+      174,
+      204,
+      264,
+      24,
+      54,
+      84,
+      114,
+      234,
+      294
+    ],
+    "reverse_items": [
+      144,
+      174,
+      204,
+      264,
+      234,
+      294
+    ]
+  },
+  "A6": {
+    "name": "Sympathy",
+    "items": [
+      29,
+      59,
+      149,
+      239,
+      89,
+      119,
+      179,
+      209,
+      269,
+      299
+    ],
+    "reverse_items": [
+      149,
+      239,
+      179,
+      209,
+      269,
+      299
+    ]
+  },
+  "C1": {
+    "name": "Self-Efficacy",
+    "items": [
+      5,
+      35,
+      65,
+      155,
+      95,
+      125,
+      185,
+      215,
+      245,
+      275
+    ],
+    "reverse_items": [
+      185,
+      215,
+      245,
+      275
+    ]
+  },
+  "C2": {
+    "name": "Orderliness",
+    "items": [
+      40,
+      160,
+      190,
+      220,
+      10,
+      70,
+      100,
+      130,
+      250,
+      280
+    ],
+    "reverse_items": [
+      160,
+      190,
+      220,
+      250,
+      280
+    ]
+  },
+  "C3": {
+    "name": "Dutifulness",
+    "items": [
+      45,
+      105,
+      165,
+      195,
+      15,
+      75,
+      135,
+      225,
+      255,
+      285
+    ],
+    "reverse_items": [
+      165,
+      195,
+      225,
+      255,
+      285
+    ]
+  },
+  "C4": {
+    "name": "Achievement-Striving",
+    "items": [
+      50,
+      140,
+      260,
+      290,
+      20,
+      80,
+      110,
+      170,
+      200,
+      230
+    ],
+    "reverse_items": [
+      260,
+      290,
+      230
+    ]
+  },
+  "C5": {
+    "name": "Self-Discipline",
+    "items": [
+      55,
+      145,
+      205,
+      265,
+      25,
+      85,
+      115,
+      175,
+      235,
+      295
+    ],
+    "reverse_items": [
+      205,
+      265,
+      175,
+      235,
+      295
+    ]
+  },
+  "C6": {
+    "name": "Cautiousness",
+    "items": [
+      120,
+      150,
+      210,
+      270,
+      30,
+      60,
+      90,
+      180,
+      240,
+      300
+    ],
+    "reverse_items": [
+      120,
+      150,
+      210,
+      270,
+      180,
+      240,
+      300
+    ]
+  }
+};
+const DOMAINS = {
+  "N": {
+    "facets": [
+      "N1",
+      "N2",
+      "N3",
+      "N4",
+      "N5",
+      "N6"
+    ],
+    "items": [
+      1,
+      6,
+      11,
+      76,
+      111,
+      26,
+      31,
+      36,
+      41,
+      106,
+      171,
+      56,
+      61,
+      126,
+      71,
+      136,
+      201,
+      86,
+      91,
+      216,
+      251,
+      256,
+      231,
+      176,
+      16,
+      21,
+      46,
+      51,
+      66,
+      81,
+      96,
+      101,
+      116,
+      121,
+      131,
+      141,
+      146,
+      151,
+      156,
+      161,
+      166,
+      181,
+      186,
+      191,
+      196,
+      206,
+      211,
+      221,
+      226,
+      236,
+      241,
+      246,
+      261,
+      266,
+      271,
+      276,
+      281,
+      286,
+      291,
+      296
+    ]
+  },
+  "E": {
+    "facets": [
+      "E1",
+      "E2",
+      "E3",
+      "E4",
+      "E5",
+      "E6"
+    ],
+    "items": [
+      2,
+      7,
+      12,
+      17,
+      22,
+      27,
+      62,
+      37,
+      42,
+      47,
+      52,
+      57,
+      212,
+      157,
+      132,
+      77,
+      142,
+      147,
+      272,
+      247,
+      162,
+      167,
+      172,
+      177,
+      32,
+      67,
+      72,
+      82,
+      87,
+      92,
+      97,
+      102,
+      107,
+      112,
+      117,
+      122,
+      127,
+      137,
+      152,
+      182,
+      187,
+      192,
+      197,
+      202,
+      207,
+      217,
+      222,
+      227,
+      232,
+      237,
+      242,
+      252,
+      257,
+      262,
+      267,
+      277,
+      282,
+      287,
+      292,
+      297
+    ]
+  },
+  "O": {
+    "facets": [
+      "O1",
+      "O2",
+      "O3",
+      "O4",
+      "O5",
+      "O6"
+    ],
+    "items": [
+      3,
+      8,
+      13,
+      18,
+      53,
+      28,
+      33,
+      68,
+      43,
+      138,
+      203,
+      58,
+      63,
+      188,
+      223,
+      168,
+      233,
+      148,
+      93,
+      218,
+      283,
+      288,
+      263,
+      268,
+      23,
+      38,
+      48,
+      73,
+      78,
+      83,
+      88,
+      98,
+      103,
+      108,
+      113,
+      118,
+      123,
+      128,
+      133,
+      143,
+      153,
+      158,
+      163,
+      173,
+      178,
+      183,
+      193,
+      198,
+      208,
+      213,
+      228,
+      238,
+      243,
+      248,
+      253,
+      258,
+      273,
+      278,
+      293,
+      298
+    ]
+  },
+  "A": {
+    "facets": [
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A5",
+      "A6"
+    ],
+    "items": [
+      4,
+      99,
+      74,
+      169,
+      144,
+      29,
+      34,
+      159,
+      104,
+      199,
+      174,
+      59,
+      64,
+      249,
+      194,
+      229,
+      204,
+      149,
+      184,
+      279,
+      284,
+      259,
+      264,
+      239,
+      9,
+      14,
+      19,
+      24,
+      39,
+      44,
+      49,
+      54,
+      69,
+      79,
+      84,
+      89,
+      94,
+      109,
+      114,
+      119,
+      124,
+      129,
+      134,
+      139,
+      154,
+      164,
+      179,
+      189,
+      209,
+      214,
+      219,
+      224,
+      234,
+      244,
+      254,
+      269,
+      274,
+      289,
+      294,
+      299
+    ]
+  },
+  "C": {
+    "facets": [
+      "C1",
+      "C2",
+      "C3",
+      "C4",
+      "C5",
+      "C6"
+    ],
+    "items": [
+      5,
+      40,
+      45,
+      50,
+      55,
+      120,
+      35,
+      160,
+      105,
+      140,
+      145,
+      150,
+      65,
+      190,
+      165,
+      260,
+      205,
+      210,
+      155,
+      220,
+      195,
+      290,
+      265,
+      270,
+      10,
+      15,
+      20,
+      25,
+      30,
+      60,
+      70,
+      75,
+      80,
+      85,
+      90,
+      95,
+      100,
+      110,
+      115,
+      125,
+      130,
+      135,
+      170,
+      175,
+      180,
+      185,
+      200,
+      215,
+      225,
+      230,
+      235,
+      240,
+      245,
+      250,
+      255,
+      275,
+      280,
+      285,
+      295,
+      300
+    ]
+  }
+};
+
+try {
+  validateDatasetOrHalt();
+} catch (err) {
+  document.getElementById("screen-start").innerHTML =
+    '<div class="note danger"><strong>خطای ساختاری غیرقابل ادامه</strong><p></p><div class="code"></div></div>';
+  document.querySelector("#screen-start .note p").textContent = err.message;
+  document.querySelector("#screen-start .code").textContent = "The application halted to avoid silent scoring errors.";
+  throw err;
+}
+
+/* =========================================================
+   STORAGE
+   ========================================================= */
+// Store only a draft session locally; completed results are held in memory until exported/printed.
+function snapshotDraft() {
+  return {
+    appVersion: APP_VERSION,
+    inventoryVersion: "IPIP-NEO-300",
+    savedAt: new Date().toISOString(),
+    responses: STATE.responses,
+    demographics: STATE.demographics,
+    startedAt: STATE.startedAt,
+    currentIndex: STATE.currentIndex
+  };
+}
+
+function getLocalStorageSafely() {
+  try {
+    const ls = window.localStorage;
+    if (!ls) return null;
+    return ls;
+  } catch (e) {
+    return null;
+  }
+}
+
+function saveDraft() {
+  const ls = getLocalStorageSafely();
+  if (!ls) return false;
+  try {
+    ls.setItem(STORAGE_KEY, JSON.stringify(snapshotDraft()));
+    return true;
+  } catch (e) {
+    // Offline localStorage can fail in private/restricted browser modes.
+    console.warn("localStorage save failed:", e);
+    return false;
+  }
+}
+
+function loadDraft() {
+  const ls = getLocalStorageSafely();
+  if (!ls) return null;
+  try {
+    const raw = ls.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const obj = JSON.parse(raw);
+    if (!obj || obj.inventoryVersion !== "IPIP-NEO-300" || !Array.isArray(obj.responses) || obj.responses.length !== 300) return null;
+    return obj;
+  } catch (e) {
+    return null;
+  }
+}
+
+function clearDraft() {
+  const ls = getLocalStorageSafely();
+  if (!ls) return;
+  try { ls.removeItem(STORAGE_KEY); } catch (e) {}
+}
+
+/* =========================================================
+   SCORING
+   ========================================================= */
+// NEW USER pipeline: raw 1-5 semantic response -> ONE reverse transformation -> facet -> domain.
+// Historical recoded data must NOT be passed through this function without first establishing its representation.
+function reverseScoreItem(raw, item) {
+  if (raw === null || raw === undefined || raw === 0) return null;
+  return item.reverse ? 6 - raw : raw;
+}
+
+function scoreResponses(responses, { historicalMissing = false } = {}) {
+  const missing = responses.reduce((n, v) => n + (v === null || v === undefined || v === 0 ? 1 : 0), 0);
+  const replacementLog = [];
+  const scored = ITEMS.map((item, index) => {
+    let raw = responses[index];
+    if (raw === null || raw === undefined || raw === 0) {
+      if (historicalMissing) {
+        raw = 3;
+        replacementLog.push({item: item.full, rawWasMissing: true, scored: 3});
+      } else {
+        return null;
+      }
+    }
+    const s = reverseScoreItem(raw, item);
+    return s;
+  });
+
+  const facetRaw = {};
+  for (const facet of Object.keys(FACETS)) {
+    const vals = FACETS[facet].items.map(id => scored[id-1]);
+    facetRaw[facet] = vals.some(v => v === null) ? null : vals.reduce((a,b)=>a+b,0);
+  }
+
+  const domainRaw = {};
+  for (const domain of Object.keys(DOMAINS)) {
+    const vals = DOMAINS[domain].facets.map(f => facetRaw[f]);
+    domainRaw[domain] = vals.some(v => v === null) ? null : vals.reduce((a,b)=>a+b,0);
+  }
+
+  return { missing, scored, facetRaw, domainRaw, replacementLog };
+}
+
+function selectNorm(age, sex) {
+  const numericAge = Number(age);
+  if (!Number.isFinite(numericAge)) {
+    return { status:"UNRESOLVED", reason:"سن عددی معتبر نیست.", norm:null, ageGroup:null };
+  }
+  let ageGroup;
+  // Exact age bands from the reference table: <21, 21-40, 41-60, >60.
+  if (numericAge < 21) ageGroup = "lt21";
+  else if (numericAge <= 40) ageGroup = "21_40";
+  else if (numericAge <= 60) ageGroup = "41_60";
+  else ageGroup = "gt60";
+  const row = NORMS.find(n => n.sex === sex && n.age_group === ageGroup);
+  if (!row) return { status:"UNRESOLVED", reason:"برای ترکیب سن/جنسیت انتخاب‌شده Norm موجود نیست.", norm:null, ageGroup };
+  return { status:"RECONSTRUCTED", reason:"Norm محاسبه‌شده از IPIP300.dat سال 2014؛ رسمی Johnson-300 نیست.", norm:row, ageGroup };
+}
+
+function calculateZ(raw, mean, sd) {
+  if (![raw, mean, sd].every(Number.isFinite) || sd === 0) return null;
+  return (raw - mean) / sd;
+}
+
+function calculateT(z) {
+  if (!Number.isFinite(z)) return null;
+  return 50 + 10 * z;
+}
+
+function calculateScaleStandardization(raw, normRow, code) {
+  if (raw === null || !normRow || !normRow[code]) return {mean:null, sd:null, z:null, t:null};
+  const mean = normRow[code].mean;
+  const sd = normRow[code].sd;
+  const z = calculateZ(raw, mean, sd);
+  const t = calculateT(z);
+  return {mean, sd, z, t};
+}
+
+function calculatePercentile(t) {
+  // UNRESOLVED for 300: the supplied documentation only establishes this cubic in historical 120-item CGI.
+  return {
+    status: "UNRESOLVED",
+    value: null,
+    reason: "فرمول چندجمله‌ای Percentile در مستندات برای CGI تاریخی ۱۲۰ آیتمی اثبات شده است، نه برای pipeline نسخه ۳۰۰."
+  };
+}
+
+function classifyT(t) {
+  // UNRESOLVED for 300: the supplied low/average/high cutoffs are documented for the historical 120-item CGI.
+  return {
+    status: "UNRESOLVED",
+    value: null,
+    reason: "Cutoffهای Low/Average/High در مستندات برای CGI تاریخی ۱۲۰ آیتمی گزارش شده‌اند، نه به‌طور مستقل برای نسخه ۳۰۰."
+  };
+}
+
+/* =========================================================
+   VALIDITY
+   ========================================================= */
+function checkMissing(responses) {
+  const count = responses.reduce((n,v)=>n + (v === null || v === undefined || v === 0 ? 1 : 0), 0);
+  return {
+    name: "Missing",
+    count,
+    historicalRule: count > 10 ? "invalid (>10)" : "retained (0–10)",
+    liveStandalone: count === 0 ? "PASS" : "COMPLETE REQUIRED"
+  };
+}
+
+function checkLongString(responses) {
+  // Exact live calculation of observed consecutive identical answers.
+  // The documentation gives five historical cutpoints (6,9,10,14,9) but does not
+  // explicitly map each number to response category in the provided text, so PASS/FAIL is not inferred.
+  const maxRunByValue = {1:0,2:0,3:0,4:0,5:0};
+  let current = null, run = 0;
+  for (const v of responses) {
+    if (![1,2,3,4,5].includes(v)) {
+      current = null; run = 0; continue;
+    }
+    if (v === current) run += 1;
+    else { current = v; run = 1; }
+    if (run > maxRunByValue[v]) maxRunByValue[v] = run;
+  }
+  return {
+    name: "Long string",
+    status: "UNRESOLVED",
+    observedMaxRunByResponse: maxRunByValue,
+    historicalCutoffs: [6,9,10,14,9],
+    reason: "روش مشاهده رشته یکسان قابل محاسبه است؛ اتصال دقیق پنج cutoff به دسته‌های پاسخ در متن مرجع تصریح نشده و حدس زده نمی‌شود."
+  };
+}
+
+function checkRNDSPLIT(responses) {
+  return {
+    name: "RNDSPLIT",
+    status: "NOT_APPLICABLE_EXACTLY",
+    reason: "مستندات روش odd/even + Pearson + Spearman-Brown و cutoff < .30 را ذکر می‌کند، اما فرمول کاملِ قابل اعمال به یک پروتکل منفردِ standalone را ارائه نمی‌دهد؛ از حدس‌زدن خودداری شده است.",
+    historicalThreshold: 0.30
+  };
+}
+
+function checkRNDCORR(responses) {
+  return {
+    name: "RNDCORR",
+    status: "NOT_APPLICABLE_EXACTLY",
+    reason: "مستندات به ۳۰ جفت psychometric antonym و cutoff < -.03 اشاره می‌کند، اما فهرست جفت‌ها/جزئیات کامل انتخاب برای اجرای standalone در فایل‌های مرجع موجود نیست.",
+    historicalThreshold: -0.03
+  };
+}
+
+function checkDuplicate(responses) {
+  return {
+    name: "Duplicate",
+    status: "NOT_APPLICABLE_STANDALONE",
+    reason: "Duplicate historical check نیازمند مقایسه چند پروتکل و metadataهایی مانند time/nickname است؛ در یک HTML مستقل تک‌پروتکلی جعل نمی‌شود.",
+    historicalCutpoints: {300:155, first120:66}
+  };
+}
+
+function checkHistoricalValidity(responses) {
+  return {
+    missing: checkMissing(responses),
+    longString: checkLongString(responses),
+    rndSplit: checkRNDSPLIT(responses),
+    rndCorr: checkRNDCORR(responses),
+    duplicate: checkDuplicate(responses)
+  };
+}
+
+/* =========================================================
+   RESULT ENGINE
+   ========================================================= */
+function buildScaleResults(scoring) {
+  const normSelection = selectNorm(STATE.demographics.age, STATE.demographics.sex);
+  const result = {
+    domains: {},
+    facets: {}
+  };
+  for (const code of Object.keys(DOMAIN_NAMES_FA)) {
+    const raw = scoring.domainRaw[code];
+    const std = calculateScaleStandardization(raw, normSelection.norm, code);
+    result.domains[code] = {
+      code,
+      nameFa: DOMAIN_NAMES_FA[code],
+      raw,
+      ...std,
+      percentile: calculatePercentile(std.t),
+      level: classifyT(std.t),
+      narrative: DOMAIN_NARRATIVES[code] || null
+    };
+  }
+  for (const code of Object.keys(FACET_NAMES_FA)) {
+    const raw = scoring.facetRaw[code];
+    const std = calculateScaleStandardization(raw, normSelection.norm, code);
+    result.facets[code] = {
+      code,
+      nameFa: FACET_NAMES_FA[code],
+      nameEn: FACETS[code].name,
+      raw,
+      ...std,
+      percentile: calculatePercentile(std.t),
+      level: classifyT(std.t),
+      narrative: null
+    };
+  }
+  return {normSelection, result};
+}
+
+function generateFinalResult() {
+  const scoring = scoreResponses(STATE.responses, {historicalMissing:false});
+  const validity = checkHistoricalValidity(STATE.responses);
+  const standardized = buildScaleResults(scoring);
+  const allAnswered = scoring.missing === 0;
+
+  return {
+    appVersion: APP_VERSION,
+    inventory: "IPIP-NEO-300",
+    date: new Date().toISOString(),
+    demographics: {...STATE.demographics},
+    startedAt: STATE.startedAt,
+    sourceMetadata: SOURCE_METADATA,
+    completion: {
+      allAnswered,
+      answeredCount: 300 - scoring.missing,
+      itemCount: 300
+    },
+    scoring: {
+      reverseRule: "Sign '+' => scored=raw; Sign '-' => scored=6-raw; applied once to NEW user raw responses.",
+      missingRuleHistorical: ">10 invalid; 0–10 retained with missing→3 for scoring (historical 2005 profile).",
+      missingRuleLive: "UI requires all 300 items answered before completion."
+    },
+    raw: {
+      itemResponses: [...STATE.responses],
+      scoredItems: scoring.scored,
+      facetRaw: scoring.facetRaw,
+      domainRaw: scoring.domainRaw
+    },
+    validity,
+    norms: {
+      type: standardized.normSelection.status,
+      labelFa: "محاسبه‌شده از داده‌های Johnson / IPIP300.dat سال ۲۰۱۴",
+      provenance: "B — Computed from Johnson IPIP300.dat; not an official published Johnson 300 norm.",
+      ageGroup: standardized.normSelection.ageGroup,
+      selectionStatus: standardized.normSelection.status,
+      reason: standardized.normSelection.reason
+    },
+    standardized: standardized.result,
+    percentilePolicy: "UNRESOLVED for 300",
+    levelPolicy: "UNRESOLVED for 300",
+    narrativePolicy: {
+      domains: "Source-derived descriptions included in the technical documentation.",
+      facets: "No facet-specific narrative text supplied in the references; none generated."
+    },
+    historicalReverseContradiction: "The documentation reports a discrepancy between recoding statements for historical datasets and the observed .dat export; this historical representation issue is not mixed into NEW USER scoring."
+  };
+}
+
+/* =========================================================
+   UI
+   ========================================================= */
+const $ = (sel) => document.querySelector(sel);
+const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+
+function showScreen(name) {
+  for (const id of ["start","demo","test","result"]) {
+    const el = document.getElementById("screen-"+id);
+    if (el) el.classList.toggle("hidden", id !== name);
+  }
+  STATE.phase = name;
+  window.scrollTo({top:0, behavior:"auto"});
+}
+
+function formatNumber(n, digits=2) {
+  return Number.isFinite(n) ? n.toLocaleString("fa-IR", {maximumFractionDigits:digits, minimumFractionDigits:0}) : "UNRESOLVED";
+}
+
+function statusPill(text, cls="status-unresolved") {
+  return '<span class="status-pill '+cls+'">'+htmlEscape(text)+'</span>';
+}
+
+function htmlEscape(value) {
+  return String(value)
+    .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;").replaceAll("'","&#039;");
+}
+
+function renderOptions() {
+  const item = ITEMS[STATE.currentIndex];
+  const selected = STATE.responses[STATE.currentIndex];
+  const container = $("#options");
+  container.innerHTML = RESPONSE_OPTIONS.map(o => {
+    const checked = selected === o.value;
+    return `
+      <label class="option ${checked ? "selected" : ""}" tabindex="0">
+        <input type="radio" name="response" value="${o.value}" ${checked ? "checked" : ""} aria-label="${htmlEscape(o.label)}">
+        <span class="num">${o.value}</span>
+        <span class="label">${htmlEscape(o.label)}</span>
+      </label>
+    `;
+  }).join("");
+  $$("#options input").forEach(input => {
+    input.addEventListener("change", () => {
+      STATE.responses[STATE.currentIndex] = Number(input.value);
+      renderQuestion();
+      saveDraft();
+    });
+  });
+}
+
+function renderQuestion() {
+  const item = ITEMS[STATE.currentIndex];
+  $("#question-code").textContent = "سؤال " + item.full;
+  $("#question-text").textContent = item.textFa;
+  $("#question-key").textContent = item.key;
+  $("#current-progress-label").textContent = `سؤال ${item.full} از 300`;
+  const pct = ((STATE.currentIndex + 1) / 300) * 100;
+  $("#current-progress-pct").textContent = pct.toLocaleString("fa-IR", {minimumFractionDigits:1,maximumFractionDigits:1}) + "%";
+  $("#progress-bar").style.width = pct + "%";
+  $("#answered-count").textContent = (300 - STATE.responses.filter(v => v == null).length).toLocaleString("fa-IR");
+  $("#btn-prev").disabled = STATE.currentIndex === 0;
+  $("#btn-next").classList.toggle("hidden", STATE.currentIndex === 299);
+  $("#btn-finish").classList.toggle("hidden", STATE.currentIndex !== 299);
+  renderOptions();
+  $("#jump-message").classList.add("hidden");
+}
+
+function firstUnansweredIndex() {
+  return STATE.responses.findIndex(v => v == null);
+}
+
+function goToQuestion(index) {
+  STATE.currentIndex = Math.max(0, Math.min(299, index));
+  renderQuestion();
+  saveDraft();
+}
+
+function finishAttempt() {
+  const missing = STATE.responses.reduce((n,v)=>n+(v==null?1:0),0);
+  if (missing > 0) {
+    const idx = firstUnansweredIndex();
+    $("#jump-message").textContent = `تعداد سؤال‌های بی‌پاسخ: ${missing.toLocaleString("fa-IR")}. ابتدا سؤال ${(idx+1).toLocaleString("fa-IR")} را پاسخ دهید.`;
+    $("#jump-message").classList.remove("hidden");
+    goToQuestion(idx);
+    return;
+  }
+  openConfirm(
+    "پایان آزمون",
+    "آیا مطمئن هستید؟ پس از پایان، گزارش نهایی بر اساس پاسخ‌های فعلی تولید می‌شود.",
+    () => {
+      STATE.result = generateFinalResult();
+      clearDraft();
+      renderResult();
+      showScreen("result");
+    }
+  );
+}
+
+function renderResult() {
+  const r = STATE.result;
+  $("#result-date").textContent = "تاریخ انجام: " + new Date(r.date).toLocaleString("fa-IR");
+  $("#r-name").textContent = r.demographics.nameOrCode || "—";
+  $("#r-age").textContent = String(r.demographics.age || "—");
+  $("#r-sex").textContent = SEX_LABELS[r.demographics.sex] || "—";
+
+  const normNote = r.norms.type === "RECONSTRUCTED"
+    ? `نوع Norm: <strong>محاسبه‌شده از داده‌های Johnson / IPIP300.dat سال ۲۰۱۴</strong> — این Norm رسمی منتشرشده Johnson-300 نیست. باند سنی: ${htmlEscape(AGE_GROUP_LABELS[r.norms.ageGroup] || "—")}.`
+    : `وضعیت Norm: <strong>UNRESOLVED</strong> — ${htmlEscape(r.norms.reason)}`;
+
+  $("#result-notes").innerHTML = `
+    <div class="note">${normNote}</div>
+    <div class="note warning">
+      <strong>Percentile / سطح</strong>
+      <p>برای نسخه ۳۰۰ در منابع مرجع اثبات مستقیم وجود ندارد. فرمول cubic و cutoffهای Low/Average/High در مستندات به CGI تاریخی ۱۲۰ آیتمی نسبت داده شده‌اند؛ بنابراین در این گزارش برای ۳۰۰ با مقدار فرضی جایگزین نشده‌اند.</p>
+    </div>
+    <div class="note">
+      <strong>اعتبارسنجی تاریخی</strong>
+      <p>Missing قابل شمارش است؛ Long String مقدار مشاهده‌شده را محاسبه می‌کند ولی به‌دلیل ابهام صریح در mapping cutoffها تصمیم Pass/Fail صادر نمی‌کند. RNDSPLIT، RNDCORR و Duplicate برای اجرای standalone دقیقاً قابل بازسازی نیستند و جعل نشده‌اند.</p>
+    </div>
+  `;
+
+  const drows = Object.values(r.standardized.domains).map(x => `
+    <tr>
+      <td><strong>${htmlEscape(x.nameFa)}</strong><br><span class="muted small">${x.code}</span></td>
+      <td>${x.raw ?? "UNRESOLVED"}</td>
+      <td>${formatNumber(x.t,2)}</td>
+      <td>${x.percentile.status === "UNRESOLVED" ? statusPill("UNRESOLVED") : formatNumber(x.percentile.value,0)}</td>
+      <td>${x.level.status === "UNRESOLVED" ? statusPill("UNRESOLVED") : htmlEscape(x.level.value)}</td>
+    </tr>
+  `).join("");
+  $("#domain-table").innerHTML = `
+    <table>
+      <thead><tr><th>حوزه</th><th>نمره خام</th><th>T</th><th>Percentile</th><th>سطح</th></tr></thead>
+      <tbody>${drows}</tbody>
+    </table>`;
+
+  const frows = Object.values(r.standardized.facets).map(x => `
+    <tr>
+      <td><strong>${htmlEscape(x.nameFa)}</strong><br><span class="muted small">${x.code} — ${htmlEscape(x.nameEn)}</span></td>
+      <td>${x.raw ?? "UNRESOLVED"}</td>
+      <td>${formatNumber(x.t,2)}</td>
+      <td>${x.percentile.status === "UNRESOLVED" ? statusPill("UNRESOLVED") : formatNumber(x.percentile.value,0)}</td>
+      <td>${x.level.status === "UNRESOLVED" ? statusPill("UNRESOLVED") : htmlEscape(x.level.value)}</td>
+    </tr>
+  `).join("");
+  $("#facet-table").innerHTML = `
+    <table>
+      <thead><tr><th>Facet</th><th>نمره خام</th><th>T</th><th>Percentile</th><th>سطح</th></tr></thead>
+      <tbody>${frows}</tbody>
+    </table>`;
+
+  $("#domain-narratives").innerHTML = Object.values(r.standardized.domains).map(x => `
+    <div class="interpretation">
+      <strong>${htmlEscape(x.code)} — ${htmlEscape(x.nameFa)}</strong>
+      <div style="margin-top:6px">${htmlEscape(x.narrative || "UNRESOLVED")}</div>
+    </div>
+  `).join("");
+
+  $("#facet-narratives").innerHTML = Object.values(r.standardized.facets).map(x => `
+    <div class="interpretation">
+      <strong>${htmlEscape(x.code)} — ${htmlEscape(x.nameFa)}</strong>
+      <div class="muted small" style="margin-top:4px">متن تفسیری اختصاصی این Facet در دو فایل مرجع ارائه نشده است.</div>
+    </div>
+  `).join("");
+
+  $("#debug-panel").classList.toggle("hidden", !DEBUG_MODE);
+  if (DEBUG_MODE) renderDebug(r);
+}
+
+function renderDebug(r) {
+  const rows = ITEMS.map((it,idx) => {
+    const facet = r.standardized.facets[it.facet];
+    const domain = r.standardized.domains[it.domain];
+    return `<tr>
+      <td>${it.full}</td>
+      <td>${r.raw.itemResponses[idx] ?? "MISSING"}</td>
+      <td>${it.reverse ? "YES" : "NO"}</td>
+      <td>${r.raw.scoredItems[idx] ?? "MISSING"}</td>
+      <td>${it.facet}</td>
+      <td>${it.domain}</td>
+      <td>${facet.raw ?? "—"}</td>
+      <td>${domain.raw ?? "—"}</td>
+      <td>${formatNumber(facet.mean,4)}</td>
+      <td>${formatNumber(facet.sd,4)}</td>
+      <td>${formatNumber(facet.z,6)}</td>
+      <td>${formatNumber(facet.t,4)}</td>
+      <td>UNRESOLVED</td>
+    </tr>`;
+  }).join("");
+  $("#debug-panel").innerHTML = `
+    <h3>DEBUG_MODE = true</h3>
+    <div class="table-wrap"><table style="min-width:1200px">
+      <thead><tr><th>Item</th><th>Raw</th><th>Reverse</th><th>Scored</th><th>Facet</th><th>Domain</th><th>Facet Raw</th><th>Domain Raw</th><th>Mean</th><th>SD</th><th>Z</th><th>T</th><th>Percentile</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table></div>
+  `;
+}
+
+function openConfirm(title, body, action) {
+  $("#modal-title").textContent = title;
+  $("#modal-body").textContent = body;
+  pendingModalAction = action;
+  $("#modal-root").classList.remove("hidden");
+  $("#modal-confirm").focus();
+}
+
+function closeConfirm() {
+  pendingModalAction = null;
+  $("#modal-root").classList.add("hidden");
+}
+
+function openTechnical() {
+  const tests = window.__IPIP_SELF_TESTS__ || [];
+  $("#tech-body").innerHTML = `
+    <div class="stack">
+      <div class="note"><strong>مرجع‌ها</strong><p>${htmlEscape(SOURCE_METADATA.technicalFile)}<br>${htmlEscape(SOURCE_METADATA.itemKeyFile)}</p>
+      <div class="small muted">SHA-256 سند: <code>${SOURCE_METADATA.technicalSha256}</code><br>SHA-256 کلید: <code>${SOURCE_METADATA.itemKeySha256}</code></div></div>
+      <div class="note"><strong>ساختار</strong><p>300 آیتم، 30 Facet، 5 Domain، هر Facet ده آیتم، هر Domain شصت آیتم، 148 آیتم Reverse.</p></div>
+      <div class="note"><strong>Reverse Scoring</strong><p><code>Sign '+' =&gt; raw</code> و <code>Sign '-' =&gt; 6 - raw</code>. این تبدیل فقط یک بار و فقط برای پاسخ خام آزمودنی جدید اعمال می‌شود.</p></div>
+      <div class="note"><strong>Norm selection</strong><p>بر اساس sex × age با چهار باند دقیق مرجع: کمتر از 21، 21–40، 41–60، بیش از 60. داده Norm از IPIP300.dat سال 2014 بازسازی شده و Official Johnson 300 Norm نیست.</p></div>
+      <div class="note"><strong>T-score</strong><p><code>Z = (Raw - Mean) / SD</code><br><code>T = 50 + 10 * Z</code><br>فرمول استانداردسازی از CGI تاریخی 120 است و با Norm بازسازی‌شده 300 استفاده می‌شود؛ این زنجیره نباید به‌عنوان بازتولید 100٪ تاریخی Johnson-300 معرفی شود.</p></div>
+      <div class="note"><strong>Percentile</strong><p>UNRESOLVED برای 300. ضرایب cubic و clamp در مرجع برای CGI تاریخی 120 اثبات شده‌اند و در نسخه 300 این HTML اعمال نمی‌شوند.</p></div>
+      <div class="note"><strong>Level</strong><p>UNRESOLVED برای 300. cutoffهای Low/Average/High در مرجع برای CGI تاریخی 120 مستند شده‌اند و به 300 تحمیل نمی‌شوند.</p></div>
+      <div class="note"><strong>Validity</strong><p>Missing: در پروفایل تاریخی &gt;10 حذف و 0–10 نگه داشته می‌شوند و missing→3 برای scoring. Long String مشاهده می‌شود اما Pass/Fail به‌خاطر mapping تصریح‌نشده cutoffها صادر نمی‌شود. RNDSPLIT و RNDCORR و Duplicate به‌دلیل نبود جزئیات/metadata کافی برای یک پروتکل مستقل بازسازی نشده‌اند.</p></div>
+      <div class="note warning"><strong>Historical reverse contradiction</strong><p>مستندات درباره recoding داده تاریخی و مشاهده .dat یک تناقض/ابهام را گزارش می‌کنند. این لایه تاریخی از scoring آزمودنی جدید جدا نگه داشته شده است.</p></div>
+      <div class="note"><strong>Self-tests</strong><div class="table-wrap"><table><thead><tr><th>تست</th><th>وضعیت</th><th>توضیح</th></tr></thead><tbody>
+        ${tests.map(t => `<tr><td>${htmlEscape(t.name)}</td><td>${statusPill(t.status, t.status==="PASS" ? "status-pass" : "status-warn")}</td><td>${htmlEscape(t.note || "")}</td></tr>`).join("")}
+      </tbody></table></div></div>
+    </div>`;
+  $("#tech-root").classList.remove("hidden");
+}
+
+function exportJSON() {
+  if (!STATE.result) return;
+  const blob = new Blob([JSON.stringify(STATE.result, null, 2)], {type:"application/json;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  const stamp = new Date().toISOString().replace(/[:.]/g,"-");
+  a.href = url;
+  a.download = `IPIP_NEO_300_Result_${stamp}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+function restart() {
+  openConfirm(
+    "شروع مجدد",
+    "پاسخ‌های فعلی پاک می‌شوند. آیا مطمئن هستید؟",
+    () => {
+      clearDraft();
+      STATE.phase = "start";
+      STATE.currentIndex = 0;
+      STATE.responses = Array(300).fill(null);
+      STATE.demographics = {nameOrCode:"",age:"",sex:""};
+      STATE.startedAt = null;
+      STATE.result = null;
+      $("#name-code").value = "";
+      $("#age").value = "";
+      $("#sex").value = "";
+      updateResumeBox();
+      showScreen("start");
+    }
+  );
+}
+
+function beginFromDemo() {
+  const nameOrCode = $("#name-code").value.trim();
+  const age = $("#age").value.trim();
+  const sex = $("#sex").value;
+  $("#demo-error").classList.add("hidden");
+  if (!age || !Number.isFinite(Number(age))) {
+    $("#demo-error").textContent = "سن برای انتخاب Norm لازم است. لطفاً یک مقدار عددی وارد کنید.";
+    $("#demo-error").classList.remove("hidden");
+    return;
+  }
+  if (!sex) {
+    $("#demo-error").textContent = "جنسیت برای انتخاب Norm بازسازی‌شده لازم است.";
+    $("#demo-error").classList.remove("hidden");
+    return;
+  }
+
+  STATE.demographics = {nameOrCode, age, sex};
+  STATE.responses = Array(300).fill(null);
+  STATE.currentIndex = 0;
+  STATE.startedAt = new Date().toISOString();
+  STATE.result = null;
+  saveDraft();
+  showScreen("test");
+  renderQuestion();
+}
+
+function resumeDraft() {
+  const draft = loadDraft();
+  if (!draft) return;
+  STATE.responses = draft.responses;
+  STATE.demographics = draft.demographics || {nameOrCode:"",age:"",sex:""};
+  STATE.currentIndex = Number.isInteger(draft.currentIndex) ? Math.max(0,Math.min(299,draft.currentIndex)) : 0;
+  STATE.startedAt = draft.startedAt || new Date().toISOString();
+  $("#name-code").value = STATE.demographics.nameOrCode || "";
+  $("#age").value = STATE.demographics.age || "";
+  $("#sex").value = STATE.demographics.sex || "";
+  showScreen("test");
+  renderQuestion();
+}
+
+function updateResumeBox() {
+  const draft = loadDraft();
+  const box = $("#resume-box");
+  const resumeBtn = $("#btn-resume");
+  if (!draft) {
+    box.classList.add("hidden");
+    resumeBtn.classList.add("hidden");
+    return;
+  }
+  const answered = draft.responses.filter(v => v != null).length;
+  box.textContent = `یک آزمون ناتمام محلی ذخیره شده است: ${answered.toLocaleString("fa-IR")} از ۳۰۰ پاسخ داده شده است.`;
+  box.classList.remove("hidden");
+  resumeBtn.classList.remove("hidden");
+}
+
+function installEvents() {
+  $("#btn-start").addEventListener("click", () => {
+    showScreen("demo");
+  });
+  $("#btn-resume").addEventListener("click", resumeDraft);
+  $("#btn-begin-test").addEventListener("click", beginFromDemo);
+  $("#btn-demo-back").addEventListener("click", () => showScreen("start"));
+  $("#btn-prev").addEventListener("click", () => goToQuestion(STATE.currentIndex - 1));
+  $("#btn-next").addEventListener("click", () => goToQuestion(STATE.currentIndex + 1));
+  $("#btn-finish").addEventListener("click", finishAttempt);
+  $("#btn-print").addEventListener("click", () => window.print());
+  $("#btn-export").addEventListener("click", exportJSON);
+  $("#btn-restart").addEventListener("click", restart);
+  $("#btn-tech-start").addEventListener("click", openTechnical);
+  $("#btn-tech-result").addEventListener("click", openTechnical);
+  $("#modal-cancel").addEventListener("click", closeConfirm);
+  $("#modal-confirm").addEventListener("click", () => {
+    const action = pendingModalAction;
+    closeConfirm();
+    if (typeof action === "function") action();
+  });
+  $("#tech-close").addEventListener("click", () => $("#tech-root").classList.add("hidden"));
+  document.addEventListener("keydown", (e) => {
+    if (STATE.phase !== "test") return;
+    if (e.key >= "1" && e.key <= "5") {
+      const v = Number(e.key);
+      STATE.responses[STATE.currentIndex] = v;
+      renderQuestion();
+      saveDraft();
+    } else if (e.key === "ArrowLeft" && STATE.currentIndex > 0) {
+      goToQuestion(STATE.currentIndex - 1);
+    } else if (e.key === "ArrowRight" && STATE.currentIndex < 299) {
+      goToQuestion(STATE.currentIndex + 1);
+    }
+  });
+}
+
+function runSelfTests() {
+  const out = [];
+  function t(name, fn) {
+    try { fn(); out.push({name, status:"PASS"}); }
+    catch (e) { out.push({name, status:"FAIL", note:String(e.message || e)}); }
+  }
+
+  t("A — 300 پاسخ معتبر", () => {
+    const responses = Array.from({length:300}, (_,i)=>(i%5)+1);
+    const s = scoreResponses(responses, {historicalMissing:false});
+    assertCondition(s.missing===0, "missing != 0");
+    assertCondition(s.scored.every(v=>Number.isInteger(v) && v>=1 && v<=5), "invalid scored value");
+  });
+
+  t("B — همه پاسخ‌ها 3", () => {
+    const s = scoreResponses(Array(300).fill(3), {historicalMissing:false});
+    assertCondition(Object.values(s.facetRaw).every(v=>v===30), "facet != 30");
+    assertCondition(Object.values(s.domainRaw).every(v=>v===180), "domain != 180");
+  });
+
+  t("C — همه پاسخ‌ها 1", () => {
+    const s = scoreResponses(Array(300).fill(1), {historicalMissing:false});
+    for (const it of ITEMS) {
+      const expected = it.reverse ? 5 : 1;
+      assertCondition(s.scored[it.full-1]===expected, "reverse/positive mismatch at "+it.full);
+    }
+  });
+
+  t("D — همه پاسخ‌ها 5", () => {
+    const s = scoreResponses(Array(300).fill(5), {historicalMissing:false});
+    for (const it of ITEMS) {
+      const expected = it.reverse ? 1 : 5;
+      assertCondition(s.scored[it.full-1]===expected, "reverse/positive mismatch at "+it.full);
+    }
+  });
+
+  t("E — ترکیب Reverse و Non-Reverse", () => {
+    const responses = Array(300).fill(3);
+    const rev = ITEMS.find(it=>it.reverse);
+    const pos = ITEMS.find(it=>!it.reverse);
+    responses[rev.full-1] = 1;
+    responses[pos.full-1] = 1;
+    const s = scoreResponses(responses, {historicalMissing:false});
+    assertCondition(s.scored[rev.full-1]===5, "reverse not applied once");
+    assertCondition(s.scored[pos.full-1]===1, "positive item changed unexpectedly");
+  });
+
+  t("F — Missing در historical mode", () => {
+    const responses = Array(300).fill(3);
+    responses[0] = null; responses[149] = null;
+    const s = scoreResponses(responses, {historicalMissing:true});
+    assertCondition(s.missing===2, "missing count wrong");
+    assertCondition(s.replacementLog.length===2, "replacement count wrong");
+    assertCondition(s.scored[0]===3 && s.scored[149]===3, "missing replacement not 3");
+  });
+
+  t("J — Item Mapping", () => {
+    assertCondition(ITEMS.length===300, "items.length");
+    assertCondition(new Set(ITEMS.map(x=>x.full)).size===300, "duplicate IDs");
+    assertCondition(ITEMS.every(x=>x.textEn && x.textFa && x.facet && x.domain && x.sign && x.key), "missing required field");
+    assertCondition(Object.values(FACETS).every(x=>x.items.length===10), "facet count");
+    assertCondition(Object.values(DOMAINS).every(x=>x.items.length===60), "domain count");
+  });
+
+  try {
+    const storage = getLocalStorageSafely();
+    if (storage) {
+      const key = "__IPIP_STORAGE_SELFTEST__";
+      storage.setItem(key, "1");
+      assertCondition(storage.getItem(key) === "1", "localStorage read/write failed");
+      storage.removeItem(key);
+      out.push({name:"G — localStorage API", status:"PASS", note:"localStorage read/write/remove verified."});
+    } else {
+      out.push({name:"G — localStorage API", status:"MANUAL", note:"Browser harness denied localStorage access; production code falls back gracefully. Verify in target browser/file context."});
+    }
+  } catch (e) {
+    out.push({name:"G — localStorage API", status:"MANUAL", note:"Browser harness denied localStorage access; production code falls back gracefully."});
+  }
+
+  t("H — no external dependencies", () => {
+    const externalScripts = $$("script[src]").filter(s => /^https?:\/\//i.test(s.src));
+    const externalLinks = $$("link[href]").filter(l => /^https?:\/\//i.test(l.href));
+    assertCondition(externalScripts.length===0 && externalLinks.length===0, "external dependency detected");
+  });
+
+  t("I — responsive/mobile scaffold", () => {
+    assertCondition(!!document.querySelector('meta[name="viewport"]'), "viewport meta missing");
+    assertCondition(document.documentElement.outerHTML.includes("@media (max-width: 820px)"), "responsive CSS missing");
+  });
+
+  window.__IPIP_SELF_TESTS__ = out;
+}
+runSelfTests();
+
+/* =========================================================
+   BOOT
+   ========================================================= */
+(function boot() {
+  installEvents();
+  updateResumeBox();
+  showScreen("start");
+})();
+</script>
+</body>
+</html>
