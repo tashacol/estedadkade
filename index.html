@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>استعدادکده | کشف استعداد، مشاوره و مسیر رشد</title>
-<link rel="icon" type="image/jpeg" href="tasavir/InShot_20261010_202909987.jpg">
-<link rel="apple-touch-icon" href="tasavir/InShot_20261010_202909987.jpg">
+<link rel="icon" type="image/jpeg" href="tasavir/IMG_۲۰۲۶۱۰۱۲_۲۳۳۱۴۸.jpg">
+<link rel="apple-touch-icon" href="tasavir/IMG_۲۰۲۶۱۰۱۲_۲۳۳۱۴۸.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -130,11 +130,12 @@ main,header,footer{position:relative;z-index:1}
 .nav{display:flex;align-items:center;justify-content:space-between;padding:12px 0;gap:18px}
 .brand{display:flex;align-items:center;gap:10px;font-family:var(--f-head);font-weight:700;font-size:1.55rem;color:var(--head)}
 .brand-mark{
-  width:42px;height:42px;border-radius:14px 14px 14px 5px;display:grid;place-items:center;
-  background:linear-gradient(135deg,var(--turquoise),var(--lapis));box-shadow:var(--shadow-soft);
+  width:46px;height:46px;border-radius:50%;display:grid;place-items:center;overflow:hidden;
+  background:linear-gradient(135deg,var(--saffron),#C98300);box-shadow:var(--shadow-soft);
+  border:2px solid rgba(255,255,255,.85);flex:none;
 }
+.brand-mark img{width:100%;height:100%;object-fit:cover;display:block;border-radius:50%}
 .brand-mark svg{width:26px;height:26px}
-.brand-logo{height:52px;width:auto;display:block;border-radius:12px;object-fit:contain}
 .nav-links{display:flex;gap:28px;font-size:.95rem;font-weight:500;color:var(--ink-2)}
 .nav-links a{position:relative;padding:6px 0;transition:color .2s}
 .nav-links a::after{
@@ -146,7 +147,7 @@ main,header,footer{position:relative;z-index:1}
 .nav-cta{padding:10px 20px;font-size:.9rem}
 .menu-btn{display:none;background:var(--surface);border:1.5px solid var(--line);border-radius:12px 12px 12px 4px;padding:9px 11px;cursor:pointer;color:var(--head)}
 .menu-btn svg{width:22px;height:22px;display:block}
-@media(max-width:860px){.nav-links,.nav-cta{display:none}.menu-btn{display:inline-flex}.brand-logo{height:44px}}
+@media(max-width:860px){.nav-links,.nav-cta{display:none}.menu-btn{display:inline-flex}}
 
 /* ============ Hero ============ */
 .hero{padding:60px 0 56px;position:relative}
@@ -327,6 +328,12 @@ main,header,footer{position:relative;z-index:1}
 .consult>*{position:relative;z-index:1}
 .consult h2{font-family:var(--f-head);font-size:clamp(1.9rem,3.4vw,2.7rem);line-height:1.45;margin-bottom:12px}
 .consult-art{width:180px;margin-bottom:14px;display:block}
+.consult-note{
+  margin-top:20px;padding:16px 20px;border-radius:18px;background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.22);display:inline-flex;flex-direction:column;gap:6px;
+  font-size:.92rem;line-height:1.9;color:#FFE39A;
+}
+.consult-note b{color:#fff;font-family:var(--f-head);font-size:1.05rem}
 .consult-form{
   display:grid;grid-template-columns:1fr;gap:14px;padding:26px;border-radius:30px 8px 30px 8px;
   background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.22);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
@@ -371,15 +378,6 @@ main,header,footer{position:relative;z-index:1}
   .bento{grid-template-columns:1fr}
   .cell.wide{grid-column:span 1;grid-template-columns:1fr}
 }
-
-/* ============ Course Banner (باقی‌مانده برای سازگاری) ============ */
-.course-banner{
-  background:rgba(18,41,107,.08);border:1.5px dashed var(--saffron);border-radius:20px;
-  padding:16px 22px;margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:14px;
-}
-.course-banner span{font-size:.95rem;font-weight:700;color:var(--head)}
-.course-banner .links-wrap{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 
 /* ============ Articles ============ */
 .articles{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
@@ -458,56 +456,56 @@ main,header,footer{position:relative;z-index:1}
 }
 .toast.show{opacity:1;transform:translate(-50%,0)}
 
-/* ============ Modal (پاپ‌اپ تایید ارسال) ============ */
-.modal-overlay{
-  position:fixed;inset:0;z-index:160;display:grid;place-items:center;
-  background:rgba(10,18,48,.7);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
-  padding:20px;opacity:0;visibility:hidden;pointer-events:none;
-  transition:opacity .32s ease,visibility .32s ease;
+/* ============ Modal (پاپ‌آپ شکیل) ============ */
+.modal{
+  position:fixed;inset:0;z-index:150;display:grid;place-items:center;padding:20px;
+  background:rgba(6,13,46,.62);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .3s ease, visibility .3s ease;
 }
-.modal-overlay.open{opacity:1;visibility:visible;pointer-events:auto}
-.modal-box{
-  width:min(460px,100%);background:var(--surface);border-radius:30px 10px 30px 10px;
-  padding:34px 28px 26px;box-shadow:var(--shadow);text-align:center;color:var(--ink);
-  border:1px solid var(--line);position:relative;overflow:hidden;
-  transform:translateY(22px) scale(.96);opacity:0;
-  transition:transform .38s cubic-bezier(0.16,1,0.3,1),opacity .3s ease;
+.modal.open{opacity:1;visibility:visible;pointer-events:auto}
+.modal-panel{
+  position:relative;width:min(520px,100%);background:var(--surface);color:var(--ink);
+  border-radius:32px 10px 32px 10px;padding:30px 26px 24px;box-shadow:var(--shadow);
+  border:1px solid var(--line);overflow:hidden;
+  transform:translateY(20px) scale(.96);opacity:0;
+  transition:transform .38s cubic-bezier(.16,1,.3,1), opacity .3s ease;
+  max-height:90vh;overflow-y:auto;
 }
-.modal-box::before{
-  content:"";position:absolute;inset:0;pointer-events:none;background:var(--pat-ink) 0 0/64px 64px;opacity:.18;
-  -webkit-mask-image:radial-gradient(70% 60% at 100% 0%,#000,transparent);mask-image:radial-gradient(70% 60% at 100% 0%,#000,transparent);
+.modal.open .modal-panel{transform:translateY(0) scale(1);opacity:1}
+.modal-panel::before{
+  content:"";position:absolute;top:0;inset-inline:0;height:5px;
+  background:linear-gradient(90deg,var(--turquoise),var(--saffron));
 }
-.modal-box>*{position:relative;z-index:1}
-.modal-overlay.open .modal-box{transform:translateY(0) scale(1);opacity:1}
-.modal-icon{
-  width:78px;height:78px;border-radius:26px 26px 26px 8px;margin:0 auto 18px;
-  display:grid;place-items:center;color:#fff;
-  background:linear-gradient(135deg,var(--turquoise),var(--turquoise-2));
-  box-shadow:0 16px 28px -12px rgba(10,124,130,.9),inset 0 1px 0 rgba(255,255,255,.35);
+.modal-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.modal-ico{
+  width:52px;height:52px;border-radius:16px 16px 16px 5px;flex:none;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--saffron),#C98300);color:#1B1300;
 }
-.modal-icon.gold{
-  background:linear-gradient(135deg,#FFD866,#F5A800);color:#1B1300;
-  box-shadow:0 16px 28px -12px rgba(201,131,0,.9),inset 0 1px 0 rgba(255,255,255,.5);
+.modal-ico svg{width:28px;height:28px}
+.modal-head h3{font-family:var(--f-head);color:var(--head);font-size:1.4rem;line-height:1.5;font-weight:700}
+.modal-panel p{font-size:.94rem;color:var(--ink-2);line-height:1.95;margin-bottom:14px}
+.msg-preview{
+  background:color-mix(in srgb,var(--lapis) 8%,transparent);
+  border:1px dashed color-mix(in srgb,var(--lapis) 32%,transparent);
+  border-radius:18px 6px 18px 6px;padding:16px 18px;font-family:var(--f-body);font-size:.9rem;
+  color:var(--ink);line-height:2.1;white-space:pre-wrap;direction:rtl;text-align:right;
+  margin-bottom:18px;
 }
-.modal-icon svg{width:38px;height:38px}
-.modal-box h3{font-family:var(--f-head);font-size:1.45rem;color:var(--head);margin-bottom:10px;line-height:1.6;font-weight:700}
-.modal-box p{color:var(--ink-2);font-size:.94rem;line-height:1.9;margin-bottom:22px}
-.modal-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.modal-actions .btn{padding:12px 26px;font-size:.94rem;min-width:130px}
-.modal-preview{
-  background:color-mix(in srgb,var(--turquoise) 8%,transparent);
-  border:1px dashed color-mix(in srgb,var(--turquoise) 40%,transparent);
-  border-radius:14px;padding:14px 16px;margin:0 0 22px;text-align:right;direction:rtl;
-  font-size:.86rem;line-height:2;color:var(--ink);white-space:pre-line;font-family:var(--f-body);
+.modal-actions{display:flex;gap:10px;justify-content:flex-start;flex-wrap:wrap}
+.modal-actions .btn{flex:1;min-width:130px;padding:12px 18px;font-size:.92rem}
+.modal-close-x{
+  position:absolute;top:14px;left:14px;background:transparent;border:0;color:var(--ink-2);
+  font-size:22px;line-height:1;cursor:pointer;padding:6px;border-radius:8px;
 }
-:root[data-theme="dark"] .modal-preview{color:var(--ink);background:rgba(18,166,160,.08)}
+.modal-close-x:hover{background:color-mix(in srgb,var(--ink) 8%,transparent)}
 
 /* ============ Loader (شمسه‌ی در حال ترسیم) ============ */
 .loader{
   position:fixed;inset:0;z-index:200;display:grid;place-items:center;color:#fff;
   background:radial-gradient(60% 50% at 50% 42%,#1B3A94 0%,#0E2566 46%,#060D2E 100%);
-  transition:opacity .7s ease,visibility 0s linear .7s;
-  animation:ldFallback .01s linear 6s forwards;
+  transition:opacity .5s ease,visibility 0s linear .5s;
+  animation:ldFallback .01s linear 3s forwards;
 }
 .loader::before{
   content:"";position:absolute;inset:0;pointer-events:none;background:var(--pat-gold) 0 0/80px 80px;
@@ -540,7 +538,7 @@ main,header,footer{position:relative;z-index:1}
   .ld-bar{animation:ldRise .8s ease-out .7s both}
   .ld-hint{animation:ldRise .8s ease-out .9s both}
   .ld-bar i{animation:ldBar 1.3s ease-in-out infinite}
-  .loader.done .ld-star{transform:scale(1.25);transition:transform .7s ease}
+  .loader.done .ld-star{transform:scale(1.25);transition:transform .5s ease}
   @keyframes ldDraw{from{stroke-dashoffset:1;fill-opacity:0}to{stroke-dashoffset:0}}
   @keyframes ldSpin{to{transform:rotate(360deg)}}
   @keyframes ldPulse{0%,100%{transform:scale(.82);opacity:.85}50%{transform:scale(1.18);opacity:1}}
@@ -622,9 +620,9 @@ main,header,footer{position:relative;z-index:1}
   <div class="container nav">
     <a class="brand" href="#top" aria-label="استعدادکده">
       <span class="brand-mark" aria-hidden="true">
-        <svg viewBox="0 0 64 64" fill="none" stroke="#fff" stroke-width="4" stroke-linejoin="round"><rect x="15" y="15" width="34" height="34"/><rect x="15" y="15" width="34" height="34" transform="rotate(45 32 32)"/></svg>
+        <img src="tasavir/IMG_۲۰۲۶۱۰۱۲_۲۳۳۱۴۸.jpg" alt="" loading="eager" decoding="async">
       </span>
-      <img class="brand-logo" src="tasavir/IMG-20261010-WA2881.jpg" alt="استعدادکده">
+      استعدادکده
     </a>
     <nav class="nav-links" aria-label="منوی اصلی">
       <a href="#tests">آزمون‌ها</a>
@@ -992,7 +990,10 @@ main,header,footer{position:relative;z-index:1}
             <g fill="#fff"><use href="#star4" x="146" y="58" width="22" height="22"/><use href="#star4" x="176" y="66" width="12" height="12" opacity=".8"/></g>
           </svg>
           <h2>اخذ وقت مشاوره</h2>
-          <p style="opacity:.9; font-size:.96rem; margin-top:6px;">فرم زیر را تکمیل کنید؛ پس از تایید، متن درخواست شما به‌صورت مرتب آماده شده و به پیام‌رسان ایتا منتقل می‌شود تا برای مشاور ارسال نمایید.</p>
+          <div class="consult-note">
+            <b>📩 نحوه ارسال درخواست:</b>
+            <span>فرم روبه‌رو را تکمیل کنید و پس از تأیید، اطلاعات شما در قالب یک پیام مرتب آماده می‌شود و به پیام‌رسان ایتا منتقل می‌گردد تا برای ما ارسال نمایید.</span>
+          </div>
         </div>
 
         <form class="consult-form" id="consultForm">
@@ -1091,7 +1092,7 @@ main,header,footer{position:relative;z-index:1}
           <h3>مهارت‌های زندگی</h3>
           <p>یادگیری مهارت‌های کاربردی برای مدیریت بهتر چالش‌های روزمره.</p>
           <div class="meta"><span class="chip">عمومی</span></div>
-          <a class="mini course-btn" href="https://eitaa.com/estedadkade" target="_blank" rel="noopener noreferrer">اطلاع از دوره‌ها در ایتا</a>
+          <a class="mini course-btn" href="https://eitaa.com/estedadkade" data-course="مهارت‌های زندگی">اطلاع از دوره‌ها در ایتا</a>
         </article>
 
         <article class="card c-an">
@@ -1099,7 +1100,7 @@ main,header,footer{position:relative;z-index:1}
           <h3>تربیت فرزند</h3>
           <p>اصول فرزندپروری آگاهانه و روش‌های ارتباط صحیح و اثربخش با کودک.</p>
           <div class="meta"><span class="chip">کاربردی</span></div>
-          <a class="mini course-btn" href="https://eitaa.com/estedadkade" target="_blank" rel="noopener noreferrer">اطلاع از دوره‌ها در ایتا</a>
+          <a class="mini course-btn" href="https://eitaa.com/estedadkade" data-course="تربیت فرزند">اطلاع از دوره‌ها در ایتا</a>
         </article>
 
         <article class="card c-sf">
@@ -1107,7 +1108,7 @@ main,header,footer{position:relative;z-index:1}
           <h3>تربیت مربی نوجوان</h3>
           <p>آموزش تکنیک‌های نوین برای هدایت و همراهی نوجوانان در مسیر رشد.</p>
           <div class="meta"><span class="chip">تخصصی</span></div>
-          <a class="mini course-btn" href="https://eitaa.com/estedadkade" target="_blank" rel="noopener noreferrer">اطلاع از دوره‌ها در ایتا</a>
+          <a class="mini course-btn" href="https://eitaa.com/estedadkade" data-course="تربیت مربی نوجوان">اطلاع از دوره‌ها در ایتا</a>
         </article>
 
         <article class="card c-gr">
@@ -1115,7 +1116,7 @@ main,header,footer{position:relative;z-index:1}
           <h3>تربیت مربی مهارت‌های زندگی</h3>
           <p>تربیت مربی حرفه‌ای (ویژه دانشجویان و فارغ‌التحصیلان روانشناسی و مشاوره).</p>
           <div class="meta"><span class="chip">دوره حضوری</span></div>
-          <a class="mini course-btn" href="https://eitaa.com/estedadkade" target="_blank" rel="noopener noreferrer">اطلاع از دوره‌ها در ایتا</a>
+          <a class="mini course-btn" href="https://eitaa.com/estedadkade" data-course="تربیت مربی مهارت‌های زندگی">اطلاع از دوره‌ها در ایتا</a>
         </article>
 
         <article class="card c-tq">
@@ -1123,7 +1124,7 @@ main,header,footer{position:relative;z-index:1}
           <h3>تربیت مربی و مشاور استعدادسنجی</h3>
           <p>آموزش تخصصی ویژه علاقه‌مندان به حوزه استعدادیابی و هدایت تحصیلی و شغلی.</p>
           <div class="meta"><span class="chip">دوره حضوری</span></div>
-          <a class="mini course-btn" href="https://eitaa.com/estedadkade" target="_blank" rel="noopener noreferrer">اطلاع از دوره‌ها در ایتا</a>
+          <a class="mini course-btn" href="https://eitaa.com/estedadkade" data-course="تربیت مربی و مشاور استعدادسنجی">اطلاع از دوره‌ها در ایتا</a>
         </article>
       </div>
     </div>
@@ -1212,7 +1213,9 @@ main,header,footer{position:relative;z-index:1}
     <div class="footer-grid">
       <div>
         <div class="brand">
-          <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="#fff" stroke-width="4" stroke-linejoin="round"><rect x="15" y="15" width="34" height="34"/><rect x="15" y="15" width="34" height="34" transform="rotate(45 32 32)"/></svg></span>
+          <span class="brand-mark" aria-hidden="true">
+            <img src="tasavir/IMG_۲۰۲۶۱۰۱۲_۲۳۳۱۴۸.jpg" alt="" loading="lazy" decoding="async">
+          </span>
           استعدادکده
         </div>
         <p>مرکز تخصصی ارزیابی استعداد، آزمون‌های استاندارد و مشاوره حضوری مسیر رشد و تحول فردی.</p>
@@ -1246,40 +1249,58 @@ main,header,footer{position:relative;z-index:1}
   </div>
 </footer>
 
-<!-- پاپ‌اپ تایید ارسال به پیام‌رسان -->
-<div class="modal-overlay" id="modalOverlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-  <div class="modal-box">
-    <div class="modal-icon" id="modalIcon" aria-hidden="true">
-      <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 14H52Q56 14 56 18V38Q56 42 52 42H30L18 52V42H12Q8 42 8 38V18Q8 14 12 14Z"/>
-        <path d="M20 24H44M20 32H36"/>
-      </svg>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- مودال تایید و ارسال درخواست مشاوره -->
+<div class="modal" id="consultModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="consultModalTitle">
+  <div class="modal-panel">
+    <button class="modal-close-x" id="consultModalClose" aria-label="بستن">×</button>
+    <div class="modal-head">
+      <span class="modal-ico" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H7l-3 3z"/><path d="M8 9h8M8 12h5"/></svg>
+      </span>
+      <h3 id="consultModalTitle">ارسال درخواست از طریق پیام</h3>
     </div>
-    <h3 id="modalTitle">تایید ارسال اطلاعات</h3>
-    <p id="modalText">اطلاعات شما به‌صورت پیام برای ما ارسال می‌شود.</p>
-    <div class="modal-preview" id="modalPreview" hidden></div>
+    <p>اطلاعات شما در قالب یک پیام مرتب آماده شد. با تأیید، به پیام‌رسان ایتا منتقل می‌شوید و پیام برای ما ارسال می‌گردد. متن پیام در کلیپ‌بورد شما نیز کپی شده است.</p>
+    <div class="msg-preview" id="msgPreview"></div>
     <div class="modal-actions">
-      <button class="btn btn-primary" id="modalConfirm" type="button">تایید و انتقال به ایتا</button>
-      <button class="btn btn-ghost" id="modalCancel" type="button">انصراف</button>
+      <button class="btn btn-ghost" id="consultModalCancel" type="button">انصراف</button>
+      <button class="btn btn-gold" id="consultModalConfirm" type="button">تأیید و ارسال</button>
     </div>
   </div>
 </div>
 
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<!-- مودال ورود به کانال ایتا برای دوره‌ها -->
+<div class="modal" id="courseModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="courseModalTitle">
+  <div class="modal-panel">
+    <button class="modal-close-x" id="courseModalClose" aria-label="بستن">×</button>
+    <div class="modal-head">
+      <span class="modal-ico" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+      </span>
+      <h3 id="courseModalTitle">اطلاع از دوره‌ها در کانال ایتا</h3>
+    </div>
+    <p>جهت اطلاع از زمان برگزاری و ثبت‌نام دوره‌ها، در کانال ایتای ما عضو شوید. با تأیید، به پیام‌رسان ایتا منتقل می‌شوید.</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="courseModalCancel" type="button">انصراف</button>
+      <button class="btn btn-primary" id="courseModalConfirm" type="button">ورود به کانال ایتا</button>
+    </div>
+  </div>
+</div>
 
 <script>
 (function(){
   var $ = function(s){ return document.querySelector(s); };
 
-  /* لودینگ ورود */
+  /* لودینگ ورود — سریع‌تر */
   var loader = $('#loader'), t0 = Date.now(), closed = false;
   function closeLoader(){
     if (closed) return; closed = true;
-    var wait = Math.max(0, 1500 - (Date.now() - t0));
+    var wait = Math.max(0, 550 - (Date.now() - t0));
     setTimeout(function(){
       if (loader) loader.classList.add('done');
       document.body.classList.add('ready');
-      setTimeout(function(){ if (loader && loader.parentNode) loader.parentNode.removeChild(loader); }, 900);
+      setTimeout(function(){ if (loader && loader.parentNode) loader.parentNode.removeChild(loader); }, 600);
     }, wait);
   }
   function whenReady(){
@@ -1287,7 +1308,7 @@ main,header,footer{position:relative;z-index:1}
     else closeLoader();
   }
   if (document.readyState === 'complete') whenReady(); else window.addEventListener('load', whenReady);
-  setTimeout(closeLoader, 4500);
+  setTimeout(closeLoader, 2500);
 
   /* سیستم منوی روان با باز و بسته شدن انیمیشنی و بستن با کلیک در فضای خالی */
   var drawer = $('#drawer'), menuBtn = $('#menuBtn'), drawerClose = $('#drawerClose');
@@ -1362,142 +1383,134 @@ main,header,footer{position:relative;z-index:1}
     }
   });
 
-  /* ========== سیستم پاپ‌اپ (Modal) ========== */
-  var modal = $('#modalOverlay');
-  var modalTitle = $('#modalTitle');
-  var modalText = $('#modalText');
-  var modalPreview = $('#modalPreview');
-  var modalIcon = $('#modalIcon');
-  var modalConfirm = $('#modalConfirm');
-  var modalCancel = $('#modalCancel');
-  var modalAction = null;
-
-  function openModal(opts){
-    modalTitle.textContent = opts.title || '';
-    modalText.textContent = opts.text || '';
-    modalConfirm.textContent = opts.confirmLabel || 'تایید';
-    modalCancel.textContent = opts.cancelLabel || 'انصراف';
-    if (opts.preview){
-      modalPreview.textContent = opts.preview;
-      modalPreview.hidden = false;
+  /* باز کردن پیام‌رسان ایتا در مسنجر گوشی با اسکیم اختصاصی + fallback به مرورگر */
+  function openEitaa(){
+    var isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent || '');
+    var appScheme = 'eitaa://eitaa.com/estedadkade';
+    var webUrl = 'https://eitaa.com/estedadkade';
+    if (isMobile) {
+      var now = Date.now();
+      var t;
+      try {
+        t = setTimeout(function(){
+          if (Date.now() - now < 1400) { location.href = webUrl; }
+        }, 900);
+      } catch(err){}
+      try { location.href = appScheme; } catch(err){}
+      window.addEventListener('visibilitychange', function(){
+        if (document.hidden && t) clearTimeout(t);
+      }, { once:true });
     } else {
-      modalPreview.textContent = '';
-      modalPreview.hidden = true;
+      window.open(webUrl, '_blank', 'noopener');
     }
-    if (opts.gold){
-      modalIcon.classList.add('gold');
-    } else {
-      modalIcon.classList.remove('gold');
-    }
-    modalAction = opts.onConfirm || null;
-    modal.classList.add('open');
-    modal.setAttribute('aria-hidden','false');
-    document.body.style.overflow = 'hidden';
-    setTimeout(function(){ modalConfirm.focus(); }, 60);
   }
 
-  function closeModal(){
-    modal.classList.remove('open');
-    modal.setAttribute('aria-hidden','true');
-    modalAction = null;
-    if (!drawer.classList.contains('open')) document.body.style.overflow = '';
+  /* کپی در کلیپ‌بورد (با fallback) */
+  function copyText(text){
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).catch(function(){ legacyCopy(text); });
+      } else {
+        legacyCopy(text);
+      }
+    } catch(e){ legacyCopy(text); }
+  }
+  function legacyCopy(text){
+    try {
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    } catch(e){}
   }
 
-  modalCancel.addEventListener('click', closeModal);
-  modal.addEventListener('click', function(e){
-    if (e.target === modal) closeModal();
-  });
-  document.addEventListener('keydown', function(e){
-    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
-  });
-  modalConfirm.addEventListener('click', function(){
-    var fn = modalAction;
-    closeModal();
-    if (typeof fn === 'function') fn();
-  });
-
-  /* ========== کپی متن در کلیپ‌بورد ========== */
-  function copyToClipboard(text){
-    if (navigator.clipboard && navigator.clipboard.writeText){
-      return navigator.clipboard.writeText(text);
-    }
-    return new Promise(function(resolve, reject){
-      try{
-        var ta = document.createElement('textarea');
-        ta.value = text;
-        ta.setAttribute('readonly','');
-        ta.style.position = 'fixed';
-        ta.style.top = '-1000px';
-        ta.style.opacity = '0';
-        document.body.appendChild(ta);
-        ta.select();
-        ta.setSelectionRange(0, ta.value.length);
-        var ok = document.execCommand('copy');
-        document.body.removeChild(ta);
-        if (ok) resolve(); else reject(new Error('copy failed'));
-      } catch(err){ reject(err); }
-    });
-  }
-
-  /* ========== ثبت فرم مشاوره + پاپ‌اپ ========== */
+  /* مودال مشاوره */
+  var consultModal = $('#consultModal');
+  var consultPreview = $('#msgPreview');
   var consultForm = $('#consultForm');
-  var formNote = $('#formNote');
+  var pendingMsg = '';
+
+  function openConsultModal(){
+    consultModal.classList.add('open');
+    consultModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeConsultModal(){
+    consultModal.classList.remove('open');
+    consultModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
   consultForm.addEventListener('submit', function(e){
     e.preventDefault();
     var name = $('#fName').value.trim();
     var phone = $('#fPhone').value.trim();
     var topic = $('#fTopic').value;
-
     if (!name || !phone || !topic){
-      formNote.textContent = 'لطفاً همه فیلدها را تکمیل کنید.';
+      say('لطفاً همه‌ی فیلدها را کامل کنید.');
       return;
     }
-    formNote.textContent = '';
-
-    var message = 'سلام\n' +
-                  'وقت مشاوره\n' +
-                  'نوع مشاوره: ' + topic + '\n' +
-                  'نام و نام خانوادگی: ' + name + '\n' +
-                  'شماره تماس: ' + phone;
-
-    openModal({
-      title: 'تایید ارسال اطلاعات',
-      text: 'اطلاعات شما به‌صورت پیام برای ما ارسال خواهد شد. با تایید، متن آماده در کلیپ‌بورد کپی شده و به پیام‌رسان ایتا منتقل می‌شوید تا تنها آن را برای مشاور ارسال کنید.',
-      confirmLabel: 'تایید و انتقال به ایتا',
-      cancelLabel: 'انصراف',
-      preview: message,
-      gold: true,
-      onConfirm: function(){
-        copyToClipboard(message).then(function(){
-          say('متن پیام کپی شد. آن را در ایتا ارسال کنید.');
-        }).catch(function(){
-          say('متن را در ایتا دستی وارد کنید.');
-        });
-        var url = 'https://eitaa.com/+989981426633';
-        var w = window.open(url, '_blank', 'noopener,noreferrer');
-        if (!w) window.location.href = url;
-        consultForm.reset();
-      }
-    });
+    pendingMsg = 'سلام\n' +
+                 'وقت مشاوره\n' +
+                 'نوع مشاوره: ' + topic + '\n' +
+                 'نام و نام خانوادگی: ' + name + '\n' +
+                 'شماره تماس: ' + phone;
+    consultPreview.textContent = pendingMsg;
+    openConsultModal();
+    $('#formNote').textContent = '';
   });
 
-  /* ========== کلیک روی دوره‌ها: پاپ‌اپ و انتقال به ایتا ========== */
+  $('#consultModalCancel').addEventListener('click', closeConsultModal);
+  $('#consultModalClose').addEventListener('click', closeConsultModal);
+  consultModal.addEventListener('click', function(e){
+    if (e.target === consultModal) closeConsultModal();
+  });
+
+  $('#consultModalConfirm').addEventListener('click', function(){
+    copyText(pendingMsg);
+    closeConsultModal();
+    consultForm.reset();
+    say('پیام کپی شد. در حال انتقال به ایتا…');
+    setTimeout(openEitaa, 250);
+  });
+
+  /* مودال دوره‌ها */
+  var courseModal = $('#courseModal');
+  function openCourseModal(){
+    courseModal.classList.add('open');
+    courseModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeCourseModal(){
+    courseModal.classList.remove('open');
+    courseModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
   document.querySelectorAll('.course-btn').forEach(function(btn){
     btn.addEventListener('click', function(e){
       e.preventDefault();
-      var href = btn.getAttribute('href') || 'https://eitaa.com/estedadkade';
-      openModal({
-        title: 'عضویت در کانال ایتا',
-        text: 'برای اطلاع از زمان برگزاری و ثبت‌نام دوره‌های آموزشی، در کانال ایتای ما عضو شوید. با تایید، به پیام‌رسان ایتا منتقل می‌شوید.',
-        confirmLabel: 'ورود به کانال ایتا',
-        cancelLabel: 'انصراف',
-        gold: false,
-        onConfirm: function(){
-          var w = window.open(href, '_blank', 'noopener,noreferrer');
-          if (!w) window.location.href = href;
-        }
-      });
+      openCourseModal();
     });
+  });
+
+  $('#courseModalCancel').addEventListener('click', closeCourseModal);
+  $('#courseModalClose').addEventListener('click', closeCourseModal);
+  courseModal.addEventListener('click', function(e){
+    if (e.target === courseModal) closeCourseModal();
+  });
+  $('#courseModalConfirm').addEventListener('click', function(){
+    closeCourseModal();
+    setTimeout(openEitaa, 200);
+  });
+
+  /* بستن مودال‌ها با کلید Escape */
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape'){
+      if (consultModal.classList.contains('open')) closeConsultModal();
+      if (courseModal.classList.contains('open')) closeCourseModal();
+    }
   });
 })();
 </script>
