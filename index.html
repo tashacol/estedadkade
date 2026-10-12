@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>استعدادکده | کشف استعداد، مشاوره و مسیر رشد</title>
+<link rel="icon" type="image/jpeg" href="tasavir/InShot_20261010_202909987.jpg">
+<link rel="apple-touch-icon" href="tasavir/InShot_20261010_202909987.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -132,6 +134,7 @@ main,header,footer{position:relative;z-index:1}
   background:linear-gradient(135deg,var(--turquoise),var(--lapis));box-shadow:var(--shadow-soft);
 }
 .brand-mark svg{width:26px;height:26px}
+.brand-logo{height:52px;width:auto;display:block;border-radius:12px;object-fit:contain}
 .nav-links{display:flex;gap:28px;font-size:.95rem;font-weight:500;color:var(--ink-2)}
 .nav-links a{position:relative;padding:6px 0;transition:color .2s}
 .nav-links a::after{
@@ -143,7 +146,7 @@ main,header,footer{position:relative;z-index:1}
 .nav-cta{padding:10px 20px;font-size:.9rem}
 .menu-btn{display:none;background:var(--surface);border:1.5px solid var(--line);border-radius:12px 12px 12px 4px;padding:9px 11px;cursor:pointer;color:var(--head)}
 .menu-btn svg{width:22px;height:22px;display:block}
-@media(max-width:860px){.nav-links,.nav-cta{display:none}.menu-btn{display:inline-flex}}
+@media(max-width:860px){.nav-links,.nav-cta{display:none}.menu-btn{display:inline-flex}.brand-logo{height:44px}}
 
 /* ============ Hero ============ */
 .hero{padding:60px 0 56px;position:relative}
@@ -324,16 +327,6 @@ main,header,footer{position:relative;z-index:1}
 .consult>*{position:relative;z-index:1}
 .consult h2{font-family:var(--f-head);font-size:clamp(1.9rem,3.4vw,2.7rem);line-height:1.45;margin-bottom:12px}
 .consult-art{width:180px;margin-bottom:14px;display:block}
-.consult-phone-box{
-  margin-top:20px;padding:16px 20px;border-radius:18px;background:rgba(255,255,255,.1);
-  border:1px solid rgba(255,255,255,.22);display:inline-flex;flex-direction:column;gap:6px;
-}
-.consult-phone-box span{font-size:.9rem;color:#FFE39A}
-.consult-phone-box a{
-  font-size:1.35rem;font-weight:800;color:#fff;direction:ltr;display:inline-flex;align-items:center;gap:8px;
-  transition:color .2s;
-}
-.consult-phone-box a:hover{color:var(--saffron)}
 .consult-form{
   display:grid;grid-template-columns:1fr;gap:14px;padding:26px;border-radius:30px 8px 30px 8px;
   background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.22);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
@@ -379,7 +372,7 @@ main,header,footer{position:relative;z-index:1}
   .cell.wide{grid-column:span 1;grid-template-columns:1fr}
 }
 
-/* ============ Course Banner ============ */
+/* ============ Course Banner (باقی‌مانده برای سازگاری) ============ */
 .course-banner{
   background:rgba(18,41,107,.08);border:1.5px dashed var(--saffron);border-radius:20px;
   padding:16px 22px;margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;
@@ -464,6 +457,50 @@ main,header,footer{position:relative;z-index:1}
   border:1px solid rgba(255,255,255,.15);
 }
 .toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ============ Modal (پاپ‌اپ تایید ارسال) ============ */
+.modal-overlay{
+  position:fixed;inset:0;z-index:160;display:grid;place-items:center;
+  background:rgba(10,18,48,.7);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  padding:20px;opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .32s ease,visibility .32s ease;
+}
+.modal-overlay.open{opacity:1;visibility:visible;pointer-events:auto}
+.modal-box{
+  width:min(460px,100%);background:var(--surface);border-radius:30px 10px 30px 10px;
+  padding:34px 28px 26px;box-shadow:var(--shadow);text-align:center;color:var(--ink);
+  border:1px solid var(--line);position:relative;overflow:hidden;
+  transform:translateY(22px) scale(.96);opacity:0;
+  transition:transform .38s cubic-bezier(0.16,1,0.3,1),opacity .3s ease;
+}
+.modal-box::before{
+  content:"";position:absolute;inset:0;pointer-events:none;background:var(--pat-ink) 0 0/64px 64px;opacity:.18;
+  -webkit-mask-image:radial-gradient(70% 60% at 100% 0%,#000,transparent);mask-image:radial-gradient(70% 60% at 100% 0%,#000,transparent);
+}
+.modal-box>*{position:relative;z-index:1}
+.modal-overlay.open .modal-box{transform:translateY(0) scale(1);opacity:1}
+.modal-icon{
+  width:78px;height:78px;border-radius:26px 26px 26px 8px;margin:0 auto 18px;
+  display:grid;place-items:center;color:#fff;
+  background:linear-gradient(135deg,var(--turquoise),var(--turquoise-2));
+  box-shadow:0 16px 28px -12px rgba(10,124,130,.9),inset 0 1px 0 rgba(255,255,255,.35);
+}
+.modal-icon.gold{
+  background:linear-gradient(135deg,#FFD866,#F5A800);color:#1B1300;
+  box-shadow:0 16px 28px -12px rgba(201,131,0,.9),inset 0 1px 0 rgba(255,255,255,.5);
+}
+.modal-icon svg{width:38px;height:38px}
+.modal-box h3{font-family:var(--f-head);font-size:1.45rem;color:var(--head);margin-bottom:10px;line-height:1.6;font-weight:700}
+.modal-box p{color:var(--ink-2);font-size:.94rem;line-height:1.9;margin-bottom:22px}
+.modal-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.modal-actions .btn{padding:12px 26px;font-size:.94rem;min-width:130px}
+.modal-preview{
+  background:color-mix(in srgb,var(--turquoise) 8%,transparent);
+  border:1px dashed color-mix(in srgb,var(--turquoise) 40%,transparent);
+  border-radius:14px;padding:14px 16px;margin:0 0 22px;text-align:right;direction:rtl;
+  font-size:.86rem;line-height:2;color:var(--ink);white-space:pre-line;font-family:var(--f-body);
+}
+:root[data-theme="dark"] .modal-preview{color:var(--ink);background:rgba(18,166,160,.08)}
 
 /* ============ Loader (شمسه‌ی در حال ترسیم) ============ */
 .loader{
@@ -587,7 +624,7 @@ main,header,footer{position:relative;z-index:1}
       <span class="brand-mark" aria-hidden="true">
         <svg viewBox="0 0 64 64" fill="none" stroke="#fff" stroke-width="4" stroke-linejoin="round"><rect x="15" y="15" width="34" height="34"/><rect x="15" y="15" width="34" height="34" transform="rotate(45 32 32)"/></svg>
       </span>
-      استعدادکده
+      <img class="brand-logo" src="tasavir/IMG-20261010-WA2881.jpg" alt="استعدادکده">
     </a>
     <nav class="nav-links" aria-label="منوی اصلی">
       <a href="#tests">آزمون‌ها</a>
@@ -955,13 +992,7 @@ main,header,footer{position:relative;z-index:1}
             <g fill="#fff"><use href="#star4" x="146" y="58" width="22" height="22"/><use href="#star4" x="176" y="66" width="12" height="12" opacity=".8"/></g>
           </svg>
           <h2>اخذ وقت مشاوره</h2>
-          <div class="consult-phone-box">
-            <span>شماره تماس و ارسال پیامک جهت رزرو نوبت:</span>
-            <a href="tel:09981426633">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-              09981426633
-            </a>
-          </div>
+          <p style="opacity:.9; font-size:.96rem; margin-top:6px;">فرم زیر را تکمیل کنید؛ پس از تایید، متن درخواست شما به‌صورت مرتب آماده شده و به پیام‌رسان ایتا منتقل می‌شود تا برای مشاور ارسال نمایید.</p>
         </div>
 
         <form class="consult-form" id="consultForm">
@@ -1051,20 +1082,6 @@ main,header,footer{position:relative;z-index:1}
         <div class="head-tools">
           <button class="round" data-ribbon="#courseRibbon" data-dir="-1" aria-label="قبلی"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
           <button class="round" data-ribbon="#courseRibbon" data-dir="1" aria-label="بعدی"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
-        </div>
-      </div>
-
-      <!-- بنر اطلاع‌رسانی عضویت در کانال ایتا و شماره تماس -->
-      <div class="course-banner">
-        <span>📢 برای اطلاع از زمان برگزاری و ثبت‌نام دوره‌ها، در کانال ایتای ما عضو شوید:</span>
-        <div class="links-wrap">
-          <a class="btn btn-primary" href="https://eitaa.com/estedadkade" target="_blank" rel="noopener noreferrer" style="padding:10px 18px; font-size:.9rem;">
-            ورود به کانال ایتا (estedadkade@)
-          </a>
-          <a href="tel:09981426633" style="font-weight:700; color:var(--head); direction:ltr; display:inline-flex; align-items:center; gap:6px;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            09981426633
-          </a>
         </div>
       </div>
 
@@ -1229,6 +1246,25 @@ main,header,footer{position:relative;z-index:1}
   </div>
 </footer>
 
+<!-- پاپ‌اپ تایید ارسال به پیام‌رسان -->
+<div class="modal-overlay" id="modalOverlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-box">
+    <div class="modal-icon" id="modalIcon" aria-hidden="true">
+      <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 14H52Q56 14 56 18V38Q56 42 52 42H30L18 52V42H12Q8 42 8 38V18Q8 14 12 14Z"/>
+        <path d="M20 24H44M20 32H36"/>
+      </svg>
+    </div>
+    <h3 id="modalTitle">تایید ارسال اطلاعات</h3>
+    <p id="modalText">اطلاعات شما به‌صورت پیام برای ما ارسال می‌شود.</p>
+    <div class="modal-preview" id="modalPreview" hidden></div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="modalConfirm" type="button">تایید و انتقال به ایتا</button>
+      <button class="btn btn-ghost" id="modalCancel" type="button">انصراف</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -1326,21 +1362,142 @@ main,header,footer{position:relative;z-index:1}
     }
   });
 
-  /* کلیک روی دوره‌ها: نمایش پیام و هدایت به ایتا */
-  document.querySelectorAll('.course-btn').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      say('برای اطلاع از دوره‌ها در کانال ایتا ما عضو شوید.');
+  /* ========== سیستم پاپ‌اپ (Modal) ========== */
+  var modal = $('#modalOverlay');
+  var modalTitle = $('#modalTitle');
+  var modalText = $('#modalText');
+  var modalPreview = $('#modalPreview');
+  var modalIcon = $('#modalIcon');
+  var modalConfirm = $('#modalConfirm');
+  var modalCancel = $('#modalCancel');
+  var modalAction = null;
+
+  function openModal(opts){
+    modalTitle.textContent = opts.title || '';
+    modalText.textContent = opts.text || '';
+    modalConfirm.textContent = opts.confirmLabel || 'تایید';
+    modalCancel.textContent = opts.cancelLabel || 'انصراف';
+    if (opts.preview){
+      modalPreview.textContent = opts.preview;
+      modalPreview.hidden = false;
+    } else {
+      modalPreview.textContent = '';
+      modalPreview.hidden = true;
+    }
+    if (opts.gold){
+      modalIcon.classList.add('gold');
+    } else {
+      modalIcon.classList.remove('gold');
+    }
+    modalAction = opts.onConfirm || null;
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+    setTimeout(function(){ modalConfirm.focus(); }, 60);
+  }
+
+  function closeModal(){
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden','true');
+    modalAction = null;
+    if (!drawer.classList.contains('open')) document.body.style.overflow = '';
+  }
+
+  modalCancel.addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e){
+    if (e.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+  });
+  modalConfirm.addEventListener('click', function(){
+    var fn = modalAction;
+    closeModal();
+    if (typeof fn === 'function') fn();
+  });
+
+  /* ========== کپی متن در کلیپ‌بورد ========== */
+  function copyToClipboard(text){
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      return navigator.clipboard.writeText(text);
+    }
+    return new Promise(function(resolve, reject){
+      try{
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly','');
+        ta.style.position = 'fixed';
+        ta.style.top = '-1000px';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        ta.setSelectionRange(0, ta.value.length);
+        var ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        if (ok) resolve(); else reject(new Error('copy failed'));
+      } catch(err){ reject(err); }
+    });
+  }
+
+  /* ========== ثبت فرم مشاوره + پاپ‌اپ ========== */
+  var consultForm = $('#consultForm');
+  var formNote = $('#formNote');
+  consultForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = $('#fName').value.trim();
+    var phone = $('#fPhone').value.trim();
+    var topic = $('#fTopic').value;
+
+    if (!name || !phone || !topic){
+      formNote.textContent = 'لطفاً همه فیلدها را تکمیل کنید.';
+      return;
+    }
+    formNote.textContent = '';
+
+    var message = 'سلام\n' +
+                  'وقت مشاوره\n' +
+                  'نوع مشاوره: ' + topic + '\n' +
+                  'نام و نام خانوادگی: ' + name + '\n' +
+                  'شماره تماس: ' + phone;
+
+    openModal({
+      title: 'تایید ارسال اطلاعات',
+      text: 'اطلاعات شما به‌صورت پیام برای ما ارسال خواهد شد. با تایید، متن آماده در کلیپ‌بورد کپی شده و به پیام‌رسان ایتا منتقل می‌شوید تا تنها آن را برای مشاور ارسال کنید.',
+      confirmLabel: 'تایید و انتقال به ایتا',
+      cancelLabel: 'انصراف',
+      preview: message,
+      gold: true,
+      onConfirm: function(){
+        copyToClipboard(message).then(function(){
+          say('متن پیام کپی شد. آن را در ایتا ارسال کنید.');
+        }).catch(function(){
+          say('متن را در ایتا دستی وارد کنید.');
+        });
+        var url = 'https://eitaa.com/+989981426633';
+        var w = window.open(url, '_blank', 'noopener,noreferrer');
+        if (!w) window.location.href = url;
+        consultForm.reset();
+      }
     });
   });
 
-  /* ثبت فرم مشاوره حضوری */
-  $('#consultForm').addEventListener('submit', function(e){
-    e.preventDefault();
-    var name = $('#fName').value.trim();
-    var topic = $('#fTopic').value;
-    $('#formNote').textContent = 'درخواست شما برای ' + topic + ' به نام ' + name + ' با موفقیت ثبت شد. جهت هماهنگی نوبت حضوری با شما تماس حاصل می‌گردد.';
-    say('درخواست مشاوره حضوری شما ثبت گردید.');
-    this.reset();
+  /* ========== کلیک روی دوره‌ها: پاپ‌اپ و انتقال به ایتا ========== */
+  document.querySelectorAll('.course-btn').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      var href = btn.getAttribute('href') || 'https://eitaa.com/estedadkade';
+      openModal({
+        title: 'عضویت در کانال ایتا',
+        text: 'برای اطلاع از زمان برگزاری و ثبت‌نام دوره‌های آموزشی، در کانال ایتای ما عضو شوید. با تایید، به پیام‌رسان ایتا منتقل می‌شوید.',
+        confirmLabel: 'ورود به کانال ایتا',
+        cancelLabel: 'انصراف',
+        gold: false,
+        onConfirm: function(){
+          var w = window.open(href, '_blank', 'noopener,noreferrer');
+          if (!w) window.location.href = href;
+        }
+      });
+    });
   });
 })();
 </script>
