@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- ================= صفحه اصلی ================= -->
   <url>
     <loc>https://estedadkade.ir/</loc>
     <lastmod>2026-10-14</lastmod>
@@ -8,43 +10,125 @@
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://estedadkade.ir/tasavir/og-image.jpg</image:loc>
+      <image:title>استعدادکده | استعدادیابی و مشاوره در جیرفت</image:title>
     </image:image>
   </url>
+
+  <!-- ================= صفحه لیست مقالات ================= -->
   <url>
     <loc>https://estedadkade.ir/maqalat/</loc>
     <lastmod>2026-10-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
+
+  <!-- ================= PILLAR ۱: استعدادیابی ================= -->
+  <url>
+    <loc>https://estedadkade.ir/maqalat/talent-discovery-complete-guide.html</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://estedadkade.ir/tasavir/og-image.jpg</image:loc>
+    </image:image>
+  </url>
+
+  <!-- ================= PILLAR ۲: انتخاب رشته ================= -->
+  <url>
+    <loc>https://estedadkade.ir/maqalat/major-selection-complete-guide.html</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://estedadkade.ir/tasavir/og-image.jpg</image:loc>
+    </image:image>
+  </url>
+
+  <!-- ================= PILLAR ۳: مشاوره شغلی ================= -->
+  <url>
+    <loc>https://estedadkade.ir/maqalat/career-counseling-complete-guide.html</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://estedadkade.ir/tasavir/og-image.jpg</image:loc>
+    </image:image>
+  </url>
+
+  <!-- ================= PILLAR ۴: آزمون‌های هوش ================= -->
+  <url>
+    <loc>https://estedadkade.ir/maqalat/intelligence-tests-complete-guide.html</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://estedadkade.ir/tasavir/og-image.jpg</image:loc>
+    </image:image>
+  </url>
+
+  <!-- ================= PILLAR ۵: شخصیت‌شناسی و رغبت‌سنجی ================= -->
+  <url>
+    <loc>https://estedadkade.ir/maqalat/personality-interest-guide.html</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://estedadkade.ir/tasavir/og-image.jpg</image:loc>
+    </image:image>
+  </url>
+
+  <!-- ================= CLUSTER: اهمیت استعدادیابی ================= -->
   <url>
     <loc>https://estedadkade.ir/maqalat/importance-of-talent-discovery.html</loc>
     <lastmod>2026-10-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+
+  <!-- ================= CLUSTER: تست‌های بی‌اعتبار ================= -->
   <url>
     <loc>https://estedadkade.ir/maqalat/fake-psychology-tests.html</loc>
     <lastmod>2026-10-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+
+  <!-- ================= CLUSTER: مهارت‌های زندگی ================= -->
   <url>
     <loc>https://estedadkade.ir/maqalat/life-skills-for-success.html</loc>
     <lastmod>2026-10-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+
+  <!-- ================= CLUSTER: تست هوش وکسلر ================= -->
+  <url>
+    <loc>https://estedadkade.ir/maqalat/wechsler-intelligence-test.html</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ================= CLUSTER: تست هوش وندرلیک ================= -->
+  <url>
+    <loc>https://estedadkade.ir/maqalat/wonderlic-test.html</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ================= بخش‌های مهم صفحه اصلی (Anchor URLs) ================= -->
   <url>
     <loc>https://estedadkade.ir/#tests</loc>
     <lastmod>2026-10-14</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://estedadkade.ir/#packages</loc>
     <lastmod>2026-10-14</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://estedadkade.ir/#courses</loc>
@@ -56,6 +140,7 @@
     <loc>https://estedadkade.ir/#consult</loc>
     <lastmod>2026-10-14</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.85</priority>
   </url>
+
 </urlset>
