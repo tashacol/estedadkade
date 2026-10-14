@@ -1,0 +1,33 @@
+{
+  "name": "استعدادکده — استعدادیابی، مشاوره تحصیلی و شغلی",
+  "short_name": "استعدادکده",
+  "description": "مرکز تخصصی استعدادیابی، آزمون هوش کودکان (وکسلر و وندرلیک)، مشاوره تحصیلی و شغلی در جیرفت.",
+  "lang": "fa-IR",
+  "dir": "rtl",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#FBF6EA",
+  "theme_color": "#12296B",
+  "icons": [
+    {
+      "src": "/tasavir/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/tasavir/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/tasavir/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
