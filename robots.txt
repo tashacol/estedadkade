@@ -1,0 +1,18 @@
+# robots.txt for استعدادکده - https://estedadkade.ir
+
+User-agent: *
+Allow: /
+Disallow: /test/
+Disallow: /*?utm_
+Disallow: /*?ref=
+Disallow: /private/
+
+# اجازه به خزنده گوگل برای تصاویر
+User-agent: Googlebot-Image
+Allow: /
+
+# نقشه سایت اصلی
+Sitemap: https://estedadkade.ir/sitemap.xml
+
+# هاست اصلی
+Host: https://estedadkade.ir
